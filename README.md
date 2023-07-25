@@ -1,2 +1,2 @@
-# genomicsWorkbench
-A tool for visualization of phenotypic data, GWAS analysis and some Bioinformatics tools
+## Description
+Untwsit app is a web tool for the analysis and visualization of GWAS datasets related to untwist poject
