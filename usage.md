@@ -24,7 +24,7 @@ Allows for interactively updating plot labels
 ![visPhenoquerBuilder.png](./DocImages/visPhenoquerBuilder.png)
 
 
-Supports following Plot types 
+####  2. Supports following Plot types 
 
 Line plot, bar plot, histogram, box plot, scatter plot, linear regression, violin plots and rain cloud plots
 
@@ -63,7 +63,7 @@ Allow to perform GWAS analysis on the data stored in the backend MinioDb as well
 3. using the latest gene model one can see the structural/functional annotations of the genes currently available from the latest release
 
     user can select a pvalue threshold of significance for GWAS results and SNP id and the annotations in the resulting table will be automatically updated
-    I am now building MapMan.js for significant hits
+    I am now building MapMan visualizations
 
 
 4. Multithreaded support is underway
@@ -79,7 +79,7 @@ Manhattan plot showing GWAS results
 ![manhattanplot.png](./DocImages/manhattanplot.png)
 
 
-Gene Annotations 
+#### Gene Annotations 
 
 ![annotations.png](./DocImages/annotations.png)
 
