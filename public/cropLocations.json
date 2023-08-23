@@ -1,0 +1,887 @@
+[
+    {
+        "cultivar": "UNT1",
+        "origin": "Spain",
+        "latitude": 37.149853829973885,
+        "longitude": -3.16943040856622,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT1",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT2",
+        "origin": "Spain",
+        "latitude": 38.386588650100634,
+        "longitude": -7.466601288723178,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT2",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT3",
+        "origin": "Spain",
+        "latitude": 38.084744405500494,
+        "longitude": -3.2306703778076535,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT3",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT4",
+        "origin": "Spain",
+        "latitude": 37.71799558153457,
+        "longitude": -6.899491832567953,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT4",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT5",
+        "origin": "Spain",
+        "latitude": 39.047786490707466,
+        "longitude": -8.052028525063077,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT5",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT6",
+        "origin": "Spain",
+        "latitude": 39.26007035958318,
+        "longitude": -4.575570338010431,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT6",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT7",
+        "origin": "Spain",
+        "latitude": 40.04247280212667,
+        "longitude": -4.5314549731457205,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT7",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT8",
+        "origin": "Spain",
+        "latitude": 37.81297979608989,
+        "longitude": -7.003744044821979,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT8",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT9",
+        "origin": "Spain",
+        "latitude": 40.39259319428909,
+        "longitude": -3.214388159837932,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT9",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT10",
+        "origin": "Spain",
+        "latitude": 36.853102254419625,
+        "longitude": -5.959272296769923,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT10",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT11",
+        "origin": "Spain",
+        "latitude": 37.83139755161811,
+        "longitude": -6.152486012601003,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT11",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT12",
+        "origin": "Spain",
+        "latitude": 39.601509576459286,
+        "longitude": -1.9454375892373248,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT12",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT13",
+        "origin": "Spain",
+        "latitude": 40.38955393731474,
+        "longitude": -7.39778587000186,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT13",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT14",
+        "origin": "Spain",
+        "latitude": 41.44214617512052,
+        "longitude": -2.913100008869912,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT14",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT15",
+        "origin": "Spain",
+        "latitude": 40.999995036605725,
+        "longitude": -5.519797992185,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT15",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT16",
+        "origin": "Spain",
+        "latitude": 37.36272000885015,
+        "longitude": -7.856965502833356,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT16",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT17",
+        "origin": "Spain",
+        "latitude": 40.4865242866961,
+        "longitude": -6.1427150461666775,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "UNT17",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "CCE breeding program",
+            "Provider": "CCE"
+        }
+    },
+    {
+        "cultivar": "UNT18",
+        "origin": "France",
+        "latitude": 45.16457203199414,
+        "longitude": 3.04102803889666,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "cv C\u00e9line",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Commercial",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT19",
+        "origin": "Poland",
+        "latitude": 51.510805090275845,
+        "longitude": 19.13894665657405,
+        "metadata": {
+            "Reseq": "CONFIRMED",
+            "versus CAM": "NA",
+            "Name1": "[CN101981]",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT20",
+        "origin": "unknown",
+        "latitude": 23.232749885044214,
+        "longitude": -77.26216511893347,
+        "metadata": {
+            "Reseq": "WRONG",
+            "versus CAM": "NA",
+            "Name1": "[CN101985]",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT21",
+        "origin": "Poland",
+        "latitude": 52.108784760859834,
+        "longitude": 19.15266763971154,
+        "metadata": {
+            "Reseq": "CONFIRMED",
+            "versus CAM": "NA",
+            "Name1": "CN101980",
+            "Name2": "Przybrodzka ",
+            "Name3": "PI 311736",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT22",
+        "origin": "Yougoslavia",
+        "latitude": 47.68525285262354,
+        "longitude": -5.564537407477585,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN101982",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT23",
+        "origin": "Germany",
+        "latitude": 49.110364906145946,
+        "longitude": 9.15280871944133,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN101986",
+            "Name2": "Giessen N\u00b03",
+            "Name3": "PI 650148",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT24",
+        "origin": "Russia",
+        "latitude": 70.15572617598752,
+        "longitude": 96.0678924177908,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN111335",
+            "Name2": "Chulymskij",
+            "Name3": "",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT25",
+        "origin": "Russia",
+        "latitude": 65.88630473132525,
+        "longitude": 100.44479427651038,
+        "metadata": {
+            "Reseq": "CONFIRMED",
+            "versus CAM": "NA",
+            "Name1": "CN111672",
+            "Name2": "PI258366 ",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT26",
+        "origin": "Russia",
+        "latitude": 59.2549615504182,
+        "longitude": 101.22749541474474,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN111330",
+            "Name2": "VIR-4027",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT27",
+        "origin": "Russia",
+        "latitude": 62.225329210229305,
+        "longitude": 104.22610318231662,
+        "metadata": {
+            "Reseq": "CONFIRMED",
+            "versus CAM": "NA",
+            "Name1": "CN30475",
+            "Name2": "Voronezskij 349",
+            "Name3": "Cs110 CAM 174",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT28",
+        "origin": "Russia",
+        "latitude": 64.38249316586698,
+        "longitude": 106.43388226811993,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN30476",
+            "Name2": "Voronezskij 339 ",
+            "Name3": "",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT29",
+        "origin": "Russia",
+        "latitude": 62.65156306069881,
+        "longitude": 89.17623672954264,
+        "metadata": {
+            "Reseq": "OK",
+            "versus CAM": "BEST CAM25 and CAMPUB25 ok",
+            "Name1": "CN30478",
+            "Name2": "Omskij Mestnyj ",
+            "Name3": "Cs006, CAM 25",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT30",
+        "origin": "Russia",
+        "latitude": 70.1424573854691,
+        "longitude": 91.07598626437752,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN30479",
+            "Name2": "Irkuskiij Mestnyj",
+            "Name3": "",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT31",
+        "origin": "Germany",
+        "latitude": 53.466647074781505,
+        "longitude": 11.623320251059118,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "CS215 not CS218; CAMPUB68 CAM68",
+            "Name1": "CN101987",
+            "Name2": "Giessen N\u00b04",
+            "Name3": "PI 650149, Cs218",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT32",
+        "origin": "Danemark",
+        "latitude": 46.18170595585464,
+        "longitude": 10.78720662856865,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "not CAM67 ",
+            "Name1": "CN101988 ",
+            "Name2": "Hoga",
+            "Name3": "PI 650150 , Cs035, CAM 67",
+            "Origin": "Public accession",
+            "Provider": "INRA, AAFC/Canada"
+        }
+    },
+    {
+        "cultivar": "UNT33",
+        "origin": "Unknown",
+        "latitude": 24.040688082939617,
+        "longitude": -77.36259876790218,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CN101989",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "INRA"
+        }
+    },
+    {
+        "cultivar": "UNT34",
+        "origin": "Germany",
+        "latitude": 49.336715412242164,
+        "longitude": 11.29318655715964,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAM134",
+            "Name1": "Calena",
+            "Name2": "Cs076",
+            "Name3": "CAM 134",
+            "Origin": "Commercial",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT35",
+        "origin": "Unknown",
+        "latitude": 27.491460065436335,
+        "longitude": -79.15968807239425,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Gomholka",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT36",
+        "origin": "Unknown",
+        "latitude": 30.88446488160669,
+        "longitude": -79.07191041225357,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Rollsdorf",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT37",
+        "origin": "Unknown",
+        "latitude": 23.387758450031708,
+        "longitude": -77.97470786875391,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Ya-ma-ji",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT38",
+        "origin": "SUN",
+        "latitude": 43.25337023100924,
+        "longitude": -3.6827102974717194,
+        "metadata": {
+            "Reseq": "CONFIRMED",
+            "versus CAM": "NA",
+            "Name1": "Kirgizskij",
+            "Name2": "Cs028",
+            "Name3": "CAM 57",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT39",
+        "origin": "Unknown",
+        "latitude": 25.452553252826423,
+        "longitude": -75.87053555007532,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Irkutskij local",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT40",
+        "origin": "Unknown",
+        "latitude": 28.91605968374464,
+        "longitude": -76.35764039058257,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Korneuburg",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT41",
+        "origin": "France",
+        "latitude": 48.17278824673758,
+        "longitude": -0.565848287576072,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "C\u00e9line",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Commercial",
+            "Provider": "BOKU/AUT"
+        }
+    },
+    {
+        "cultivar": "UNT42",
+        "origin": "Unknown",
+        "latitude": 22.61802366785123,
+        "longitude": -77.74474086038965,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CA13X_15_21",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT43",
+        "origin": "Unknown",
+        "latitude": 29.619488616178067,
+        "longitude": -76.7535069793693,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CJ6X_78",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT44",
+        "origin": "Unknown",
+        "latitude": 26.367228167099267,
+        "longitude": -76.33472508733298,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CK1X_129",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT45",
+        "origin": "Unknown",
+        "latitude": 28.40903352737846,
+        "longitude": -77.63593300511478,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "CS002 and CS200",
+            "Name1": "BGRC51558",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT46",
+        "origin": "Unknown",
+        "latitude": 24.15778639905021,
+        "longitude": -77.12443498408643,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CUOO5",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT47",
+        "origin": "Unknown",
+        "latitude": 19.584862849425505,
+        "longitude": -78.15526165541164,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "CJ13X-115",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Public accession",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT48",
+        "origin": "France",
+        "latitude": 46.72328984291428,
+        "longitude": -0.388565907329921,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "C\u00e9line",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Commercial",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT49",
+        "origin": "Germany",
+        "latitude": 49.524553022522944,
+        "longitude": 9.402015630842403,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Calena",
+            "Name2": "NA",
+            "Name3": "NA",
+            "Origin": "Commercial",
+            "Provider": "UNIBO"
+        }
+    },
+    {
+        "cultivar": "UNT50",
+        "origin": "Germany",
+        "latitude": 49.86676898298141,
+        "longitude": 11.807626855641395,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAMPUB147",
+            "Name1": "Cs083",
+            "Name2": "CAM 147",
+            "Name3": "STAMM 09X13",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT51",
+        "origin": "Germany",
+        "latitude": 51.28730874750548,
+        "longitude": 10.689979987087995,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "NA",
+            "Name1": "Cs086",
+            "Name2": "CAM 150",
+            "Name3": "STAMM 09X14",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT52",
+        "origin": "Germany",
+        "latitude": 48.45846122456718,
+        "longitude": 9.251877179155548,
+        "metadata": {
+            "Reseq": "probably ok",
+            "versus CAM": "CAMPUB156; CAM156 but only 0.85;0.86",
+            "Name1": "Cs092",
+            "Name2": "CAM 156",
+            "Name3": "STAMM 09X15",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT53",
+        "origin": "Germany",
+        "latitude": 51.92588180834759,
+        "longitude": 9.642439736379668,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAMPUB159",
+            "Name1": "Cs095",
+            "Name2": "CAM 159",
+            "Name3": "STAMM 13X15",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT54",
+        "origin": "Germany",
+        "latitude": 49.148272134705586,
+        "longitude": 8.993110371921343,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAMPUB165; CAM165",
+            "Name1": "Cs101",
+            "Name2": "CAM 165",
+            "Name3": "STAMM 04X05",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT55",
+        "origin": "Germany",
+        "latitude": 50.258279933857494,
+        "longitude": 9.783865301769344,
+        "metadata": {
+            "Reseq": "maybe",
+            "versus CAM": "CAMPUB159; CAMPUB167 runner up",
+            "Name1": "Cs103",
+            "Name2": "CAM 167",
+            "Name3": "STAMM 06X14C",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT56",
+        "origin": "Germany",
+        "latitude": 51.29936278466427,
+        "longitude": 9.153716633342194,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAMPUB232 CAM232",
+            "Name1": "Cs151",
+            "Name2": "CAM 232",
+            "Name3": "PRFGL. 85",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT57",
+        "origin": "Germany",
+        "latitude": 48.52688087369452,
+        "longitude": 9.501778819206665,
+        "metadata": {
+            "Reseq": "ok",
+            "versus CAM": "CAMPUB278; CAM278",
+            "Name1": "Cs193",
+            "Name2": "CAM 278",
+            "Name3": "STAMM 02X11B",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT58",
+        "origin": "Danemark",
+        "latitude": 63.34646276830902,
+        "longitude": 9.727193438498116,
+        "metadata": {
+            "Reseq": "NA",
+            "versus CAM": "CAMPUB187;180",
+            "Name1": "Cs205",
+            "Name2": "PI 597833",
+            "Name3": "163-2073-72",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    },
+    {
+        "cultivar": "UNT59",
+        "origin": "Austria",
+        "latitude": 47.58394199499932,
+        "longitude": 15.146501260708693,
+        "metadata": {
+            "Reseq": "maybe",
+            "versus CAM": "CAM50;cam38 good values CAMPUB38 50",
+            "Name1": "Cs233",
+            "Name2": "PI 650164",
+            "Name3": "CSS-CAM38",
+            "Origin": "Public accession",
+            "Provider": "ALARC/USA"
+        }
+    }
+]
