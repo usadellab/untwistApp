@@ -1,0 +1,21 @@
+{
+    "Camelina": {
+        "id" :"camelina untwist",
+        "urls" : ["https://www.untwist.eu/", "https://hereweadd ou analysis site.eu/"],
+
+        "germplasm" : {
+            "Number of Accessions": "54",
+            "origins": "Spain, Italy"
+        },
+
+        "genotypData" : {
+            "Number of markers" : 10,
+            "MAF" : 0.05
+
+        },
+        "phenotypicData" : {
+            "Number of phenotypes collected druing the project" : "",
+            "Experimental conditions" : ["heat stress", "cold ... etc"]
+        }
+    }
+}
