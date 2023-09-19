@@ -1,0 +1,10 @@
+{
+    "Modem": {
+        "id" :"ModemGWAS",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/dataVis/main/data/unt_plink50k.qassoc"
+    },
+    "Untwist": {
+        "id" : "UntwistGWAS",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/dataVis/main/data/unt_plink50k.qassoc"
+    }
+}

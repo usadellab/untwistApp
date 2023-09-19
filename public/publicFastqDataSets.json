@@ -1,0 +1,14 @@
+{
+    "Modem": {
+        "id" :"Sample1 Fastq",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/genomicWorkbench/main/public/subsetSRR9257060_1.fastq"
+    },
+    "Modem2": {
+        "id" :"Sample2 Fastq",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/genomicWorkbench/main/public/subset2SRR9257060_1.fastq"
+    },
+    "Modem3": {
+        "id" :"Sample3 Fastq",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/genomicWorkbench/main/public/subset3SRR9257060_1.fastq"
+    }
+}

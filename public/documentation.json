@@ -1,0 +1,34 @@
+{
+    "visPheno": {
+        "id" :"VisPheno",
+        "description" : "this is visPheno usage documentation",
+        "usage" : "Please select some data"
+    },
+    "Fastqc": {
+        "id" : "Fastqc",
+        "description" : "this is Fastqc usage documentation",
+        "usage" : "The usage will go here"
+
+    },
+    "LD_Analysis": {
+        "id" : "LD analysis",
+        "description" : "this is LD_Analysis usage documentation",
+        "usage" : "The usage will come here"
+    },
+    "GWAS": {
+        "id" : "GWAS",
+        "description" : "this is GWAS usage documentation",
+        "usage" : "The usage will come here"
+
+    },
+    "PCA" : {
+        "id" : "PCA",
+        "description" : "this is the pca usage documentation",
+        "usage" : "The usage will come here"
+    },
+    "Fastp" : {
+        "id" : "Fastp",
+        "description" : "this is the pca usage documentation",
+        "usage" : "The usage will come here"
+    }
+}

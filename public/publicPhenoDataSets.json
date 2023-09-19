@@ -1,0 +1,10 @@
+{
+    "Modem": {
+        "id" :"Modem",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/dataVis/main/data/modemPhenoData.csv"
+    },
+    "Untwist": {
+        "id" : "Untwist",
+        "url" : "https://raw.githubusercontent.com/ataulhaleem/dataVis/main/data/modemPhenoData.csv"
+    }
+}
