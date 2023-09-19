@@ -1,0 +1,18 @@
+.horizontal-carousel {
+    display: flex;
+    overflow: hidden;
+  }
+  
+  .horizontal-slide {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .horizontal-slide > div {
+    flex: 0 0 calc(100% / 3); /* Adjust the width based on the number of slidesToShow */
+    margin: 0 10px;
+  }
+  
