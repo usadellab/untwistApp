@@ -157,7 +157,7 @@ if (plotyType == "bar") {
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
     plotLayout.yaxis["title"] = yLable || y;
-    plotLayout.showlegend = true;
+    plotLayout.showlegend = false;
     plotLayout.annotations = {}
 
 } else if (plotyType == "violin") {
@@ -486,8 +486,9 @@ if (plotyType == "bar") {
     // xdata.map(item => {
     //     text.push('')
     // })
+
     var plotData = [
-    { type: "scattergl", mode: "markers",  x: xdata, y: ydata },
+    { type: "scattergl", mode: "markers",  x: xdata, y: ydata }, {x:ydata, y:ydata, mode:"line",  color: 'grey'}
     ];
     var plotLayout = primaryLaout;
     plotLayout["xaxis"] = {};
