@@ -3,19 +3,24 @@
 
 
 const calculateQQPlot = (pValues) => {
-
-    var qqData = []
-
+    const qqData = [];
+  
     const sortedPValues = [...pValues].sort((a, b) => a - b);
     const n = pValues.length;
     const expectedQuantiles = Array.from({ length: n }, (_, i) => (i + 1 - 0.5) / n);
+  
+    sortedPValues.forEach((pval, index) => {
+      // Apply -log10 transformation to p-value
+      const transformedPValue = -Math.log10(pval);
+      const transformedQuantile = -Math.log10(expectedQuantiles[index]);
 
-    sortedPValues.map((pval, index) => {
-        qqData.push({expectedQuantiles : expectedQuantiles[index], sortedPValues:pval})
-    })
-
-    return qqData
-};
+  
+      qqData.push({ expectedQuantiles: transformedQuantile, sortedPValues: transformedPValue });
+    });
+  
+    return qqData;
+  };
+  
 
 var qqPlotData = []
 
@@ -29,8 +34,6 @@ onmessage = async function (event) {
         res = calculateQQPlot(pvals)
     postMessage({ cmd: 'processed', result: res });
 // console.log('qqWorker is done')
-
-
     }
 };
 
