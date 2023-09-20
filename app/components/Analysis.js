@@ -87,9 +87,7 @@ export function Analysis(props) {
   const [waitMsg, setWaitMsg] = useState("");
   var chosenProject = dbID[selectedSpp];
 
-  const [chosenFile, setChosenFile] = React.useState(
-    "FinalStage_Mean_Plant_height_INRAE"
-  );
+  const [chosenFile, setChosenFile] = React.useState('');
   const [inputFiles, setInputFiles] = React.useState([]);
 
   // local data
@@ -362,18 +360,21 @@ export function Analysis(props) {
         });
       } else if (tool == "MDS") {
         var fileNames = {
-          "plink.fam": "Plink/" + chosenFile + ".fam",
+          "plink.fam": "Plink/allMolecularValues_Anthocyanin_INRAE.fam",
           "plink.bim": "Plink/plink.bim",
           "plink.bed": "Plink/plink.bed",
-          "plink.genome": "Plink/plink.genome",
+          "plink.genome" : "Plink/plink.genome"
         };
+
         msgs.push(`Running MDS tool on ${chosenProject} dataset`);
         setDisplayMessage(msgs);
         setShowDisplayMessage(true);
+
         msgs.push(
           `Analyzing, depending upon the size of data set it will take a while, please do not close your browser`
         );
         setDisplayMessage(msgs);
+
         Object.keys(fileNames).map((fileName) => {
           let dbName = fileNames[fileName];
           axios

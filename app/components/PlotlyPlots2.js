@@ -22,8 +22,8 @@ const isObjectEmpty = (objectName) => {
 return Object.keys(objectName).length === 0;
 };
 
-var primaryLaout = {
-showlegend: true,
+var primaryLayout = {
+// showlegend: true,
 width: 1000,
 height: 1000,
 // autosize: true,
@@ -46,7 +46,7 @@ var selectedVars = props.plotSchema.variablesToPlot;
 var plotTitle = props.plotSchema.plotTitle;
 var xLable = props.plotSchema.xLable;
 var yLable = props.plotSchema.yLable;
-primaryLaout["title"] = plotTitle;
+primaryLayout["title"] = plotTitle;
 
 const [plotData, setPlotData] = useState([]);
 const [plotLayout, setPlotLayout] = useState({});
@@ -76,7 +76,7 @@ if (!isObjectEmpty(inputData)) {
 
 if (plotyType == "bar") {
     var plotData = [{ type: "bar", x: xdata, y: ydata }];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -106,10 +106,8 @@ if (plotyType == "bar") {
     });
     }
     var plotData = Object.values(input_Obj);
-    // console.log(plotData)
-
     // var plotData=[{type : 'line', y:xdata} ];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -119,19 +117,19 @@ if (plotyType == "bar") {
     // console.log('modify it for many variables')
 } else if (plotyType == "histogram") {
     var plotData = [{ type: "histogram", x: xdata }];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
     plotLayout["yaxis"] = {};
     plotLayout.yaxis["title"] = yLable || y;
     plotLayout.showlegend = false;
     plotLayout.annotations = {}
-
+    
 } else if (plotyType == "scatter") {
     var plotData = [
     { type: "scattergl", mode: "markers", x: xdata, y: ydata },
     ];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -152,7 +150,7 @@ if (plotyType == "bar") {
     });
     }
     var plotData = Object.values(input_Obj);
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -186,7 +184,7 @@ if (plotyType == "bar") {
     });
     }
     var plotData = Object.values(input_Obj);
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -196,7 +194,7 @@ if (plotyType == "bar") {
 
 
 } else if (plotyType == "raincloud") {
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     var input_Obj = {};
     var cnt = 0;
     var N = selectedVars.length;
@@ -286,7 +284,7 @@ if (plotyType == "bar") {
     { type: "scattergl", mode: "markers", x: xdata, y: ydata },
     regLineData,
     ];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
 
@@ -356,7 +354,7 @@ if (plotyType == "bar") {
 
     var plotData = traces;
 
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -442,7 +440,7 @@ if (plotyType == "bar") {
 
     var plotData = traces;
 
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
@@ -482,15 +480,10 @@ if (plotyType == "bar") {
     }
     });
 } else if (plotyType == "qqplot") {
-    // var text = []
-    // xdata.map(item => {
-    //     text.push('')
-    // })
-
     var plotData = [
     { type: "scattergl", mode: "markers",  x: xdata, y: ydata }, {x:ydata, y:ydata, mode:"line",  color: 'grey'}
     ];
-    var plotLayout = primaryLaout;
+    var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable ;
