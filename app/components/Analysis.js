@@ -497,36 +497,9 @@ export function Analysis(props) {
     return sigSNPs;
   };
 
+
+
   const handleAnnotations = () => {
-    // console.log(allAnnotations)
-    // const manhattanWorker = new Worker(
-    //   new URL('../../public/workers/ManhattanWorker.js', import.meta.url)
-    // )
-    // manhattanWorker.postMessage({
-    //   cmd: 'processManhattanPlotData',
-    //   plinkRes: plinkResults,
-    // })
-    // manhattanWorker.onmessage = e => {
-    //   if (e.data.cmd === 'processed') {
-    //     setManhattanData(e.data.result)
-    //     setAnnotationsDone(true)
-    //   }
-    // }
-
-    const qqWorker = new Worker(
-      new URL("../../public/workers/qqWorker.js", import.meta.url)
-    );
-    qqWorker.postMessage({
-      cmd: "processQQplotData",
-      plinkRes: plinkResults,
-    });
-    qqWorker.onmessage = (e) => {
-      if (e.data.cmd === "processed") {
-        setQqData(e.data.result);
-        setAnnotationsDone(true);
-      }
-    };
-
     var sigData = getSigSNPs(plinkResults, pVals[pValThreshold]);
     setPlinkSigSNPs(sigData);
 
@@ -616,6 +589,7 @@ export function Analysis(props) {
         });
     });
   };
+
   const pVals = {
     "5*10\u207B\u00B2": 5e-2, // 5*10^-2
     "5*10\u207B\u00B3": 5e-3, // 5*10^-3
@@ -634,7 +608,6 @@ export function Analysis(props) {
   useEffect(() => {
     var sigData = getSigSNPs(plinkResults, pVals[pValThreshold]);
     setPlinkSigSNPs(sigData);
-
     var dbFile = new URL("../../public/Annotations.db", import.meta.url);
     // Load the sql.js wasm module
     initSqlJs().then((SQL) => {
@@ -735,9 +708,22 @@ export function Analysis(props) {
     handleAnnotations();
   }, [plinkResults]);
 
-  const handleButtonClick = () => {
-    inputFile.current.click();
-  };
+  useEffect(() => {
+    const qqWorker = new Worker(
+      new URL("../../public/workers/qqWorker.js", import.meta.url)
+    );
+    qqWorker.postMessage({
+      cmd: "processQQplotData",
+      plinkRes: plinkResults,
+    });
+    qqWorker.onmessage = (e) => {
+      if (e.data.cmd === "processed") {
+        setQqData(e.data.result);
+        setAnnotationsDone(true);
+      }
+    };
+  }, [plinkResults]);
+
 
   const handleStateChange = (event) => {
     setState({
@@ -922,8 +908,8 @@ export function Analysis(props) {
     <>
       {!showDisplayMessage || (
         <div className="App">
-          {/* <ConsoleLogCaptureWrapper customMessages={displayMessage} /> */}
-          <MessageWithTimer messages={displayMessage} />
+          <ConsoleLogCaptureWrapper customMessages={displayMessage} />
+          {/* <MessageWithTimer messages={displayMessage} /> */}
         </div>
       )}
 
@@ -983,6 +969,7 @@ export function Analysis(props) {
       )}
 
       <div style={{ padding: 10 }}>
+
         {/* //////////////////////// Visualize phenotypes /////////////////////////////////////////// */}
         {tool != "VisPheno" || (
           <div>
@@ -1495,28 +1482,6 @@ export function Analysis(props) {
           </div>
         )}
 
-        {/* /////////////////////////// FastP //////////////////////////////////////////////////////////////// */}
-        {tool != "Fastp" || (
-          <div>
-            <Typography variant="h4" sx={{ marginTop: 10 }}>
-              Fastp
-            </Typography>
-            <Typography variant="p" sx={{ marginTop: 10 }}>
-              Check the qualitly of your fastq data before and after trimming
-            </Typography>
-            <Button
-              sx={{ marginTop: 5 }}
-              variant="contained"
-              onClick={handleFastp}
-            >
-              run fastp
-            </Button>
-            <Typography variant="h4" sx={{ marginTop: 10 }}>
-              Summary Statistics (QC)
-            </Typography>
-          </div>
-        )}
-
         {/* /////////////////////////// MDS ////////////////////////////////////////////////////////////////// */}
         {tool != "MDS" || (
           <div padding={2}>
@@ -1575,6 +1540,7 @@ export function Analysis(props) {
         )}
 
         {tool != "GeoLocator" || <GeoLocator data={cropData} />}
+
       </div>
     </>
   );

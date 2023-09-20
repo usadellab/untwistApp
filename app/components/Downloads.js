@@ -106,18 +106,16 @@ export default function Downloads() {
   };
 
   const dTypeOptions = {
-    "DNA methylation data" : "DNAmeth",
-    "DNA sequencing data" : "DNAseq",
-    "RNA sequencing data" : "RNAseq",
+    "DNA methylation data (fastq)" : "DNAmeth",
+    "DNA sequencing data (fastq)" : "DNAseq",
+    "RNA sequencing data (fastq)" : "RNAseq",
     "Project information" : "Meta",
-    "GWAS datasets" : "Plink",
-    "Phenotypic data" : "Pheno",
-    "Long Read Genomes Assemblies" : "LongReadAssemblies",
-    "Short Read Genomes Assemblies" : "ShortReadAssemblies",
-    "Marker data" : "VCFdata",
+    "GWAS datasets (plink binary format)" : "Plink",
+    "Phenotypic data (tsv)" : "Pheno",
+    "Long Read Genomes Assemblies (fasta)" : "LongReadAssemblies",
+    "Short Read Genomes Assemblies (fasta)" : "ShortReadAssemblies",
+    "Marker data (vcf)" : "VCFdata",
     "Analysis Protocols" : "Analysis",
-    "Publications" : "Publications",
-
   }
 
   const dTypeLabels = {
@@ -133,7 +131,6 @@ export default function Downloads() {
     VCFdata:
       "Raw marker data based on DNA sequencing data for individual accessions",
     Analysis: "Protocols for analysis of untwist data",
-    Publications: "Papers based on untwist data",
   };
 
   return (

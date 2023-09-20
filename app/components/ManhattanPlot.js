@@ -1,12 +1,8 @@
+
 import React from 'react'
 import dynamic from 'next/dynamic'
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 import { useState, useEffect } from 'react'
-
-
-
-
-
 
 
 const isObjectEmpty = (objectName) => {
