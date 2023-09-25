@@ -43,6 +43,9 @@ import { useTokenContext } from "../../contexts/TokenContext";
 import { useApiContext } from "../../contexts/ApiEndPoint";
 import { useObjListContext } from "../../contexts/ObjListContext";
 
+import capturedLogs from './capturedLogs'; // Replace with the actual path to your module
+
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
   return (
@@ -102,6 +105,9 @@ export function Analysis(props) {
   const [qqData, setQqData] = useState(null);
   const [plinkSigSNPs, setPlinkSigSNPs] = useState([]);
   // const [manhattanData, setManhattanData] = useState(null)
+  const [plinkLogs, setPlinkLogs] = useState([])
+  const [mdsLogs, setMdsLogs] = useState([])
+
 
   const [plinkGenes, setPlinkGenes] = useState([]);
   const [mapManData, setMapManData] = useState([]);
@@ -128,10 +134,13 @@ export function Analysis(props) {
 
   const [displayMessage, setDisplayMessage] = useState([]);
   const [showDisplayMessage, setShowDisplayMessage] = useState(false);
-  // const [consoleLogs, setConsoleLogs] = useState([])
+  const [consoleLogs, setConsoleLogs] = useState([])
 
   const token = useTokenContext();
   const [phenoFile, setPhenoFile] = useState(null);
+
+
+
 
 
 
@@ -178,7 +187,7 @@ export function Analysis(props) {
           header: true, 
           dynamicTyping: true, 
           skipEmptyLines: true, 
-          delimiter: '\t', // Specify the tab ('\t') as the delimiter
+          delimiter: ',', // Specify the tab ('\t') as the delimiter
           complete: function (results) {
             const data = results.data;
             setData(data);
@@ -239,6 +248,22 @@ export function Analysis(props) {
 
     return resultArray;
   }
+
+
+
+//   const [capturedLogs, setCapturedLogs]  = useState([]);
+
+//   useEffect(() => {
+// const originalConsoleLog = console.log;
+// var newLogs = []
+
+// console.log = (...args) => {
+//   newLogs.push(args);
+//   originalConsoleLog.apply(console, args);
+//   setCapturedLogs(newLogs)
+// };
+//   }, [displayMessage])
+
 
   const handleGWAS = (e, v) => {
     window.Plink().then((Module) => {
@@ -359,6 +384,7 @@ export function Analysis(props) {
             });
         });
       } else if (tool == "MDS") {
+        var msgs = [];
         var fileNames = {
           "plink.fam": "Plink/allMolecularValues_Anthocyanin_INRAE.fam",
           "plink.bim": "Plink/plink.bim",
@@ -369,6 +395,7 @@ export function Analysis(props) {
         msgs.push(`Running MDS tool on ${chosenProject} dataset`);
         setDisplayMessage(msgs);
         setShowDisplayMessage(true);
+        // console.log(`Running MDS tool on ${chosenProject} dataset`)
 
         msgs.push(
           `Analyzing, depending upon the size of data set it will take a while, please do not close your browser`
@@ -402,7 +429,7 @@ export function Analysis(props) {
                     ["plink.fam", "plink.bim", "plink.bed", "plink.genome"],
                     Module.FS.readdir(".")
                   )
-                ) {
+                ) {                 
                   Module.callMain([
                     "--bfile",
                     "plink",
@@ -428,6 +455,7 @@ export function Analysis(props) {
               reader.readAsBinaryString(blob);
             });
         });
+
       } else if (tool == "PCA") {
         var fileNames = {
           "precomputed.plink.cov.pca": "Plink/precomputed.plink.cov.pca",
@@ -497,8 +525,6 @@ export function Analysis(props) {
     });
     return sigSNPs;
   };
-
-
 
   const handleAnnotations = () => {
     var sigData = getSigSNPs(plinkResults, pVals[pValThreshold]);
@@ -907,32 +933,76 @@ export function Analysis(props) {
 
   return (
     <>
-      {!showDisplayMessage || (
-        <div className="App">
-          <ConsoleLogCaptureWrapper customMessages={displayMessage} />
-          {/* <MessageWithTimer messages={displayMessage} /> */}
-        </div>
-      )}
+
+    
+      {!showDisplayMessage || 
+      <div>
+          {/* <ConsoleLogCaptureWrapper customMessages={displayMessage} />  */}
+          <MessageWithTimer messages={displayMessage} />
+      </div>
+      }
 
       {tool != "GWAS" || (
+        <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
         <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
           Genome Wide Association Analyis
         </Typography>
+
+        <Typography variant="p">
+          {`This tool allows to perform GWAS analyses on the GWAS datasets available as part of untwist project.
+          Currently --- phenotypes are available from the following dropdown menu. The genotypic data consists of 3783751 SNP markers and is prefiltered for minor allele frequency (MAF >= 0.05), Missingness per SNP (F_MISSING < 0.1), quality score at SNP site (QUAL >= 20) and a min depth (FORMAT/DP >= 3). For details on the GWAS datasets please see FAQs`}
+        </Typography>
+
+        </Grid>
       )}
       {tool != "VisPheno" || (
-        <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
+
+<Grid sx={{ marginTop: 2, marginRight : 2 }}>
+
+        <Typography  variant="h4">
           Visualize Traits
         </Typography>
+        <Typography variant="p">
+          {`This tool allows to visualize --- phenotypes collected as part of untwist project. Phenotypes are avaialable using the drop downs in the plotting Options menu. Users can also perform queries to filter the data based on any combination of phenotypes collected.`}
+        </Typography>
+        </Grid>
+
       )}
       {tool != "PCA" || (
-        <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
+                <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
+
+        <Typography variant="h4">
           Principal component Analyis
         </Typography>
+
+        <Typography variant="p">
+          {`This tool visualizes the precomputed PCA coordinates based on the same genotypic data available for GWAS analyisis.`}
+        </Typography>
+
+
+        </Grid>
       )}
       {tool != "MDS" || (
-        <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
-          Multidimentional Scaling
-        </Typography>
+
+
+<Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
+
+
+
+<Typography variant="h4">
+Multidimentional Scaling
+
+</Typography>
+
+<Typography variant="p">
+  {`This tool computes and visualizes MDS coordinates based on the same genotypic data available for GWAS analyisis.`}
+</Typography>
+
+
+
+
+
+</Grid>
       )}
 
       {tool == "GeoLocator" || (
@@ -1471,17 +1541,31 @@ export function Analysis(props) {
                     </div>
                   )}
                 </TabPanel>
+              
+              
+              
+                {/* <div>
+<Typography sx={{mt:4, marginBottom:4}} variant="h6"> Plink Logs</Typography>
+{plinkLogs.map((item, index) => {
+  if (!item[0].includes('rebuilding')) {
+    return <div key={index}>{item[0]}</div>;
+  }
+  return null; // If the condition is not met, return null to exclude the item
+})}
+</div> */}
+              
               </div>
+
+              
             )}
+
+
+
+
           </div>
         )}
 
-        {/* /////////////////////////// LD Analysis ////////////////////////////////////////////////////////// */}
-        {tool != "LD_Analysis" || (
-          <div>
-            <p>under construction</p>
-          </div>
-        )}
+
 
         {/* /////////////////////////// MDS ////////////////////////////////////////////////////////////////// */}
         {tool != "MDS" || (
@@ -1503,12 +1587,33 @@ export function Analysis(props) {
                     inputData: mdsData,
                     variablesToPlot: ["C1", "C2"],
                     plotTitle: "Multidimentional Scaling",
-                    xLable: "PC1",
-                    yLable: "PC2",
+                    xLable: "MDS Coordinate 1",
+                    yLable: "MDS Coordinate 2",
                   }}
                 />
+
+{/* <div>
+<Typography sx={{mt:4, marginBottom:4}} variant="h6"> Plink Logs</Typography>
+{mdsLogs.map((item, index) => {
+  if (!item[0].includes('rebuilding')) {
+    return <div key={index}>{item[0]}</div>;
+  }
+  return null; // If the condition is not met, return null to exclude the item
+})}
+</div> */}
+
               </div>
             )}
+
+
+
+
+
+
+
+
+
+
           </div>
         )}
 
@@ -1520,7 +1625,7 @@ export function Analysis(props) {
               onClick={handleGWAS}
               color="primary"
             >
-              perform PCA
+              PCA plot
             </Button>
 
             {!pcaData || (

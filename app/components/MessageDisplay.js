@@ -1,33 +1,37 @@
-// import React, { useEffect, useState } from 'react';
-// import CircularLoader from './CircularLoader';
 
-// const MessageWithTimer = ({ messages }) => {
-//   const [timeElapsed, setTimeElapsed] = useState(0);
+import React, { useEffect, useState } from 'react';
+import CircularLoader from './CircularLoader';
 
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       setTimeElapsed((prevTime) => prevTime + 1);
-//     }, 1000);
+const MessageWithTimer = ({ messages }) => {
+  const [timeElapsed, setTimeElapsed] = useState(0);
 
-//     return () => clearInterval(interval);
-//   }, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeElapsed(prevTime => prevTime + 1);
+    }, 1000);
 
-//   return (
-//     <div style={styles.overlay}>
-//       <div style={styles.centeredContent}>
-//         <CircularLoader />
-//         <div style={styles.messageBox}>
-//           {messages.map((message, index) => (
-//             <div key={index} style={styles.message}>
-//               {message}
-//             </div>
-//           ))}
-//         </div>
-//         <div style={styles.timer}>Time elapsed: {timeElapsed} seconds</div>
-//       </div>
-//     </div>
-//   );
-// };
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div style={styles.overlay}>
+      <div style={styles.centeredContent}>
+        <CircularLoader />
+        <div style={styles.messageBox}>
+          {messages.map((message, index) => (
+            <div key={index} style={styles.message}>
+              {message}
+            </div>
+          ))}
+        </div>
+        <div style={styles.timer}>Time elapsed: {timeElapsed} seconds</div>
+      </div>
+    </div>
+  );
+};
+
+export default MessageWithTimer;
+
 
 const styles = {
   overlay: {
@@ -65,43 +69,5 @@ const styles = {
     marginTop: 10,
   },
 };
-
-// export default MessageWithTimer;
-
-
-
-import React, { useEffect, useState } from 'react';
-import CircularLoader from './CircularLoader';
-
-const MessageWithTimer = ({ messages }) => {
-  const [timeElapsed, setTimeElapsed] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeElapsed(prevTime => prevTime + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div style={styles.overlay}>
-      <div style={styles.centeredContent}>
-        <CircularLoader />
-        <div style={styles.messageBox}>
-          {messages.map((message, index) => (
-            <div key={index} style={styles.message}>
-              {message}
-            </div>
-          ))}
-        </div>
-        <div style={styles.timer}>Time elapsed: {timeElapsed} seconds</div>
-      </div>
-    </div>
-  );
-};
-
-export default MessageWithTimer;
-// Rest of your styles and export statement remain unchanged
 
 

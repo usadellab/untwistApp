@@ -32,6 +32,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import QuizIcon from "@mui/icons-material/Quiz";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import ForestIcon from "@mui/icons-material/Forest";
+import PlaceIcon from '@mui/icons-material/Place';
+import InsightsIcon from '@mui/icons-material/Insights';
 
 import { Analysis } from "./Analysis";
 import DataSetMaker from "./DataSetMaker";
@@ -57,7 +59,7 @@ const closedMixin = (theme) => ({
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(7)} + 1px)`,
+    width: `calc(${theme.spacing(7)} + 10px)`,
   },
 });
 
@@ -173,7 +175,7 @@ export function MiniDrawer() {
       setAppBarTitle(
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
           {" "}
-          Find Geographic origin of the Germplasm used in the project{" "}
+          Geographic origin of the Germplasm used in untwist project
         </Typography>
       );
     } else if (text == "Select Dataset") {
@@ -218,11 +220,10 @@ export function MiniDrawer() {
           FAQs{" "}
         </Typography>
       );
-    } else if (text == "Contacts") {
+    } else if (text == "Contact") {
       var newAppBarTitle = (
         <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          {" "}
-          Contacts{" "}
+          Contact
         </Typography>
       );
     } else if (text == "Home") {
@@ -271,6 +272,12 @@ export function MiniDrawer() {
 
     setAppBarTitle(newAppBarTitle);
   };
+
+  var gwasIconPic = new URL("../../public/manhattan.png", import.meta.url);
+  var visPhenoIconPic = new URL("../../public/visPhenoLscatter.png", import.meta.url);
+  var pcaIconPic = new URL("../../public/pca.png", import.meta.url);
+  var mdsIconPic = new URL("../../public/mds.png", import.meta.url);
+
 
   return (
     <>
@@ -343,7 +350,9 @@ export function MiniDrawer() {
                       handleDrawerContent("Germplasm");
                     }}
                   >
-                    <ListItemIcon></ListItemIcon>
+                    <ListItemIcon>
+                      <PlaceIcon/>
+                    </ListItemIcon>
                     <ListItemText primary="Germplasm" />
                   </ListItemButton>
                 </ListItem>
@@ -361,7 +370,7 @@ export function MiniDrawer() {
                 }}
               >
                 <ListItemIcon>
-                  <InboxIcon />
+                  <InsightsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Genomics" />
                 {genomicsDropDown ? <ExpandLess /> : <ExpandMore />}
@@ -377,7 +386,11 @@ export function MiniDrawer() {
                       handleAppBarTitle("VisPheno");
                     }}
                   >
-                    <ListItemIcon>{/* <StarBorder /> */}</ListItemIcon>
+                    <ListItemIcon>
+                    <img src={visPhenoIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
+                      </img>
+
+                    </ListItemIcon>
                     <ListItemText primary="VisPheno" />
                   </ListItemButton>
                 </ListItem>
@@ -389,7 +402,12 @@ export function MiniDrawer() {
                       handleAppBarTitle("GWAS");
                     }}
                   >
-                    <ListItemIcon>{/* <StarBorder /> */}</ListItemIcon>
+                    <ListItemIcon>
+
+                      <img src={gwasIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
+                      </img>
+                      
+                      </ListItemIcon>
                     <ListItemText primary="GWAS" />
                   </ListItemButton>
                 </ListItem>
@@ -401,7 +419,11 @@ export function MiniDrawer() {
                       handleAppBarTitle("PCA");
                     }}
                   >
-                    <ListItemIcon>{/* <StarBorder /> */}</ListItemIcon>
+                    <ListItemIcon>
+                    <img src={pcaIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
+                      </img>
+
+                      </ListItemIcon>
                     <ListItemText primary="PCA" />
                   </ListItemButton>
                 </ListItem>
@@ -413,7 +435,11 @@ export function MiniDrawer() {
                       handleAppBarTitle("MDS");
                     }}
                   >
-                    <ListItemIcon>{/* <StarBorder /> */}</ListItemIcon>
+                    <ListItemIcon>
+                    <img src={mdsIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
+                      </img>
+
+                    </ListItemIcon>
                     <ListItemText primary="MDS" />
                   </ListItemButton>
                 </ListItem>
@@ -442,14 +468,14 @@ export function MiniDrawer() {
 
               <ListItemButton
                 onClick={() => {
-                  handleDrawerContent("Contacts");
-                  handleAppBarTitle("Contacts");
+                  handleDrawerContent("Contact");
+                  handleAppBarTitle("Contact");
                 }}
               >
                 <ListItemIcon>
                   <PermContactCalendarIcon />
                 </ListItemIcon>
-                <ListItemText primary="Contacts" />
+                <ListItemText primary="Contact" />
               </ListItemButton>
             </List>
           </div>

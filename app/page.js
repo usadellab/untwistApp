@@ -5,9 +5,9 @@ import { SelectedSpeciesProvider } from "../contexts/SelectedSpeciesContext"; //
 import { TokenProvider } from "../contexts/TokenContext";
 import { ApiContextProvider } from '../contexts/ApiEndPoint';
 
-
 export default function Home() {
   return (
+
     <ApiContextProvider>
     <TokenProvider>
       <SelectedSpeciesProvider>
@@ -15,5 +15,6 @@ export default function Home() {
       </SelectedSpeciesProvider>
     </TokenProvider>
     </ApiContextProvider>
+
   );
 }

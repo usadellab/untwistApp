@@ -14,17 +14,16 @@ function WelcomePage() {
 
       <div style={{ padding: 10 }}>
         <Typography sx={{ mt: 4 }} align="center" variant="h4">
-          {" "}
-          Institute of Bio and Geosciences (IBG-4)
+        <a href="https://www.fz-juelich.de/en/ibg/ibg-4/about-us" target="blank">
+        Institute of Bio and Geosciences (IBG-4)
+
+        </a>
+
         </Typography>
         <Typography align="center" variant="h5">
-          Wilhelm-Johnen-Straße 52428 Jülich
+          Wilhelm-Johnen-Straße 52428 Jülich, Germany
         </Typography>
-        <Typography align="center" color="blue" variant="h6">
-          <a href="https://www.fz-juelich.de/en/ibg/ibg-4/about-us">
-            visit our home page
-          </a>
-        </Typography>
+
       </div>
 
       <div>
