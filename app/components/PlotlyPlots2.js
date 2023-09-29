@@ -43,7 +43,7 @@ const PlotlyPlots = (props) => {
 var plotyType = props.plotSchema.ploty_type;
 var inputData = props.plotSchema.inputData;
 var selectedVars = props.plotSchema.variablesToPlot;
-var plotTitle = props.plotSchema.plotTitle;
+var plotTitle = props.plotSchema.plotTitle || 'add plot title here';
 var xLable = props.plotSchema.xLable;
 var yLable = props.plotSchema.yLable;
 primaryLayout["title"] = plotTitle;
@@ -69,8 +69,10 @@ if (!isObjectEmpty(inputData)) {
     }
 }
 
-// console.log(x, xdata)
-// console.log(y, ydata)
+var accessions = []
+inputData.map(obj => {
+    accessions.push(obj.Accessions)
+})
 
 //////////////////////////// Now for plot types
 
@@ -83,8 +85,7 @@ if (plotyType == "bar") {
     plotLayout.yaxis["title"] = yLable || y;
     plotLayout["boxmode"] = "group";
     plotLayout.showlegend = false;
-    plotLayout.annotations = {}
-
+    plotLayout.annotations = {};
 } else if (plotyType == "line") {
     var input_Obj = {};
     selectedVars.map((key) => {
@@ -94,7 +95,7 @@ if (plotyType == "bar") {
         x: X,
         y: Y,
         type: "scatter",
-        mode: "lines",
+        mode: "lines+markers",
         name: key,
     };
     });
@@ -102,97 +103,118 @@ if (plotyType == "bar") {
     var obj = inputData[i];
     selectedVars.map((key) => {
         input_Obj[key].y.push(obj[key]);
-        input_Obj[key].x.push(i);
+        input_Obj[key].x.push(obj.Accessions);
     });
     }
     var plotData = Object.values(input_Obj);
-    // var plotData=[{type : 'line', y:xdata} ];
     var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-    plotLayout.yaxis["title"] = yLable || y;
-    plotLayout.annotations = {}
+    plotLayout.xaxis["title"] = xLable || 'Accessions';
+    plotLayout.yaxis["title"] = yLable || 'add label to y axis';
+    plotLayout.annotations = {};
+    plotLayout.showlegend = true;
+
 
     // console.log('modify it for many variables')
 } else if (plotyType == "histogram") {
-    var plotData = [{ type: "histogram", x: xdata }];
+    var plotData = [{ type: "histogram", mode:'markers', x: xdata }];
     var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
     plotLayout["yaxis"] = {};
-    plotLayout.yaxis["title"] = yLable || y;
+    plotLayout.yaxis["title"] = yLable || 'add label to y axis';
     plotLayout.showlegend = false;
-    plotLayout.annotations = {}
-    
+    plotLayout.annotations = {};
 } else if (plotyType == "scatter") {
+    
     var plotData = [
-    { type: "scattergl", mode: "markers", x: xdata, y: ydata },
+    { type: "scattergl", mode: "markers", x: xdata, y: ydata , text : accessions , 
+    hovertemplate: '<b>%{text}</b><br>' + '<b><i>y</i></b>: %{y:.2f}' + '<br><b>X</b>: %{x}<br><extra></extra>',
+    showlegend: false
+},
     ];
     var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
     plotLayout.yaxis["title"] = yLable || y;
-    plotLayout.annotations = {}
+    plotLayout.annotations = {};
+    plotLayout.showlegend = false
 
-    // plotLayout.showlegend = false
 } else if (plotyType == "boxplot") {
     var input_Obj = {};
     selectedVars.map((key) => {
     var Y = [];
-    input_Obj[key] = { y: Y, type: "box", name: key };
+    input_Obj[key] = { y: Y, type: "box", name: key , boxpoints: 'all', jitter: 1,pointpos: 0.3,
+};
     });
     for (let i = 0; i < inputData.length; i++) {
     var obj = inputData[i];
     selectedVars.map((key) => {
         input_Obj[key].y.push(obj[key]);
+        input_Obj[key]["hovertemplate"] = `<b>${obj.Accessions}</b><br> <i>y</i>: %{y:.2f}<br><extra></extra>`
     });
     }
     var plotData = Object.values(input_Obj);
     var plotLayout = primaryLayout;
-    plotLayout["xaxis"] = {};
+    plotLayout["xaxis"] = {showticklabels: false, showline:false};
     plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-    plotLayout.yaxis["title"] = yLable || y;
-    plotLayout.showlegend = false;
-    plotLayout.annotations = {}
+    plotLayout.xaxis["title"] = xLable || 'add label to x axis';
+    plotLayout.yaxis["title"] = yLable || 'add label to y axis';
+    plotLayout.showlegend = true;
+    plotLayout.annotations = {};
 
 } else if (plotyType == "violin") {
     var input_Obj = {};
     selectedVars.map((key) => {
     var Y = [];
+    // var X = [];
+
     input_Obj[key] = {
         y: Y,
+        // x : X,
+        x0 : ' ',  //overlapping distros
         type: "violin",
         name: key,
+        // offsetgroup : obj[key],
+
         hoverinfo: "y", // Specify hover information
-        hovertemplate: "", // Customize hover template to display only the 'y' value and the variable name
-        points: "none",
-        box: { visible: true },
-        boxpoints: false,
-        line: { color: "black" },
-        fillcolor: "#8dd3c7",
-        opacity: 0.6,
-        meanline: { visible: true },
-      };
+        // text : accessions,
+        // hovertemplate: "", // Customize hover template to display only the 'y' value and the variable name
+        points: "all",
+        jitter : .8,
+        // box: { visible: true },
+        // boxpoints: true,
+        // line: { color: "black" },
+        // fillcolor: "#8dd3c7",
+        opacity: .9,
+        // meanline: { visible: true },
+        hoveron: "violins+points+kde",
+    };
     });
+
     for (let i = 0; i < inputData.length; i++) {
     var obj = inputData[i];
     selectedVars.map((key) => {
         input_Obj[key].y.push(obj[key]);
+        // input_Obj[key].x.push(obj.Accessions);
+
+        input_Obj[key]["hovertemplate"] = `<b>Accession: </b>${obj.Accessions}<br> <b>value:</b>${obj[key]} <extra></extra>`;
+
+        
+
+
     });
     }
     var plotData = Object.values(input_Obj);
     var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-    plotLayout.yaxis["title"] = yLable || y;
+    plotLayout.xaxis["title"] =  xLable || "add label to x axis";
+    plotLayout.yaxis["title"] = yLable || "add label to y axis";
     plotLayout.showlegend = true;
-    plotLayout.annotations = {}
-
-
+    plotLayout.annotations = {};
 } else if (plotyType == "raincloud") {
     var plotLayout = primaryLayout;
     var input_Obj = {};
@@ -229,8 +251,10 @@ if (plotyType == "bar") {
         type: "violin",
         side: "positive",
         hoverinfo: "x", // Specify hover information
-        hovertemplate: "", // Customize hover template to display only the 'y' value and the variable name
         line: { width: 0.75 }, //color : 'green',
+        jitter : 1,
+        hoveron: "violins+points+kde",
+
         },
         {
         x: Y,
@@ -238,13 +262,16 @@ if (plotyType == "bar") {
         showlegend: false,
         type: "box",
         opacity: 0.4,
+        // points : "all",
         boxpoints: "all",
+        hoveron: "violins+points+kde",
+
         jitter: 1,
         whiskerwidth: 0.3,
         width: 0.15,
         fillcolor: "orange",
         yaxis: y_axis,
-        boxmean : 'sd',
+        boxmean: "sd",
         marker: {
             color: "green",
             opacity: 1,
@@ -254,6 +281,7 @@ if (plotyType == "bar") {
         },
         line: { color: "red", width: 2 },
         },
+        
     ];
     cnt = cnt + 1;
     });
@@ -261,7 +289,8 @@ if (plotyType == "bar") {
     var obj = inputData[i];
     selectedVars.map((key) => {
         input_Obj[key][0].x.push(obj[key]);
-        input_Obj[key][1].x.push(obj[key]);
+        input_Obj[key][1]["hovertemplate"] = `<b>Accession: </b>${obj.Accessions}<br> <b>value:</b>${obj[key]} <extra></extra>`;
+
     });
     }
     var plotData = [];
@@ -272,16 +301,42 @@ if (plotyType == "bar") {
     });
 
     plotLayout["xaxis"] = {};
-    plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-    plotLayout.yaxis["title"] = yLable || y;
+    plotLayout["yaxis"] = { showticklabels: false, showline:false };
+    plotLayout.xaxis["title"] = xLable || "add label to x axis";
+    plotLayout.yaxis["title"] = yLable || "add label to y axis";
     plotLayout.showlegend = true;
-    plotLayout.annotations = {}
-
+    plotLayout.annotations = {};
 } else if (plotyType == "linReg") {
     var regLineData = linReg(xdata, ydata);
+    var xAnnotPos = Math.min(...xdata)
+    var yAnnotPos = Math.max(...ydata)
+
+    if(xAnnotPos <= 1){
+        xAnnotPos = xAnnotPos + 0.15
+        // yAnnotPos = yAnnotPos - 0.01
+        
+    }
+    console.log('x', xAnnotPos, 'y', yAnnotPos)
+
+
+
     var plotData = [
-    { type: "scattergl", mode: "markers", x: xdata, y: ydata },
+    { type: "scattergl", 
+    mode: "markers",
+     x: xdata, 
+     y: ydata,   
+    // text: [`R\u00B2: ${regLineData.text}`], 
+    // textposition: 'bottom right', 
+    // textfont: {
+    //     family: 'sans serif',
+    //     size: 18,
+    //     color: 'blue'
+    //   }, 
+    text : accessions , 
+    hovertemplate: '<b>%{text}</b><br>' + '<b><i>y</i></b>: %{y:.2f}' + '<br><b>X</b>: %{x}<br><extra></extra>',
+    showlegend: false
+    
+    },
     regLineData,
     ];
     var plotLayout = primaryLayout;
@@ -291,7 +346,34 @@ if (plotyType == "bar") {
     plotLayout.xaxis["title"] = xLable || x;
     plotLayout.yaxis["title"] = yLable || y;
     plotLayout.showlegend = false;
-    plotLayout.annotations = {}
+
+
+
+    plotLayout.annotations = 
+    [{
+        x: xAnnotPos,
+        y: yAnnotPos,
+        xref: 'x',
+        yref: 'y',
+        text: `R\u00B2: ${regLineData.text}`,
+        showarrow: false,
+        // ax: 10,
+    //   ay: -40
+        font: {
+            family: 'sans serif',
+            size: 18,
+            color: 'blue'
+        }, 
+        bordercolor: 'black', //'#c7c7c7',
+      borderwidth: 1,
+      borderpad: 4,
+      bgcolor: 'lightyellow',
+      opacity: 0.8
+
+        }]
+
+
+
 
 } else if (plotyType == "heatMap") {
     var x = selectedVars;
@@ -481,18 +563,18 @@ if (plotyType == "bar") {
     });
 } else if (plotyType == "qqplot") {
     var plotData = [
-    { type: "scattergl", mode: "markers",  x: xdata, y: ydata }, {x:ydata, y:ydata, mode:"line",  color: 'grey'}
+    { type: "scattergl", mode: "markers", x: xdata, y: ydata },
+    { x: ydata, y: ydata, mode: "line", color: "grey" },
     ];
     var plotLayout = primaryLayout;
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable ;
+    plotLayout.xaxis["title"] = xLable;
     plotLayout.yaxis["title"] = yLable;
     plotLayout.showlegend = false;
     plotLayout.width = 600;
     plotLayout.height = 600;
-    plotLayout.annotations = {}
-
+    plotLayout.annotations = {};
 } else {
     console.log("Please choose a valid plot type");
 }

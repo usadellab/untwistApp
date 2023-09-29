@@ -61,6 +61,8 @@ export function FAQs() {
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
+          The UNTWIST project operates on the fundamental principle that studying stress adaptation mechanisms in camelina, a naturally resilient European oilseed crop with minimal breeding, can unveil effective stress coping strategies. These strategies, once identified, can then be leveraged to enhance yield stability in camelina and other crops, especially in the face of challenging and shifting environmental conditions.
+
             UNTWIST is a unique, highly interdisciplinary consortium of four
             research organizations / institutes, one university, one commercial
             SME partner and two non-profit SMEs. These include:
@@ -146,11 +148,11 @@ export function FAQs() {
         onChange={handleChange("panel8")}
       >
         <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>What is the purpose of VisPehno ? </Typography>
+          <Typography>How I can explore the phenotypic data? </Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-          <p>This module serves as a comprehensive repository for all collected phenotypic data acquired throughout the project lifecycle. Its primary objective is to furnish users with an in-depth understanding of the distribution of the targeted phenotype. This is accomplished through the utilization of various plot types.</p>
+          <p>The module, VisPheno, serves as a comprehensive repository for all collected phenotypic data acquired throughout the project lifecycle. Its primary objective is to furnish users with an in-depth understanding of the distribution of the targeted phenotype. This is accomplished through the utilization of various plot types.</p>
 
           <p>For instance, to obtain a holistic view of the phenotype, users can generate a straightforward bar plot, providing a visual representation of raw phenotypic data across the entire population. Alternatively, users have the capability to summarize data by extracting key statistical metrics such as minimum, maximum, median, and quartiles, employing box plots to identify potential outliers.</p>
 

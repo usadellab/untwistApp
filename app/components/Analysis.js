@@ -187,7 +187,7 @@ export function Analysis(props) {
           header: true, 
           dynamicTyping: true, 
           skipEmptyLines: true, 
-          delimiter: ',', // Specify the tab ('\t') as the delimiter
+          delimiter: '\t', // Specify the tab ('\t') as the delimiter
           complete: function (results) {
             const data = results.data;
             setData(data);
@@ -282,6 +282,7 @@ export function Analysis(props) {
           `Input loaded conducting analysis, depending upon the size of data set it will take a while, please do not close your browser`
         );
         setDisplayMessage(msgs);
+
         Object.keys(fileNames).map((fileName) => {
           let dbName = fileNames[fileName];
           axios
@@ -341,6 +342,7 @@ export function Analysis(props) {
                       // a very hard lesson learned 'check your input data again and again'
                     ]);
                   }
+
                   msgs.push(`Analysis complete, parsing output`);
                   setDisplayMessage(msgs);
                   if (isSubsetOf(["plink.assoc"], Module.FS.readdir("."))) {
@@ -386,7 +388,7 @@ export function Analysis(props) {
       } else if (tool == "MDS") {
         var msgs = [];
         var fileNames = {
-          "plink.fam": "Plink/allMolecularValues_Anthocyanin_INRAE.fam",
+          "plink.fam": "Plink/Straw_yield(g_per_plants)_INRAE.fam",
           "plink.bim": "Plink/plink.bim",
           "plink.bed": "Plink/plink.bed",
           "plink.genome" : "Plink/plink.genome"
@@ -605,10 +607,8 @@ export function Analysis(props) {
               });
             });
           });
-
           setPlinkGenes(annotations);
           setMapManData(mapManAnnotations);
-          //
           setAnnotationsDone(true);
         })
         .catch((error) => {
@@ -949,8 +949,7 @@ export function Analysis(props) {
         </Typography>
 
         <Typography variant="p">
-          {`This tool allows to perform GWAS analyses on the GWAS datasets available as part of untwist project.
-          Currently --- phenotypes are available from the following dropdown menu. The genotypic data consists of 3783751 SNP markers and is prefiltered for minor allele frequency (MAF >= 0.05), Missingness per SNP (F_MISSING < 0.1), quality score at SNP site (QUAL >= 20) and a min depth (FORMAT/DP >= 3). For details on the GWAS datasets please see FAQs`}
+          {`This tool allows to perform GWAS analyses on the GWAS datasets available as part of untwist project. The pheotypes are can be selected from the following dropdown menu. The genotypic data consists of 3783751 SNP markers and is prefiltered for minor allele frequency (>= 0.05), Missingness per SNP ( < 0.1), quality score at SNP site ( >= 20) and a min depth ( >= 3). For details on the GWAS datasets please see FAQs`}
         </Typography>
 
         </Grid>
@@ -963,8 +962,18 @@ export function Analysis(props) {
           Visualize Traits
         </Typography>
         <Typography variant="p">
-          {`This tool allows to visualize --- phenotypes collected as part of untwist project. Phenotypes are avaialable using the drop downs in the plotting Options menu. Users can also perform queries to filter the data based on any combination of phenotypes collected.`}
+          {`This tool allows to visualize phenotypes collected as part of untwist project. Phenotypes are avaialable using the drop downs in the plotting Options menu. Users can also perform queries to filter the data based on any combination of phenotypes collected.
+           `}
         </Typography>
+        <Typography variant="p"><br></br><b>Note: </b>In the drop down menu each entry describes <b>'Phenotype' _ 'measurement unit' _ 'Stress treatment(if any)' _ 'Growth stage/collection date(if available)' _ 'provider(if available)'</b></Typography>
+        <Typography variant="p"> <br></br>
+        <b>Abbreviations: </b> 
+        <b> DW: </b> dry weight, 
+        <b> FW: </b>fresh weight, 
+        <b> DW_FW: </b> DW/FW,
+        <b> DAS: </b>days after sowing, 
+        </Typography>
+        
         </Grid>
 
       )}

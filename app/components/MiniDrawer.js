@@ -22,7 +22,7 @@ import { Tools } from "./Tools";
 import { FAQs } from "./FAQs";
 import { Contact } from "./Contact";
 import { UserContext } from "../../contexts/ToolContext";
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import { useSelectedSpecies } from "../../contexts/SelectedSpeciesContext";
 import Collapse from "@mui/material/Collapse";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
@@ -40,7 +40,37 @@ import DataSetMaker from "./DataSetMaker";
 import Downloads from "./Downloads";
 import WelcomePage from "./WelcomePage";
 
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+
+
 const drawerWidth = 240;
+
+const lightTheme = createTheme({
+  palette: {
+    type: 'light',
+    primary: {
+      main: '#2196F3',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#2196F3',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
+
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -88,6 +118,7 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  
 }));
 
 const Drawer = styled(MuiDrawer, {
@@ -109,9 +140,18 @@ const Drawer = styled(MuiDrawer, {
 
 export function MiniDrawer() {
   const { selectedSpp, setSelectedSpp } = useSelectedSpecies();
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+const toggleTheme = () => {
+  setIsDarkMode(!isDarkMode);
+};
+
+const selectedTheme = isDarkMode ? darkTheme : lightTheme;
+
+
 
   const homePage = <WelcomePage />;
-  // const theme = useTheme();
+  const theme = useTheme();
   const [open, setOpen] = useState(true);
   const [content, setContent] = useState(homePage);
   const [appBarTitle, setAppBarTitle] = useState(
@@ -148,6 +188,10 @@ export function MiniDrawer() {
   const ToggleDrawer = () => {
     setOpen(!open);
   };
+
+//  toggle theme
+
+
 
   const handleDrawerContent = (text) => {
     if (text == "Documentation") {
@@ -357,6 +401,23 @@ export function MiniDrawer() {
                   </ListItemButton>
                 </ListItem>
               </List>
+
+              <ListItem>
+                  <ListItemButton
+                    onClick={() => {
+                      handleDrawerContent("VisPheno");
+                      handleAppBarTitle("VisPheno");
+                    }}
+                  >
+                    <ListItemIcon>
+                    <img src={visPhenoIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
+                      </img>
+
+                    </ListItemIcon>
+                    <ListItemText primary="VisPheno" />
+                  </ListItemButton>
+                </ListItem>
+                
             </Collapse>
 
             <List sx={{ marginLeft: 1 }}>
@@ -379,21 +440,7 @@ export function MiniDrawer() {
 
             <Collapse in={genomicsDropDown} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
-                <ListItem>
-                  <ListItemButton
-                    onClick={() => {
-                      handleDrawerContent("VisPheno");
-                      handleAppBarTitle("VisPheno");
-                    }}
-                  >
-                    <ListItemIcon>
-                    <img src={visPhenoIconPic} style={{ width: '30px', height: '30px', backgroundColor: 'lightgray' }} >
-                      </img>
 
-                    </ListItemIcon>
-                    <ListItemText primary="VisPheno" />
-                  </ListItemButton>
-                </ListItem>
 
                 <ListItem>
                   <ListItemButton
@@ -477,6 +524,18 @@ export function MiniDrawer() {
                 </ListItemIcon>
                 <ListItemText primary="Contact" />
               </ListItemButton>
+
+
+
+
+              {/* <ListItemButton
+                onClick={toggleTheme}
+              >
+        {isDarkMode ? 'Switch to Light Theme' : 'Switch to Dark Theme'}
+              </ListItemButton> */}
+
+
+              
             </List>
           </div>
         </Drawer>

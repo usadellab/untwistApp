@@ -2,7 +2,7 @@
     {
         "cultivar": "UNT1",
         "origin": "Spain",
-        "latitude": 39.24525470577412,
+        "latitude": 40.24525470577412,
         "longitude": -3.4153789688411216,
         "metadata": {
             "Reseq": "NA",
@@ -17,7 +17,7 @@
     {
         "cultivar": "UNT2",
         "origin": "Spain",
-        "latitude": 39.26913094800935,
+        "latitude": 41.26913094800935,
         "longitude": -0.872237588638276,
         "metadata": {
             "Reseq": "NA",
@@ -32,7 +32,7 @@
     {
         "cultivar": "UNT3",
         "origin": "Spain",
-        "latitude": 39.43675658068907,
+        "latitude": 42.43675658068907,
         "longitude": 0.6684154489299878,
         "metadata": {
             "Reseq": "NA",
@@ -47,8 +47,8 @@
     {
         "cultivar": "UNT4",
         "origin": "Spain",
-        "latitude": 39.542203997879405,
-        "longitude": -3.3958966696719877,
+        "latitude": 42.542203997879405,
+        "longitude": -6.3958966696719877,
         "metadata": {
             "Reseq": "NA",
             "versus CAM": "NA",
@@ -228,7 +228,7 @@
         "cultivar": "UNT16",
         "origin": "Spain",
         "latitude": 39.088021215810954,
-        "longitude": -10.686122384049856,
+        "longitude": -9.686122384049856,
         "metadata": {
             "Reseq": "NA",
             "versus CAM": "NA",
@@ -242,8 +242,8 @@
     {
         "cultivar": "UNT17",
         "origin": "Spain",
-        "latitude": 39.08206039888468,
-        "longitude": -11.632867872968944,
+        "latitude": 43.08206039888468,
+        "longitude": -8.632867872968944,
         "metadata": {
             "Reseq": "NA",
             "versus CAM": "NA",
@@ -287,8 +287,8 @@
     {
         "cultivar": "UNT20",
         "origin": "Unknown",
-        "latitude": 25.337133308355693,
-        "longitude": -75.4426800159099,
+        "latitude": -61,
+        "longitude": -150,
         "metadata": {
             "Reseq": "WRONG",
             "versus CAM": "NA",
@@ -317,7 +317,7 @@
     {
         "cultivar": "UNT22",
         "origin": "Former Yugoslavia",
-        "latitude": -3.3560527233173545,
+        "latitude": 4.3560527233173545,
         "longitude": 0.5908034371597184,
         "metadata": {
             "Reseq": "NA",
@@ -482,8 +482,8 @@
     {
         "cultivar": "UNT33",
         "origin": "Unknown",
-        "latitude": 24.778664350297976,
-        "longitude": -73.77353547305428,
+        "latitude": -62.778664350297976,
+        "longitude": -150.77353547305428,
         "metadata": {
             "Reseq": "NA",
             "versus CAM": "NA",

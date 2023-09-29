@@ -25,14 +25,43 @@ export function  linReg(x,y){
     // Generate values
     var xMax = Math.max(...xArray);
     var xMin = Math.min(...xArray);
+
     var xValues = [];
     var yValues = [];
-    for (var x = xMin; x <= xMax; x += 1) {
+
+    var increment = xMax/xArray.length;
+    console.log(increment)
+    // if(xMax >= 1){
+    //     increment = 0.5
+    // }else{
+    //     increment = 1
+    // }
+
+    for (var x = xMin; x <= xMax; x += increment) {
     xValues.push(x);
     yValues.push(x * slope + intercept);
     }
     r2 = Math.pow((count*xySum - xSum*ySum)/Math.sqrt((count*xxSum-xSum*xSum)*(count*yySum-ySum*ySum)),2);
-    return {x:xValues, y:yValues, mode:"line" , text: `R^2:  ${r2}`, textposition: 'left'} //{x: [x2Min,x2Max],y: [yMin, yMax],  mode:'line'}
+    console.log(r2)
+    if(isNaN(r2)){
+        alert(`Regression cannot be performed on string data, please choose numbers or floats data`)
+
+        return {x:null, y:null, mode:"text" , text: `Regression cannot be performed on string data, please choose numbers or floats data`, } 
+
+    }else{
+        return {x:xValues, y:yValues, type : 'scatter', mode:"lines" ,//mode:"lines+text" ,
+         text: `${r2}`, 
+         xMin : xMin,
+         xMax : xMax
+         
+        //  textposition: 'top right', textfont: {
+        //     family: 'sans serif',
+        //     size: 18,
+        //     color: 'blue'
+        //   }, 
+
+    }
+}
 
 }
 
