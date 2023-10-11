@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { linReg } from "./utils";
+import { linReg, createHeatmapTrace } from "./utils";
 import { Typography } from "@mui/material";
 
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
@@ -82,6 +82,7 @@ if (plotyType == "bar") {
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || x;
+"density_overlay"
     plotLayout.yaxis["title"] = yLable || y;
     plotLayout["boxmode"] = "group";
     plotLayout.showlegend = false;
@@ -111,6 +112,7 @@ if (plotyType == "bar") {
     plotLayout["xaxis"] = {};
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || 'Accessions';
+"density_overlay"
     plotLayout.yaxis["title"] = yLable || 'add label to y axis';
     plotLayout.annotations = {};
     plotLayout.showlegend = true;
@@ -128,6 +130,7 @@ if (plotyType == "bar") {
     plotLayout.annotations = {};
 } else if (plotyType == "scatter") {
     
+"density_overlay"
     var plotData = [
     { type: "scattergl", mode: "markers", x: xdata, y: ydata , text : accessions , 
     hovertemplate: '<b>%{text}</b><br>' + '<b><i>y</i></b>: %{y:.2f}' + '<br><b>X</b>: %{x}<br><extra></extra>',
@@ -158,12 +161,63 @@ if (plotyType == "bar") {
     }
     var plotData = Object.values(input_Obj);
     var plotLayout = primaryLayout;
-    plotLayout["xaxis"] = {showticklabels: false, showline:false};
+    plotLayout["xaxis"] = 
+//     { 
+//         showticklabels: true,
+//         autotick: false,
+//         tickangle: 'auto',
+//         ticks: 'outside', 
+//         tick0: 0,
+//         dtick: 0.25,
+//         ticklen: 8,
+//         tickwidth: 4,
+// } //
+{showticklabels: false, showline:false};
+
     plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || 'add label to x axis';
+    // plotLayout.xaxis.title["standoff"] = 40;
     plotLayout.yaxis["title"] = yLable || 'add label to y axis';
     plotLayout.showlegend = true;
     plotLayout.annotations = {};
+    plotLayout.width = 1400
+
+
+} else if (plotyType == "density_overlay") {
+    var input_Obj = {};
+    selectedVars.map((key) => {
+    var Y = [];
+    input_Obj[key] = { x: Y,
+    type: 'violin',
+    side: 'positive',
+    opacity: 0.5,
+	    y0 : ' ',
+    name: key,
+    };
+    });
+    for (let i = 0; i < inputData.length; i++) {
+    var obj = inputData[i];
+    selectedVars.map((key) => {
+        input_Obj[key].x.push(obj[key]);
+        input_Obj[key]["hovertemplate"] = `<b>${obj.Accessions}</b><br> <i>y</i>: %{y:.2f}<br><extra></extra>`
+    });
+    }
+    var plotData = Object.values(input_Obj);
+    var plotLayout = primaryLayout;
+    plotLayout["xaxis"] =
+{showticklabels: false, showline:false};
+
+    plotLayout["yaxis"] = {};
+    plotLayout.xaxis["title"] = xLable || 'add label to x axis';
+    // plotLayout.xaxis.title["standoff"] = 40;
+    plotLayout.yaxis["title"] = yLable || 'add label to y axis';
+    plotLayout.showlegend = true;
+    plotLayout.annotations = {};
+    plotLayout.width = 800;
+    plotLayout.height = 600
+
+
+
 
 } else if (plotyType == "violin") {
     var input_Obj = {};
@@ -174,7 +228,7 @@ if (plotyType == "bar") {
     input_Obj[key] = {
         y: Y,
         // x : X,
-        x0 : ' ',  //overlapping distros
+        // x0 : ' ',  //overlapping distros
         type: "violin",
         name: key,
         // offsetgroup : obj[key],
@@ -215,6 +269,7 @@ if (plotyType == "bar") {
     plotLayout.yaxis["title"] = yLable || "add label to y axis";
     plotLayout.showlegend = true;
     plotLayout.annotations = {};
+    plotLayout.width = 1400
 } else if (plotyType == "raincloud") {
     var plotLayout = primaryLayout;
     var input_Obj = {};
@@ -316,7 +371,7 @@ if (plotyType == "bar") {
         // yAnnotPos = yAnnotPos - 0.01
         
     }
-    console.log('x', xAnnotPos, 'y', yAnnotPos)
+    // console.log('x', xAnnotPos, 'y', yAnnotPos)
 
 
 
@@ -364,7 +419,7 @@ if (plotyType == "bar") {
             size: 18,
             color: 'blue'
         }, 
-        bordercolor: 'black', //'#c7c7c7',
+        bordercoloheatMapr: 'black', //'#c7c7c7',
       borderwidth: 1,
       borderpad: 4,
       bgcolor: 'lightyellow',
@@ -376,19 +431,95 @@ if (plotyType == "bar") {
 
 
 } else if (plotyType == "heatMap") {
-    var x = selectedVars;
-    var y = selectedVars;
-    var z = ManhattanHeatMap(x, y, inputData);
-    var plotData = [
-    {
-        x: x,
-        y: y,
-        z: z,
-        type: "heatmap",
-        // colorscale: colorscaleValue,
-        showscale: false,
+	var heatMapData =  createHeatmapTrace(selectedVars, inputData)
+	var xValues = heatMapData.x;
+	var yValues = heatMapData.y;
+	var zValues = heatMapData.z;
+
+var colorscaleValue = [
+  [0, '#3D9970'],
+  [1, '#001f3f']
+];
+
+var data = [{
+  x: xValues,
+  y: yValues,
+  z: zValues,
+  type: 'heatmap',
+  colorscale: colorscaleValue,
+  showscale: true,
+	coloraxis: 'coloraxis'
+}];
+
+var layout = {
+  title: plotTitle,
+
+  annotations: [],
+  xaxis: {
+    ticks: '',
+    side: 'bottom',
+	  automargin: true
+  },
+  yaxis: {
+    ticks: '',
+    ticksuffix: ' ',
+	  automargin: true,
+   width: 700,
+  height: 700,
+  autosize: false,
+	  side: 'right'
+
+
+  },
+	coloraxis: {
+    colorbar: {
+      x: -0.1, // Adjust the x position (0.5 means centered horizontally)
+      y: 1, // Adjust the y position (1.15 means above the plot)
+      xanchor: 'center',
+      yanchor: 'top',
     },
-    ];
+  },
+
+	margin : {1:200}
+};
+
+for ( var i = 0; i < yValues.length; i++ ) {
+  for ( var j = 0; j < xValues.length; j++ ) {
+    var currentValue = zValues[i][j];
+    if (currentValue != 0.0) {
+      var textColor = 'white';
+    }else{
+      var textColor = 'black';
+    }
+    var result = {
+      xref: 'x1',
+      yref: 'y1',
+      x: xValues[j],
+      y: yValues[i],
+      text: zValues[i][j],
+      font: {
+        family: 'Arial',
+        size: 12,
+        color: 'rgb(50, 171, 96)'
+      },
+      showarrow: false,
+      font: {
+        color: textColor
+      }
+    };
+    layout.annotations.push(result);
+  }
+}
+
+
+
+	var plotLayout = layout;
+	var plotData = data;
+
+
+plotLayout.height = 1000
+plotLayout.width = 1000
+
 } else if (plotyType == "mds") {
     var traces = [];
     var clusterLegends = new Set(); // To keep track of unique cluster legends

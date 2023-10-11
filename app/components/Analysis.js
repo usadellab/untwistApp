@@ -23,6 +23,7 @@ import Stack from "@mui/material/Stack";
 import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { ListItemIcon, ListItemText } from "@mui/material";
 
 import PlotlyPlots from "./PlotlyPlots2";
 import MenuItem from "@mui/material/MenuItem";
@@ -43,8 +44,7 @@ import { useTokenContext } from "../../contexts/TokenContext";
 import { useApiContext } from "../../contexts/ApiEndPoint";
 import { useObjListContext } from "../../contexts/ObjListContext";
 
-import capturedLogs from './capturedLogs'; // Replace with the actual path to your module
-
+import capturedLogs from "./capturedLogs"; // Replace with the actual path to your module
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -82,7 +82,6 @@ var dbID = {
 };
 
 export function Analysis(props) {
-
   const apiEndpoint = useApiContext().apiEndpoint;
 
   var tool = props.tool;
@@ -90,7 +89,7 @@ export function Analysis(props) {
   const [waitMsg, setWaitMsg] = useState("");
   var chosenProject = dbID[selectedSpp];
 
-  const [chosenFile, setChosenFile] = React.useState('');
+  const [chosenFile, setChosenFile] = React.useState("");
   const [inputFiles, setInputFiles] = React.useState([]);
 
   // local data
@@ -105,9 +104,8 @@ export function Analysis(props) {
   const [qqData, setQqData] = useState(null);
   const [plinkSigSNPs, setPlinkSigSNPs] = useState([]);
   // const [manhattanData, setManhattanData] = useState(null)
-  const [plinkLogs, setPlinkLogs] = useState([])
-  const [mdsLogs, setMdsLogs] = useState([])
-
+  const [plinkLogs, setPlinkLogs] = useState([]);
+  const [mdsLogs, setMdsLogs] = useState([]);
 
   const [plinkGenes, setPlinkGenes] = useState([]);
   const [mapManData, setMapManData] = useState([]);
@@ -134,15 +132,10 @@ export function Analysis(props) {
 
   const [displayMessage, setDisplayMessage] = useState([]);
   const [showDisplayMessage, setShowDisplayMessage] = useState(false);
-  const [consoleLogs, setConsoleLogs] = useState([])
+  const [consoleLogs, setConsoleLogs] = useState([]);
 
   const token = useTokenContext();
   const [phenoFile, setPhenoFile] = useState(null);
-
-
-
-
-
 
   useEffect(() => {
     axios
@@ -176,18 +169,18 @@ export function Analysis(props) {
     axios
       .post(
         `${apiEndpoint}/getBucketObjectData/?bucket_name=${dbID[selectedSpp]}&object_name=Pheno/${phenoFile}&token=${token.apiToken}`,
-        null, 
+        null,
         {
-          responseType: "text", 
+          responseType: "text",
         }
       )
       .then((response) => {
-        var text = response.data;  
+        var text = response.data;
         Papa.parse(text, {
-          header: true, 
-          dynamicTyping: true, 
-          skipEmptyLines: true, 
-          delimiter: '\t', // Specify the tab ('\t') as the delimiter
+          header: true,
+          dynamicTyping: true,
+          skipEmptyLines: true,
+          delimiter: "\t", // Specify the tab ('\t') as the delimiter
           complete: function (results) {
             const data = results.data;
             setData(data);
@@ -196,21 +189,26 @@ export function Analysis(props) {
             console.error(error.message);
           },
         });
-      }); 
+      });
   };
-  
 
   useEffect(() => {
     handleParsePhenoData();
   }, [phenoFile]);
 
-  useEffect(() => {
-    if (data) {
-      var obj = data[0];
-      var keys = Object.keys(obj || {});
-      setColNames(keys);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data) {
+  //     var obj = data[0];
+  //     var keys = Object.keys(obj || {});
+  //     let colNames = []
+  //     if(checked[3]){
+  //       setColNames(keys);
+  //     }
+  //     // keys.map(colname => {
+
+  //     // })
+  //   }
+  // }, [data]);
 
   function isSubsetOf(subset, array) {
     return subset.every((element) => array.includes(element));
@@ -249,21 +247,18 @@ export function Analysis(props) {
     return resultArray;
   }
 
+  //   const [capturedLogs, setCapturedLogs]  = useState([]);
 
+  //   useEffect(() => {
+  // const originalConsoleLog = console.log;
+  // var newLogs = []
 
-//   const [capturedLogs, setCapturedLogs]  = useState([]);
-
-//   useEffect(() => {
-// const originalConsoleLog = console.log;
-// var newLogs = []
-
-// console.log = (...args) => {
-//   newLogs.push(args);
-//   originalConsoleLog.apply(console, args);
-//   setCapturedLogs(newLogs)
-// };
-//   }, [displayMessage])
-
+  // console.log = (...args) => {
+  //   newLogs.push(args);
+  //   originalConsoleLog.apply(console, args);
+  //   setCapturedLogs(newLogs)
+  // };
+  //   }, [displayMessage])
 
   const handleGWAS = (e, v) => {
     window.Plink().then((Module) => {
@@ -391,7 +386,7 @@ export function Analysis(props) {
           "plink.fam": "Plink/Straw_yield(g_per_plants)_INRAE.fam",
           "plink.bim": "Plink/plink.bim",
           "plink.bed": "Plink/plink.bed",
-          "plink.genome" : "Plink/plink.genome"
+          "plink.genome": "Plink/plink.genome",
         };
 
         msgs.push(`Running MDS tool on ${chosenProject} dataset`);
@@ -420,18 +415,18 @@ export function Analysis(props) {
               reader.onload = () => {
                 const fileContents = reader.result;
                 Module.FS.createDataFile(
-                  "/", 
-                  fileName, 
-                  fileContents, 
-                  true, 
-                  true 
+                  "/",
+                  fileName,
+                  fileContents,
+                  true,
+                  true
                 );
                 if (
                   isSubsetOf(
                     ["plink.fam", "plink.bim", "plink.bed", "plink.genome"],
                     Module.FS.readdir(".")
                   )
-                ) {                 
+                ) {
                   Module.callMain([
                     "--bfile",
                     "plink",
@@ -457,7 +452,6 @@ export function Analysis(props) {
               reader.readAsBinaryString(blob);
             });
         });
-
       } else if (tool == "PCA") {
         var fileNames = {
           "precomputed.plink.cov.pca": "Plink/precomputed.plink.cov.pca",
@@ -482,11 +476,11 @@ export function Analysis(props) {
               reader.onload = () => {
                 const fileContents = reader.result;
                 Module.FS.createDataFile(
-                  "/", 
-                  fileName, 
-                  fileContents, 
-                  true, 
-                  true 
+                  "/",
+                  fileName,
+                  fileContents,
+                  true,
+                  true
                 );
                 if (
                   isSubsetOf(
@@ -533,82 +527,76 @@ export function Analysis(props) {
     setPlinkSigSNPs(sigData);
 
     var dbFile = new URL("../../public/Annotations.db", import.meta.url);
+
     initSqlJs().then((SQL) => {
       fetch(dbFile)
         .then((response) => response.arrayBuffer())
         .then((data) => {
           const db = new SQL.Database(new Uint8Array(data));
           let annotations = [];
-          let mapManAnnotations = [];
+          // let mapManAnnotations = [];
           sigData.map((snpID) => {
             var chr = snpID.split("_")[0];
             var pos = parseInt(snpID.split("_")[1]);
             // console.log(chr, pos)
             // query 1kb region
             // const result = db.exec(`SELECT * FROM camelina WHERE start > ${pos - 1000} AND end < ${pos + 1000};`);
-            const queryGffAnnotations = `SELECT * FROM camelina WHERE  seqid = ${chr} AND start < ${pos} AND end > ${pos};`;
+            //   const queryGffAnnotations = `SELECT * FROM camelina WHERE  seqid = ${chr} AND start < ${pos} AND end > ${pos};`;
 
-            // const query = `
-            //   SELECT c.*, m.*
-            //   FROM camelina c
-            //   JOIN camelinam4 m ON c.IDENTIFIER = m.IDENTIFIER
+            //   // const query = `
+            //   //   SELECT c.*, m.*
+            //   //   FROM camelina c
+            //   //   JOIN camelinam4 m ON c.IDENTIFIER = m.IDENTIFIER
+            //   //   WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos}
+            //   // `;
+
+            //   const queryMapManAnnotations = `
+            //   SELECT m.*, c.*
+            //   FROM camelinam4 m
+            //   JOIN camelina c ON c.IDENTIFIER = m.IDENTIFIER
             //   WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos}
             // `;
 
-            const queryMapManAnnotations = `
-            SELECT m.*, c.*
-            FROM camelinam4 m
-            JOIN camelina c ON c.IDENTIFIER = m.IDENTIFIER
-            WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos}
+            const joinedQuery = `SELECT c.*, 
+          COALESCE(m.BINCODE, 'NA') AS BINCODE,
+          COALESCE(m.NAME, 'NA') AS NAME,
+          COALESCE(m.IDENTIFIER, 'NA') AS IDENTIFIER,
+          COALESCE(m.DESCRIPTION, 'NA') AS DESCRIPTION,
+          COALESCE(m.TYPE, 'NA') AS TYPE
+          FROM camelina c
+          LEFT JOIN camelinam4 m ON c.IDENTIFIER = m.IDENTIFIER
+          WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos};
           `;
-
-            const result = db.exec(queryGffAnnotations);
+            const result = db.exec(joinedQuery);
             result.map((res) => {
               res.values.map((record) => {
                 var annot_data = {};
-                annot_data["Chromosome"] = record[0];
-                annot_data["SNP Position"] = snpID.split("_")[1];
                 annot_data["SNP ID"] = snpID;
+                annot_data["Chr"] = record[0];
+                annot_data["Position"] = snpID.split("_")[1];
                 annot_data["REF"] = snpID.split("_")[2];
                 annot_data["ALT"] = snpID.split("_")[3];
-                annot_data["Feature Source"] = record[1];
-                annot_data["Feature  Type"] = record[2];
-                annot_data["Feature  Start"] = record[3];
-                annot_data["Feature End"] = record[4];
-                // annot_data['score'] = record[0];
-                annot_data["Feature Strand"] = record[6];
+                annot_data["Source"] = record[1];
+                annot_data["Type"] = record[2];
+                annot_data["Start"] = record[3];
+                annot_data["End"] = record[4];
+                // annot_data['score'] = record[5];
+                annot_data["Strand"] = record[6];
                 // annot_data['Feature Phase'] = record[7];
-                annot_data["Feature ID"] = record[8];
+                annot_data["ID"] = record[8];
                 annot_data["Dbxref"] = record[9];
+                // annot_data["mercator4v5_0"] = record[10];
+                annot_data["NAME"] = record[12];
+                annot_data["DESCRIPTION"] = record[11];
+                // annot_data["IDENTIFIER"] = record[13]; //this is Mercator identifier field on which the join is performed
+                annot_data["DESCRIPTION"] = record[14];
+                // annot_data["TYPE"] = record[15];
                 annotations.push(annot_data);
               });
             });
-
-            const result2 = db.exec(queryMapManAnnotations);
-            // console.log(query, result)
-            result2.map((res) => {
-              res.values.map((record) => {
-                var annot_data = {};
-                annot_data["Chromosome"] = record[0];
-                annot_data["SNP Position"] = snpID.split("_")[1];
-                annot_data["SNP ID"] = snpID;
-                annot_data["REF"] = snpID.split("_")[2];
-                annot_data["ALT"] = snpID.split("_")[3];
-                annot_data["Feature Source"] = record[1];
-                annot_data["Feature  Type"] = record[2];
-                annot_data["Feature  Start"] = record[3];
-                annot_data["Feature End"] = record[4];
-                // annot_data['score'] = record[0];
-                annot_data["Feature Strand"] = record[6];
-                // annot_data['Feature Phase'] = record[7];
-                annot_data["Feature ID"] = record[8];
-                annot_data["Dbxref"] = record[9];
-                mapManAnnotations.push(annot_data);
-              });
-            });
           });
+
           setPlinkGenes(annotations);
-          setMapManData(mapManAnnotations);
           setAnnotationsDone(true);
         })
         .catch((error) => {
@@ -629,111 +617,11 @@ export function Analysis(props) {
 
   var handleChangePval = (v) => {
     setPValThreshold(v);
-    console.log(pVals[v]);
   };
 
   useEffect(() => {
-    var sigData = getSigSNPs(plinkResults, pVals[pValThreshold]);
-    setPlinkSigSNPs(sigData);
-    var dbFile = new URL("../../public/Annotations.db", import.meta.url);
-    // Load the sql.js wasm module
-    initSqlJs().then((SQL) => {
-      // Read the database file
-      fetch(dbFile)
-        .then((response) => response.arrayBuffer())
-        .then((data) => {
-          // Create an SQL.js database from the ArrayBuffer
-          const db = new SQL.Database(new Uint8Array(data));
-
-          // Perform queries on the existing database
-          let annotations = [];
-          let mapManAnnotations = [];
-
-          sigData.map((snpID) => {
-            var chr = snpID.split("_")[0];
-            var pos = parseInt(snpID.split("_")[1]);
-            // console.log(chr, pos)
-            // query 1kb region
-            // const result = db.exec(`SELECT * FROM camelina WHERE start > ${pos - 1000} AND end < ${pos + 1000};`);
-            const queryGffAnnotations = `SELECT * FROM camelina WHERE  seqid = ${chr} AND start < ${pos} AND end > ${pos};`;
-
-            // const query = `
-            //   SELECT c.*, m.*
-            //   FROM camelina c
-            //   JOIN camelinam4 m ON c.IDENTIFIER = m.IDENTIFIER
-            //   WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos}
-            // `;
-
-            const queryMapManAnnotations = `
-            SELECT m.*, c.*
-            FROM camelinam4 m
-            JOIN camelina c ON c.IDENTIFIER = m.IDENTIFIER
-            WHERE c.seqid = ${chr} AND c.start < ${pos} AND c.end > ${pos}
-          `;
-
-            // console.log('SQL QUERY: ', query)
-            const result = db.exec(queryGffAnnotations);
-            // console.log(query, result)
-            result.map((res) => {
-              res.values.map((record) => {
-                var annot_data = {};
-
-                annot_data["Chromosome"] = record[0];
-                annot_data["SNP Position"] = snpID.split("_")[1];
-                annot_data["SNP ID"] = snpID;
-                annot_data["REF"] = snpID.split("_")[2];
-                annot_data["ALT"] = snpID.split("_")[3];
-                annot_data["Feature Source"] = record[1];
-                annot_data["Feature  Type"] = record[2];
-                annot_data["Feature  Start"] = record[3];
-                annot_data["Feature End"] = record[4];
-                // annot_data['score'] = record[0];
-                annot_data["Feature Strand"] = record[6];
-                // annot_data['Feature Phase'] = record[7];
-                annot_data["Feature ID"] = record[8];
-                annot_data["Dbxref"] = record[9];
-                annotations.push(annot_data);
-              });
-            });
-
-            const result2 = db.exec(queryMapManAnnotations);
-            // console.log(query, result)
-            result2.map((res) => {
-              res.values.map((record) => {
-                var annot_data = {};
-                annot_data["Chromosome"] = record[0];
-                annot_data["SNP Position"] = snpID.split("_")[1];
-                annot_data["SNP ID"] = snpID;
-                annot_data["REF"] = snpID.split("_")[2];
-                annot_data["ALT"] = snpID.split("_")[3];
-                annot_data["Feature Source"] = record[1];
-                annot_data["Feature  Type"] = record[2];
-                annot_data["Feature  Start"] = record[3];
-                annot_data["Feature End"] = record[4];
-                // annot_data['score'] = record[0];
-                annot_data["Feature Strand"] = record[6];
-                // annot_data['Feature Phase'] = record[7];
-                annot_data["Feature ID"] = record[8];
-                annot_data["Dbxref"] = record[9];
-                mapManAnnotations.push(annot_data);
-              });
-            });
-          });
-
-          setPlinkGenes(annotations);
-          setMapManData(mapManAnnotations);
-          //
-          setAnnotationsDone(true);
-        })
-        .catch((error) => {
-          console.error("Error reading database file:", error);
-        });
-    });
-  }, [pValThreshold]);
-
-  useEffect(() => {
     handleAnnotations();
-  }, [plinkResults]);
+  }, [plinkResults, pValThreshold]);
 
   useEffect(() => {
     const qqWorker = new Worker(
@@ -750,7 +638,6 @@ export function Analysis(props) {
       }
     };
   }, [plinkResults]);
-
 
   const handleStateChange = (event) => {
     setState({
@@ -770,7 +657,8 @@ export function Analysis(props) {
       selected_plot_type == "line" ||
       selected_plot_type == "violin" ||
       selected_plot_type == "raincloud" ||
-      selected_plot_type == "heatMap"
+      selected_plot_type == "heatMap" ||
+      selected_plot_type == "density_overlay"
     ) {
       setIsMultiTrace(true);
       setOpen(true);
@@ -817,6 +705,9 @@ export function Analysis(props) {
       schema1.variablesToPlot = Object.keys(state);
     } else if (selected_plot_type === "heatMap") {
       schema1.ploty_type = "heatMap";
+      schema1.variablesToPlot = Object.keys(state);
+    } else if (selected_plot_type === "density_overlay") {
+      schema1.ploty_type = "density_overlay";
       schema1.variablesToPlot = Object.keys(state);
     } else {
       schema1.ploty_type = selected_plot_type;
@@ -931,87 +822,209 @@ export function Analysis(props) {
   // setConsoleLogs([]);
   //}, [tool])
 
+  const [checked, setChecked] = useState([false, false, false, false]);
+
+  // Handle checkbox toggle
+  const handleToggle = (index) => () => {
+    const newChecked = [...checked];
+    newChecked[index] = !newChecked[index];
+
+    var obj = data[0];
+    var keys = Object.keys(obj || {});
+    let colNames = [];
+    colNames.push({ title: "Accessions", category: "Germplasm" });
+
+    if (newChecked[3]) {
+      keys.map((phenotype) => {
+        if (
+          !(
+            phenotype.includes("under") ||
+            phenotype.includes("Metabolite") ||
+            phenotype.includes("Accession")
+          )
+        ) {
+          colNames.push({ title: phenotype, category: "Field Phenotypes" });
+        } else if (phenotype.includes("under")) {
+          colNames.push({
+            title: phenotype,
+            category: "Greenhouse Phenotypes",
+          });
+        } else if (phenotype.includes("Metabolite")) {
+          colNames.push({ title: phenotype, category: "Metabolites" });
+        }
+      });
+
+      // Define the desired category order
+      const categoryOrder = [
+        "Germplasm",
+        "Field Phenotypes",
+        "Greenhouse Phenotypes",
+        "Metabolites",
+      ];
+
+      // Group items by category and sort them according to the custom order
+      const sortedOptions = colNames.sort((a, b) => {
+        const categoryA = a.category;
+        const categoryB = b.category;
+
+        const indexA = categoryOrder.indexOf(categoryA);
+        const indexB = categoryOrder.indexOf(categoryB);
+
+        if (indexA < indexB) return -1;
+        if (indexA > indexB) return 1;
+
+        // If categories are the same, sort alphabetically by title
+        return a.title.localeCompare(b.title);
+      });
+
+      setColNames(sortedOptions);
+    } else {
+      newChecked.map((state, index) => {
+        if (state && index == 0) {
+          keys.map((phenotype) => {
+            if (
+              !(
+                phenotype.includes("under") ||
+                phenotype.includes("Metabolite") ||
+                phenotype.includes("Accession")
+              )
+            ) {
+              colNames.push({ title: phenotype, category: "Field Phenotypes" });
+            }
+          });
+          const sortedOptions = colNames.sort((a, b) => {
+            if (a.category === "Germplasm") return -1;
+            return 0;
+          });
+          setColNames(sortedOptions);
+        } else if (state && index == 1) {
+          keys.map((phenotype) => {
+            if (phenotype.includes("under")) {
+              colNames.push({
+                title: phenotype,
+                category: "Greenhouse Phenotypes",
+              });
+            }
+          });
+          const sortedOptions = colNames.sort((a, b) => {
+            if (a.category === "Germplasm") return -1;
+            return 0;
+          });
+          setColNames(sortedOptions);
+        } else if (state && index == 2) {
+          keys.map((phenotype) => {
+            if (phenotype.includes("Metabolite")) {
+              colNames.push({ title: phenotype, category: "Metabolites" });
+            }
+          });
+          const sortedOptions = colNames.sort((a, b) => {
+            if (a.category === "Germplasm") return -1;
+            return 0;
+          });
+          setColNames(sortedOptions);
+        }
+      });
+    }
+
+    setChecked(newChecked);
+  };
+
+  const handleToggleAll = () => {
+    const allChecked = checked.every((isChecked) => isChecked);
+    const newChecked = allChecked
+      ? [false, false, false, false]
+      : checked.map(() => true);
+    setChecked(newChecked);
+  };
+
+  const categoryOrder = [
+    "Germplasm",
+    "Field Phenotypes",
+    "Greenhouse Phenotypes",
+    "Metabolites",
+  ];
+  const [itemsByCategory, setItemsByCategory] = useState(null);
+
+  useEffect(() => {
+    let newItemsByCategory = {};
+    col_names.forEach((item) => {
+      if (!newItemsByCategory[item.category]) {
+        newItemsByCategory[item.category] = [];
+        newItemsByCategory[item.category].push(item.title);
+      } else {
+        newItemsByCategory[item.category].push(item.title);
+      }
+    });
+
+    console.log("new item", newItemsByCategory);
+    setItemsByCategory(newItemsByCategory);
+  }, [checked]);
+
   return (
     <>
-
-    
-      {!showDisplayMessage || 
-      <div>
+      {!showDisplayMessage || (
+        <div>
           {/* <ConsoleLogCaptureWrapper customMessages={displayMessage} />  */}
           <MessageWithTimer messages={displayMessage} />
-      </div>
-      }
+        </div>
+      )}
 
       {tool != "GWAS" || (
-        <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
-        <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
-          Genome Wide Association Analyis
-        </Typography>
+        <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight: 2 }}>
+          <Typography sx={{ marginTop: 2, marginBottom: 2 }} variant="h4">
+            Genome Wide Association Analyis
+          </Typography>
 
-        <Typography variant="p">
-          {`This tool allows to perform GWAS analyses on the GWAS datasets available as part of untwist project. The pheotypes are can be selected from the following dropdown menu. The genotypic data consists of 3783751 SNP markers and is prefiltered for minor allele frequency (>= 0.05), Missingness per SNP ( < 0.1), quality score at SNP site ( >= 20) and a min depth ( >= 3). For details on the GWAS datasets please see FAQs`}
-        </Typography>
-
+          <Typography variant="p">
+            {`This tool allows to perform GWAS analyses on the GWAS datasets available as part of untwist project. The pheotypes are can be selected from the following dropdown menu. The genotypic data consists of 3783751 SNP markers and is prefiltered for minor allele frequency (>= 0.05), Missingness per SNP ( < 0.1), quality score at SNP site ( >= 20) and a min depth ( >= 3). For details on the GWAS datasets please see FAQs`}
+          </Typography>
         </Grid>
       )}
+
       {tool != "VisPheno" || (
-
-<Grid sx={{ marginTop: 2, marginRight : 2 }}>
-
-        <Typography  variant="h4">
-          Visualize Traits
-        </Typography>
-        <Typography variant="p">
-          {`This tool allows to visualize phenotypes collected as part of untwist project. Phenotypes are avaialable using the drop downs in the plotting Options menu. Users can also perform queries to filter the data based on any combination of phenotypes collected.
+        <Grid sx={{ marginTop: 2, marginRight: 2 }}>
+          <Typography variant="h4">Visualize Traits</Typography>
+          <Typography variant="p">
+            {`This tool allows to visualize phenotypes collected as part of untwist project. Phenotypes are avaialable using the drop downs in the plotting Options menu. Users can also perform queries to filter the data based on any combination of phenotypes collected.
            `}
-        </Typography>
-        <Typography variant="p"><br></br><b>Note: </b>In the drop down menu each entry describes <b>'Phenotype' _ 'measurement unit' _ 'Stress treatment(if any)' _ 'Growth stage/collection date(if available)' _ 'provider(if available)'</b></Typography>
-        <Typography variant="p"> <br></br>
-        <b>Abbreviations: </b> 
-        <b> DW: </b> dry weight, 
-        <b> FW: </b>fresh weight, 
-        <b> DW_FW: </b> DW/FW,
-        <b> DAS: </b>days after sowing, 
-        </Typography>
-        
+          </Typography>
+          <Typography variant="p">
+            <br></br>
+            <b>Note: </b>In the drop down menu each entry describes{" "}
+            <b>
+              'Phenotype' _ 'measurement unit' _ 'Stress treatment(if any)' _
+              'Growth stage/collection date(if available)' _ 'provider(if
+              available)'
+            </b>
+          </Typography>
+          <Typography variant="p">
+            {" "}
+            <br></br>
+            <b>Abbreviations: </b>
+            <b> DW: </b> dry weight,
+            <b> FW: </b>fresh weight,
+            <b> DW_FW: </b> DW/FW,
+            <b> DAS: </b>days after sowing,
+          </Typography>
         </Grid>
-
       )}
       {tool != "PCA" || (
-                <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
+        <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight: 2 }}>
+          <Typography variant="h4">Principal component Analyis</Typography>
 
-        <Typography variant="h4">
-          Principal component Analyis
-        </Typography>
-
-        <Typography variant="p">
-          {`This tool visualizes the precomputed PCA coordinates based on the same genotypic data available for GWAS analyisis.`}
-        </Typography>
-
-
+          <Typography variant="p">
+            {`This tool visualizes the precomputed PCA coordinates based on the same genotypic data available for GWAS analyisis.`}
+          </Typography>
         </Grid>
       )}
       {tool != "MDS" || (
+        <Grid sx={{ marginTop: 2, marginBottom: 2, marginRight: 2 }}>
+          <Typography variant="h4">Multidimentional Scaling</Typography>
 
-
-<Grid sx={{ marginTop: 2, marginBottom: 2, marginRight : 2 }}>
-
-
-
-<Typography variant="h4">
-Multidimentional Scaling
-
-</Typography>
-
-<Typography variant="p">
-  {`This tool computes and visualizes MDS coordinates based on the same genotypic data available for GWAS analyisis.`}
-</Typography>
-
-
-
-
-
-</Grid>
+          <Typography variant="p">
+            {`This tool computes and visualizes MDS coordinates based on the same genotypic data available for GWAS analyisis.`}
+          </Typography>
+        </Grid>
       )}
 
       {tool == "GeoLocator" || (
@@ -1049,12 +1062,10 @@ Multidimentional Scaling
       )}
 
       <div style={{ padding: 10 }}>
-
         {/* //////////////////////// Visualize phenotypes /////////////////////////////////////////// */}
         {tool != "VisPheno" || (
           <div>
             <Stack spacing={2}>
-              <Grid container columnGap={2} columns={2}></Grid>
               <Item
                 sx={{
                   marginTop: 0.5,
@@ -1067,305 +1078,409 @@ Multidimentional Scaling
                   variant="h7"
                   fontWeight="bold"
                 >
-                  Plotting Options
+                  Datasets
                 </Typography>
 
-                <Grid
-                  sx={{ mt: 1 }}
-                  className="top-grid"
-                  container
-                  columns={2}
-                  columnGap={2}
-                >
-                  <Autocomplete
-                    size="small"
-                    options={[
-                      "bar",
-                      "line",
-                      "histogram",
-                      "boxplot",
-                      "scatter",
-                      "linReg",
-                      "violin",
-                      "raincloud",
-                    ]}
-                    sx={{ width: 300 }}
-                    renderInput={(params) => (
-                      <TextField {...params} label="choose plot type" />
-                    )}
-                    onInputChange={(e, v) => setSelectedPlotType(v)}
-                  />
-                  <Button
-                    size="small"
-                    variant="outlined"
-                    onClick={() => {
-                      setPlotIsToggled(true);
+                <div>
+                  <Box display="flex" flexDirection="row">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked[0]}
+                          onClick={handleToggle(0)}
+                          disableRipple
+                        />
+                      }
+                      label="Field phenotypes"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked[1]}
+                          onClick={handleToggle(1)}
+                          disableRipple
+                        />
+                      }
+                      label="Greenhouse phenotypes"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked[2]}
+                          onClick={handleToggle(2)}
+                          disableRipple
+                        />
+                      }
+                      label="Metabolites"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked[3]}
+                          onClick={handleToggle(3)}
+                          disableRipple
+                        />
+                      }
+                      label="All"
+                      onChange={handleToggleAll} // Add onChange event for the "All" checkbox
+                    />
+                  </Box>
+                </div>
+              </Item>
+              <Grid container columnGap={2} columns={2}></Grid>
+              {!checked.some((x) => x == true) || (
+                <div>
+                  <Item
+                    sx={{
+                      // marginTop: 0.5,
+                      //  border: 1,
+                      borderColor: "lightblue",
                     }}
                   >
-                    Plot
-                  </Button>
-                </Grid>
-                <Grid className="top-grid" container columns={3} columnGap={2}>
-                  {isMultiTrace ? (
-                    ""
-                  ) : (
+                    <Typography
+                      // sx={{ mt: 0, mb: 1 }}
+                      variant="h7"
+                      fontWeight="bold"
+                    >
+                      Plotting Options
+                    </Typography>
+
                     <Grid
+                      sx={{ mt: 1 }}
                       className="top-grid"
                       container
                       columns={2}
                       columnGap={2}
                     >
-                      {selected_plot_type == "histogram" ? (
-                        <Autocomplete
-                          size="small"
-                          options={col_names}
-                          sx={{ width: 455 }}
-                          renderInput={(params) => (
-                            <TextField {...params} label="choose x-variable" />
-                          )}
-                          onInputChange={(e) =>
-                            setSelectedXvar(e.target.innerHTML)
-                          }
-                        />
+                      <Autocomplete
+                        size="small"
+                        options={[
+                          "bar",
+                          "line",
+                          "histogram",
+                          "density_overlay",
+
+                          "boxplot",
+                          "scatter",
+                          "heatMap",
+                          "linReg",
+                          "violin",
+                          "raincloud",
+                        ]}
+                        sx={{ width: 200 }}
+                        renderInput={(params) => (
+                          <TextField {...params} label="choose plot type" />
+                        )}
+                        onInputChange={(e, v) => setSelectedPlotType(v)}
+                      />
+                      {isMultiTrace ? (
+                        ""
                       ) : (
-                        <Grid
-                          sx={{ marginTop: 2 }}
-                          className="top-grid"
-                          container
-                          columns={2}
-                          columnGap={2}
-                        >
-                          <Autocomplete
-                            size="small"
-                            options={col_names}
-                            sx={{ width: 455 }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="choose x-variable"
+                        <Grid className="top-grid" columns={2} columnGap={2}>
+                          {selected_plot_type == "histogram" ? (
+                            <Autocomplete
+                              id="grouped-demo"
+                              options={col_names}
+                              groupBy={(col_names) => col_names.category}
+                              getOptionLabel={(col_names) => col_names.title}
+                              sx={{ width: 455 }}
+                              size="small"
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  label="With categories"
+                                />
+                              )}
+                              renderGroup={(params) => (
+                                <li key={params.key}>
+                                  <strong>{params.group}</strong>
+                                  <ul>{params.children}</ul>
+                                </li>
+                              )}
+                              onInputChange={(e) =>
+                                setSelectedXvar(e.target.innerHTML)
+                              }
+                            />
+                          ) : (
+                            <Grid
+                              // sx={{ marginTop: 2 }}
+                              className="top-grid"
+                              container
+                              columns={2}
+                              columnGap={2}
+                            >
+                              <Autocomplete
+                                id="grouped-demo"
+                                options={col_names}
+                                groupBy={(col_names) => col_names.category}
+                                getOptionLabel={(col_names) => col_names.title}
+                                sx={{ width: 455 }}
+                                size="small"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="With categories"
+                                  />
+                                )}
+                                renderGroup={(params) => (
+                                  <li key={params.key}>
+                                    <strong style={{ color: "green" }}>
+                                      {params.group}
+                                    </strong>
+                                    <ul>{params.children}</ul>
+                                  </li>
+                                )}
+                                onInputChange={(e) =>
+                                  setSelectedXvar(e.target.innerHTML)
+                                }
                               />
-                            )}
-                            onInputChange={(e) =>
-                              setSelectedXvar(e.target.innerHTML)
-                            }
-                          />
-                          <Autocomplete
-                            size="small"
-                            options={col_names}
-                            sx={{ width: 460 }}
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                label="choose y-variable"
+
+                              <Autocomplete
+                                id="grouped-demo"
+                                options={col_names}
+                                groupBy={(col_names) => col_names.category}
+                                getOptionLabel={(col_names) => col_names.title}
+                                sx={{ width: 455 }}
+                                size="small"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="With categories"
+                                  />
+                                )}
+                                renderGroup={(params) => (
+                                  <li key={params.key}>
+                                    <strong style={{ color: "green" }}>
+                                      {params.group}
+                                    </strong>
+                                    <ul>{params.children}</ul>
+                                  </li>
+                                )}
+                                onInputChange={(e) =>
+                                  setSelectedYvar(e.target.innerHTML)
+                                }
                               />
-                            )}
-                            onInputChange={(e) =>
-                              setSelectedYvar(e.target.innerHTML)
-                            }
-                          />
+                            </Grid>
+                          )}
                         </Grid>
                       )}
-                    </Grid>
-                  )}
-                  <Grid
-                    sx={{ marginTop: 2 }}
-                    className="top-grid"
-                    container
-                    columns={3}
-                    columnGap={2}
-                  >
-                    <TextField
-                      size="small"
-                      sx={{ width: 300 }}
-                      onChange={(e) => {
-                        setPlotTitle(e.target.value);
-                      }}
-                      label="Update  plot title"
-                    ></TextField>
-                    <TextField
-                      size="small"
-                      sx={{ width: 300 }}
-                      onChange={(e) => {
-                        setXlable(e.target.value);
-                      }}
-                      label="Update  x label "
-                    ></TextField>
-                    <TextField
-                      size="small"
-                      sx={{ width: 300 }}
-                      onChange={(e) => {
-                        setYlable(e.target.value);
-                      }}
-                      label="Update  y label "
-                    ></TextField>
-                  </Grid>
-                </Grid>
-              </Item>
-
-              <Item
-                sx={{
-                  marginTop: 0.5,
-                  // border: 1,
-                  borderColor: "lightblue",
-                }}
-              >
-                <Typography variant="h7" fontWeight="bold">
-                  Apply Filters
-                </Typography>
-
-                <Grid container spacing={1} sx={{ marginTop: 0.5 }}>
-                  {filters.map((filter, index) => (
-                    <React.Fragment key={index}>
-                      <Grid item xs={12} md={3}>
-                        <Autocomplete
-                          size="small"
-                          options={col_names} // Assuming all objects have the same keys
-                          value={filter.key}
-                          onChange={(event, newValue) => {
-                            setFilters((prevFilters) =>
-                              prevFilters.map((prevFilter, i) =>
-                                i === index
-                                  ? { ...prevFilter, key: newValue }
-                                  : prevFilter
-                              )
-                            );
-                          }}
-                          renderInput={(params) => (
-                            <TextField {...params} label="Select Key" />
-                          )}
-                        />
-                      </Grid>
-
-                      <Grid item xs={12} md={3}>
-                        <FormControl fullWidth>
-                          <InputLabel size="small">Comparison</InputLabel>
-                          <Select
-                            size="small"
-                            value={filter.comparison}
-                            onChange={(event) => {
-                              setFilters((prevFilters) =>
-                                prevFilters.map((prevFilter, i) =>
-                                  i === index
-                                    ? {
-                                        ...prevFilter,
-                                        comparison: event.target.value,
-                                      }
-                                    : prevFilter
-                                )
-                              );
-                            }}
-                          >
-                            <MenuItem value="=">=</MenuItem>
-                            <MenuItem value="!=">≠</MenuItem>
-                            <MenuItem value="<">{"<"}</MenuItem>
-                            <MenuItem value=">">{">"}</MenuItem>
-                            <MenuItem value="<=">{"≤"}</MenuItem>
-                            <MenuItem value=">=">{"≥"}</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Grid>
-
-                      <Grid item xs={12} md={3}>
+                      <Grid
+                        sx={{ marginTop: 2 }}
+                        className="top-grid"
+                        container
+                        columns={3}
+                        columnGap={2}
+                      >
                         <TextField
                           size="small"
-                          value={filter.value}
-                          onChange={(event) => {
-                            setFilters((prevFilters) =>
-                              prevFilters.map((prevFilter, i) =>
-                                i === index
-                                  ? { ...prevFilter, value: event.target.value }
-                                  : prevFilter
-                              )
-                            );
+                          sx={{ width: 345 }}
+                          onChange={(e) => {
+                            setPlotTitle(e.target.value);
                           }}
-                          label="Comparison Value"
-                          fullWidth
-                        />
-                      </Grid>
+                          label="Update  plot title (optional)"
+                        ></TextField>
+                        <TextField
+                          size="small"
+                          sx={{ width: 345 }}
+                          onChange={(e) => {
+                            setXlable(e.target.value);
+                          }}
+                          label="Update  x label (optional)"
+                        ></TextField>
+                        <TextField
+                          size="small"
+                          sx={{ width: 345 }}
+                          onChange={(e) => {
+                            setYlable(e.target.value);
+                          }}
+                          label="Update  y label (optional)"
+                        ></TextField>
 
-                      <Grid item xs={12} md={3}>
-                        {index < filters.length - 1 && (
-                          <FormControl>
-                            <InputLabel sx={{ ml: 1, mr: 1 }} size="small">
-                              Logical Operator
-                            </InputLabel>
-                            <Select
-                              sx={{ width: 200 }}
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => {
+                            setPlotIsToggled(true);
+                          }}
+                        >
+                          Plot
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Item>
+                  <Item
+                    sx={{
+                      marginTop: 0.5,
+                      // border: 1,
+                      borderColor: "lightblue",
+                    }}
+                  >
+                    <Typography variant="h7" fontWeight="bold">
+                      Apply Filters (optional)
+                    </Typography>
+
+                    <Grid container spacing={1} sx={{ marginTop: 0.5 }}>
+                      {filters.map((filter, index) => (
+                        <React.Fragment key={index}>
+                          <Grid item>
+                            <Autocomplete
                               size="small"
-                              value={filter.logicalOperator}
+                              sx={{ width: 450 }}
+                              options={col_names} // Assuming all objects have the same keys
+                              value={filter.key}
+                              onChange={(event, newValue) => {
+                                setFilters((prevFilters) =>
+                                  prevFilters.map((prevFilter, i) =>
+                                    i === index
+                                      ? { ...prevFilter, key: newValue }
+                                      : prevFilter
+                                  )
+                                );
+                              }}
+                              renderInput={(params) => (
+                                <TextField {...params} label="Select Key" />
+                              )}
+                            />
+                          </Grid>
+
+                          <Grid item>
+                            <FormControl fullWidth>
+                              <InputLabel size="small">Comparison</InputLabel>
+                              <Select
+                                size="small"
+                                sx={{ width: 265 }}
+                                value={filter.comparison}
+                                onChange={(event) => {
+                                  setFilters((prevFilters) =>
+                                    prevFilters.map((prevFilter, i) =>
+                                      i === index
+                                        ? {
+                                            ...prevFilter,
+                                            comparison: event.target.value,
+                                          }
+                                        : prevFilter
+                                    )
+                                  );
+                                }}
+                              >
+                                <MenuItem value="=">=</MenuItem>
+                                <MenuItem value="!=">≠</MenuItem>
+                                <MenuItem value="<">{"<"}</MenuItem>
+                                <MenuItem value=">">{">"}</MenuItem>
+                                <MenuItem value="<=">{"≤"}</MenuItem>
+                                <MenuItem value=">=">{"≥"}</MenuItem>
+                              </Select>
+                            </FormControl>
+                          </Grid>
+
+                          <Grid item>
+                            <TextField
+                              size="small"
+                              sx={{ width: 265 }}
+                              value={filter.value}
                               onChange={(event) => {
                                 setFilters((prevFilters) =>
                                   prevFilters.map((prevFilter, i) =>
                                     i === index
                                       ? {
                                           ...prevFilter,
-                                          logicalOperator: event.target.value,
+                                          value: event.target.value,
                                         }
                                       : prevFilter
                                   )
                                 );
                               }}
-                            >
-                              <MenuItem value="AND">AND</MenuItem>
-                              <MenuItem value="OR">OR</MenuItem>
-                            </Select>
-                          </FormControl>
-                        )}
+                              label="Comparison Value"
+                              // fullWidth
+                            />
+                          </Grid>
 
-                        {index === filters.length - 1 && (
-                          <Button
-                            sx={{ ml: 2, mr: 2 }}
-                            size="small"
-                            variant="outlined"
-                            onClick={handleAddFilter}
-                          >
-                            Add Filter
-                          </Button>
-                        )}
+                          <Grid item>
+                            {index < filters.length - 1 && (
+                              <FormControl>
+                                <InputLabel sx={{ ml: 1, mr: 1 }} size="small">
+                                  Logical Operator
+                                </InputLabel>
+                                <Select
+                                  sx={{ width: 200 }}
+                                  size="small"
+                                  value={filter.logicalOperator}
+                                  onChange={(event) => {
+                                    setFilters((prevFilters) =>
+                                      prevFilters.map((prevFilter, i) =>
+                                        i === index
+                                          ? {
+                                              ...prevFilter,
+                                              logicalOperator:
+                                                event.target.value,
+                                            }
+                                          : prevFilter
+                                      )
+                                    );
+                                  }}
+                                >
+                                  <MenuItem value="AND">AND</MenuItem>
+                                  <MenuItem value="OR">OR</MenuItem>
+                                </Select>
+                              </FormControl>
+                            )}
 
-                        {filters.length > 1 && (
-                          <Button
-                            sx={{ ml: 2, mr: 2 }}
-                            size="small"
-                            variant="outlined"
-                            onClick={() => handleRemoveFilter(index)}
-                          >
-                            Remove Filter
-                          </Button>
-                        )}
+                            {index === filters.length - 1 && (
+                              <Button
+                                sx={{ ml: 1, mr: 1, height: 40 }}
+                                size="large"
+                                variant="outlined"
+                                onClick={handleAddFilter}
+                              >
+                                Add Filter
+                              </Button>
+                            )}
+
+                            {filters.length > 1 && (
+                              <Button
+                                sx={{ ml: 2, mr: 2 }}
+                                size="small"
+                                variant="outlined"
+                                onClick={() => handleRemoveFilter(index)}
+                              >
+                                Remove Filter
+                              </Button>
+                            )}
+                          </Grid>
+                        </React.Fragment>
+                      ))}
+
+                      <Grid
+                        sx={{ mt: 1, mr: 2, ml: 0 }}
+                        container
+                        xs={12}
+                        justifyContent="left"
+                      >
+                        <Button
+                          sx={{ ml: 1, mr: 1 }}
+                          size="small"
+                          variant="outlined"
+                          color="secondary"
+                          onClick={handleResetFilters}
+                          // fullWidth
+                        >
+                          Reset Filters
+                        </Button>
+
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          color="primary"
+                          onClick={applyFilters}
+                          // fullWidth
+                        >
+                          Apply Filters
+                        </Button>
                       </Grid>
-                    </React.Fragment>
-                  ))}
-
-                  <Grid
-                    sx={{ mt: 1, mr: 2, ml: 1 }}
-                    container
-                    xs={12}
-                    justifyContent="center"
-                  >
-                    <Button
-                      sx={{ ml: 1, mr: 1 }}
-                      size="small"
-                      variant="outlined"
-                      color="secondary"
-                      onClick={handleResetFilters}
-                      // fullWidth
-                    >
-                      Reset Filters
-                    </Button>
-
-                    <Button
-                      size="small"
-                      variant="outlined"
-                      color="primary"
-                      onClick={applyFilters}
-                      // fullWidth
-                    >
-                      Apply Filters
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Item>
+                    </Grid>
+                  </Item>
+                </div>
+              )}
 
               {!isToggled || (
                 <Item
@@ -1376,26 +1491,61 @@ Multidimentional Scaling
               )}
             </Stack>
 
-            <Dialog open={open} onClose={handleClose}>
-              <DialogTitle>Select Box Plots</DialogTitle>
-              <DialogContent>
-                <FormGroup variant="standard" sx={{ width: 1000, m: 1 }}>
-                  {col_names.map((item) => (
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="lg">
+  <DialogTitle>Select variables</DialogTitle>
+  <DialogContent>
+    <div>
+      {categoryOrder
+        .filter((category) => itemsByCategory !== null && itemsByCategory[category])
+        .map((category) => (
+          <div key={category}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", marginBottom: 2 }}
+              color="green"
+            >
+              {category}
+            </Typography>
+            <FormGroup
+              variant="standard"
+              sx={{
+                display: "flex",
+                flexWrap: "wrap",
+                flexDirection: "row", 
+                justifyContent: "flex-start", 
+              }}
+            >
+              {itemsByCategory !== null &&
+                itemsByCategory[category]?.map((item) => (
+                  <div
+                    key={item}
+                    style={{ width: "480px", marginRight: "16px" }}
+                  >
+                    {/* Adjust the width as needed */}
                     <FormControlLabel
                       control={
-                        <Checkbox onChange={handleStateChange} name={item} />
+                        <Checkbox
+                          onChange={handleStateChange}
+                          name={item}
+                        />
                       }
                       label={item}
                     />
-                  ))}
-                </FormGroup>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose} color="primary">
-                  OK
-                </Button>
-              </DialogActions>
-            </Dialog>
+                  </div>
+                ))}
+            </FormGroup>
+          </div>
+        ))}
+    </div>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose} color="primary">
+      OK
+    </Button>
+  </DialogActions>
+</Dialog>
+
+
           </div>
         )}
 
@@ -1461,8 +1611,8 @@ Multidimentional Scaling
                 <Tabs value={tabValue} onChange={handleChange}>
                   <Tab label="Manhattan Plot" {...a11yProps(0)} />
                   <Tab label="QQ PLOT" {...a11yProps(1)} />
-                  <Tab label="Structural Annotations" {...a11yProps(2)} />
-                  <Tab label="Functional Gene Annotations" {...a11yProps(3)} />
+                  <Tab label="Annotations" {...a11yProps(2)} />
+                  {/* <Tab label="Functional Gene Annotations" {...a11yProps(3)} /> */}
                 </Tabs>
 
                 <TabPanel value={tabValue} index={0}>
@@ -1501,14 +1651,14 @@ Multidimentional Scaling
                       borderColor: "lightblue",
                     }}
                   >
-                    <Button
+                    {/* <Button
                       sx={{ marginTop: 5 }}
                       variant="contained"
                       size="large"
                       onClick={handleAnnotations}
                     >
                       Annotate
-                    </Button>
+                    </Button> */}
 
                     <Autocomplete
                       defaultValue={"5*10\u207B\u2078"}
@@ -1528,53 +1678,13 @@ Multidimentional Scaling
                   {!annotationsDone || (
                     <div>
                       <TableComponent sx={{ marginTop: 2 }} data={plinkGenes} />
-                      {/* <Typography
-                          sx={{ marginTop: 3, marginBottom: 4 }}
-                          variant="h4"
-                        >
-                          Mercartor Annotations
-                        </Typography>
-                        <Mapman
-                          src={'./m4/X4.5_Metabolism_overview.svg'}
-                          data={mercatorData}
-                        /> */}
                     </div>
                   )}
                 </TabPanel>
-                <TabPanel value={tabValue} index={3}>
-                  {!annotationsDone || (
-                    <div>
-                      <TableComponent sx={{ marginTop: 2 }} data={mapManData} />
-
-                      {/* <Mapman src={"./m4/X4.5_Metabolism_overview.svg"} /> */}
-                    </div>
-                  )}
-                </TabPanel>
-              
-              
-              
-                {/* <div>
-<Typography sx={{mt:4, marginBottom:4}} variant="h6"> Plink Logs</Typography>
-{plinkLogs.map((item, index) => {
-  if (!item[0].includes('rebuilding')) {
-    return <div key={index}>{item[0]}</div>;
-  }
-  return null; // If the condition is not met, return null to exclude the item
-})}
-</div> */}
-              
               </div>
-
-              
             )}
-
-
-
-
           </div>
         )}
-
-
 
         {/* /////////////////////////// MDS ////////////////////////////////////////////////////////////////// */}
         {tool != "MDS" || (
@@ -1601,7 +1711,7 @@ Multidimentional Scaling
                   }}
                 />
 
-{/* <div>
+                {/* <div>
 <Typography sx={{mt:4, marginBottom:4}} variant="h6"> Plink Logs</Typography>
 {mdsLogs.map((item, index) => {
   if (!item[0].includes('rebuilding')) {
@@ -1610,19 +1720,8 @@ Multidimentional Scaling
   return null; // If the condition is not met, return null to exclude the item
 })}
 </div> */}
-
               </div>
             )}
-
-
-
-
-
-
-
-
-
-
           </div>
         )}
 
@@ -1655,7 +1754,6 @@ Multidimentional Scaling
         )}
 
         {tool != "GeoLocator" || <GeoLocator data={cropData} />}
-
       </div>
     </>
   );
