@@ -606,8 +606,8 @@ export function Analysis(props) {
   };
 
   const pVals = {
-    "5*10\u207B\u00B2": 5e-2, // 5*10^-2
-    "5*10\u207B\u00B3": 5e-3, // 5*10^-3
+    // "5*10\u207B\u00B2": 5e-2, // 5*10^-2
+    // "5*10\u207B\u00B3": 5e-3, // 5*10^-3
     "5*10\u207B\u2074": 5e-4, // 5*10^-4
     "5*10\u207B\u2075": 5e-5, // 5*10^-5
     "5*10\u207B\u2076": 5e-6, // 5*10^-6
@@ -955,8 +955,6 @@ export function Analysis(props) {
         newItemsByCategory[item.category].push(item.title);
       }
     });
-
-    console.log("new item", newItemsByCategory);
     setItemsByCategory(newItemsByCategory);
   }, [checked]);
 
@@ -1188,7 +1186,7 @@ export function Analysis(props) {
                               renderInput={(params) => (
                                 <TextField
                                   {...params}
-                                  label="With categories"
+                                  label="choose x-variable"
                                 />
                               )}
                               renderGroup={(params) => (
@@ -1219,7 +1217,7 @@ export function Analysis(props) {
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
-                                    label="With categories"
+                                    label="choose x-variable"
                                   />
                                 )}
                                 renderGroup={(params) => (
@@ -1245,7 +1243,7 @@ export function Analysis(props) {
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
-                                    label="With categories"
+                                    label="choose y-variable"
                                   />
                                 )}
                                 renderGroup={(params) => (
@@ -1323,24 +1321,41 @@ export function Analysis(props) {
                       {filters.map((filter, index) => (
                         <React.Fragment key={index}>
                           <Grid item>
-                            <Autocomplete
-                              size="small"
-                              sx={{ width: 450 }}
-                              options={col_names} // Assuming all objects have the same keys
-                              value={filter.key}
-                              onChange={(event, newValue) => {
-                                setFilters((prevFilters) =>
-                                  prevFilters.map((prevFilter, i) =>
-                                    i === index
-                                      ? { ...prevFilter, key: newValue }
-                                      : prevFilter
-                                  )
-                                );
-                              }}
-                              renderInput={(params) => (
-                                <TextField {...params} label="Select Key" />
-                              )}
-                            />
+<Autocomplete
+                                id="grouped-demo"
+                                options={col_names}
+                                groupBy={(col_names) => col_names.category}
+                                getOptionLabel={(col_names) => col_names.title}
+                                sx={{ width: 455 }}
+                                size="small"
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="choose y-variable"
+                                  />
+                                )}
+                                renderGroup={(params) => (
+                                  <li key={params.key}>
+                                    <strong style={{ color: "green" }}>
+                                      {params.group}
+                                    </strong>
+                                    <ul>{params.children}</ul>
+                                  </li>
+                                )}
+                                onChange={(event, newValue) => {
+
+                                  setFilters((prevFilters) =>
+                                    prevFilters.map((prevFilter, i) =>
+                                      i === index
+                                        ? { ...prevFilter, key: newValue.title }
+                                        : prevFilter
+                                    )
+                                  );
+                                }}
+  
+                              />
+
+
                           </Grid>
 
                           <Grid item>

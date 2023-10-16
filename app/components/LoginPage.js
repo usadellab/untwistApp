@@ -1,18 +1,26 @@
-// components/Login.js
 import React, { useState } from 'react';
 import { useApiContext } from "../../contexts/ApiEndPoint";
+import axios from 'axios';
+import { Container, Paper, Grid, Typography, TextField, Button } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
+// Inline CSS for the background image
+const backgroundStyle = {
+//   background: 'url("/untField.png")', // Replace with your image path
+//   backgroundSize: 'cover',
+//   backgroundPosition: 'center',
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
-const Login = () => {
-    const apiEndpoint = useApiContext().apiEndpoint;
-    const [apiToken, setApiToken] = useState(null);
-
-
+const Login = ({ updateAuthenticationStatus }) => {
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
-
+  const apiEndpoint = useApiContext().apiEndpoint;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,79 +34,76 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // Send a POST request to your Flask backend to authenticate the user
-    //   const response = await fetch(`${apiEndpoint}/token`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-        
-    //   });
-
-    //   if (response.ok) {
-    //     // Successful login, redirect or perform other actions
-    //     // You may want to store the access token in a state or a cookie
-    //     console.log('Logged in successfully');
-    //     let newToken = 'TBD'
-    //     setApiToken(newToken)
-    //   } else {
-    //     // Handle authentication error, display an error message, etc.
-    //     console.error('Login failed');
-    //   }
-
-    fetch(`${apiEndpoint}/token`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return res.json();
-      })
-      .then((responseData) => {
-        let token = responseData.access_token;
-        console.log(token)
-        setApiToken(token);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+      const response = await axios.post(`${apiEndpoint}/auth`, {
+        username: formData.username,
+        password: formData.password,
       });
+      if (response.status === 200) {
+        // Authentication successful, you can now use the access token from response.data.access_token
+        updateAuthenticationStatus(true);
 
+        const accessToken = response.data.access_token;
+        console.log('Access Token:', accessToken);
+        return accessToken;
+      } else {
+        // Authentication failed
+        updateAuthenticationStatus(false);
 
+        console.error('Authentication failed');
+      }
     } catch (error) {
-      console.error('Error:', error);
+      // Handle request error
+      console.error('Request error:', error);
     }
   };
 
   return (
-    <div>
-
-      <form onSubmit={handleSubmit}>
-
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div style={backgroundStyle}>
+      <Container maxWidth="sm">
+        <Paper elevation={3} style={{ padding: '20px' }}>
+          <Grid container spacing={2} justifyContent="center" alignItems="center">
+            <Grid item xs={12}>
+              <Typography variant="h5" align="center" color='green'>
+                Untwist Knowledge Hub
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <form>
+                <TextField
+                  fullWidth
+                  label="Username"
+                  variant="outlined"
+                  name="username"
+                  onChange={handleChange}
+                />
+              </form>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Password"
+                variant="outlined"
+                type="password"
+                name="password"
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                fullWidth
+                color="primary"
+                startIcon={<AccountCircleIcon />}
+                onClick={handleSubmit}
+              >
+                Login
+              </Button>
+            </Grid>
+          </Grid>
+        </Paper>
+      </Container>
     </div>
-
   );
 };
 
