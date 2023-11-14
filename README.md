@@ -47,3 +47,9 @@ camelinam4 : mercartorV4.5 annotations
 ## IMAGES of Analysis output
 
 [Analysis Images (Click)](ProjectDocs/images.md)
+
+
+## Benchmarking GWAS results
+
+
+<a href="ProjectDocs/comparingGWASresults.html" target="_blank">Link to Benchmarking GWAS results</a>
