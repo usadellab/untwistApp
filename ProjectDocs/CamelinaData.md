@@ -89,16 +89,13 @@ UNT_059_reseq
 For individual filtering steps please refer to process.sh file. The statistics for each layer of filtering are reported below.
 
 ```
-@-----------------------------------@
-| SNP counts after filtering        |
-|                                   |
-| 1. Total 			    6,403,593	|		
-| 2. DP >=3  			5,170,322	|		
-| 3. QUAL >= 20		    5,170,322	|		
-| 4. F_MISSING < 0.2 	4,696,691	|		
-| 5. MAF >= 0.05		2,448,578	|		
-| 6. biallelic only	    2,348,538   |
-@-----------------------------------@
+| 1. Total           	| 6,403,593 	|
+|--------------------	|-----------	|
+| 2. DP >=3          	| 5,170,322 	|
+| 3. QUAL >= 20      	| 5,170,322 	|
+| 4. F_MISSING < 0.2 	| 4,696,691 	|
+| 5. MAF >= 0.05     	| 2,448,578 	|
+| 6. biallelic only  	| 2,348,538 	|
 
 ```
 
