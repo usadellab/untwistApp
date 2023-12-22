@@ -97,43 +97,48 @@ width: "100%", // Set the height to 100% of the viewport height
 marginTop : "50pt",
 }));
 
-
-
 const AppBar = styled(MuiAppBar, {
-shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-zIndex: theme.zIndex.drawer + 1,
-transition: theme.transitions.create(["width", "margin"], {
-  easing: theme.transitions.easing.sharp,
-  duration: theme.transitions.duration.leavingScreen,
-}),
-...(open && {
-  marginLeft: drawerWidth,
-  width: -100, //`calc(100% - ${drawerWidth}px)`,
+  zIndex: theme.zIndex.drawer + 1,
   transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
+    duration: theme.transitions.duration.leavingScreen,
   }),
-}),
+  backgroundColor: open ? "#f0f0f0" : '#f0f0f0',
+
+  ...(open && {
+    marginLeft: drawerWidth,
+    width: -100, //`calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
 }));
+
 
 const Drawer = styled(MuiDrawer, {
-shouldForwardProp: (prop) => prop !== "open",
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-width: drawerWidth,
-flexShrink: 0,
-// whiteSpace: 'nowrap',
-boxSizing: "border-box",
-...(open && {
-  ...openedMixin(theme),
-  "& .MuiDrawer-paper": openedMixin(theme),
-}),
-...(!open && {
-  ...closedMixin(theme),
-  "& .MuiDrawer-paper": closedMixin(theme),
-}),
+  width: drawerWidth,
+  flexShrink: 0,
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": {
+      ...openedMixin(theme),
+      backgroundColor: "#f0f0f0", 
+    },
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": {
+      ...closedMixin(theme),
+      backgroundColor: "#927692", 
+    },
+  }),
 }));
-
 
 
 function parseToken(token) {
@@ -206,10 +211,36 @@ export default function RootLayout({ children }) {
   };
 
   const [appBarTitle, setAppBarTitle] = useState(
-    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
+    <Typography variant="h6" sx={{
+        mx: 2,
+        display: { md: 'flex' },
+        fontFamily: '-apple-system',
+        fontWeight: 700,
+        letterSpacing: '.3rem',
+        color: 'green', //'inherit',
+        textDecoration: 'none',
+    }}>
       UNTWIST KNOWLEDGE HUB
     </Typography>
   );
+
+  const handleAppBarTitle = (text) => {
+    const newTitle = <Typography variant="h6" sx={{
+      mx: 2,
+      display: { md: 'flex' },
+      fontFamily: '-apple-system',
+      fontWeight: 700,
+      letterSpacing: '.2rem',
+      color: 'green', //'inherit',
+      // textDecoration: 'none',
+  }}>
+    {text}
+  </Typography>
+
+setAppBarTitle(newTitle)
+
+
+  }
 
   const handleGenomics = () => {
     setgenomicsDropDown(!genomicsDropDown);
@@ -269,8 +300,8 @@ useEffect(() => {
           <div>
               <ListItemButton
                 sx={{ mt: 8 }}
-                onClick={() => {
-                  setAppBarTitle("Home");
+                onClick={(e) => {
+                  handleAppBarTitle("Home")
                   router.push("/router?component=home");
                 }}
               >
@@ -282,7 +313,7 @@ useEffect(() => {
 
             <ListItemButton
               onClick={() => {
-                setAppBarTitle("Germplasm");
+                handleAppBarTitle("Germplasm");
                 router.push("/router?component=germplasm");
               }}
             >
@@ -294,7 +325,7 @@ useEffect(() => {
 
             <ListItemButton
               onClick={() => {
-                setAppBarTitle("Visualization of phenotyic data");
+                handleAppBarTitle("Visualization of phenotyic data");
                 router.push("/router?component=vispheno");
 
               }}
@@ -324,7 +355,7 @@ useEffect(() => {
             <Collapse in={genomicsDropDown} timeout="auto" unmountOnExit>
                 <ListItemButton
                   onClick={() => {
-                    setAppBarTitle("GWAS");
+                    handleAppBarTitle("GWAS");
                     router.push("/router?component=gwas");
 
                   }}
@@ -339,7 +370,7 @@ useEffect(() => {
 
                 <ListItemButton
                   onClick={() => {
-                    setAppBarTitle("PCA");
+                    handleAppBarTitle("PCA");
                     router.push("/router?component=pca");
                   }}
                 >
@@ -352,7 +383,7 @@ useEffect(() => {
 
                 <ListItemButton
                   onClick={() => {
-                    setAppBarTitle("MDS");
+                    handleAppBarTitle("MDS");
                     router.push("/router?component=mds");
                   }}
                 >
@@ -367,7 +398,7 @@ useEffect(() => {
 
             <ListItemButton
               onClick={() => {
-                setAppBarTitle("Genome Browser");
+                handleAppBarTitle("Genome Browser");
                 router.push("/router?component=jb");
 
               }}
@@ -380,7 +411,7 @@ useEffect(() => {
 
             <ListItemButton 
             onClick={() => {
-              setAppBarTitle("Downloads");
+              handleAppBarTitle("Downloads");
               router.push("/router?component=downloads");
         }}
             >
@@ -392,7 +423,7 @@ useEffect(() => {
 
             <ListItemButton
               onClick={() => {
-                setAppBarTitle("FAQs");
+                handleAppBarTitle("FAQs");
                 router.push("/router?component=faqs");
               }}
             >
@@ -406,7 +437,7 @@ useEffect(() => {
 
             <ListItemButton
               onClick={() => {
-                setAppBarTitle("Contact");
+                handleAppBarTitle("Contact");
                 router.push("/router?component=contact");
               }}
             >
