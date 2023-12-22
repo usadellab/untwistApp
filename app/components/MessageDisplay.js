@@ -1,37 +1,26 @@
-
-import React, { useEffect, useState } from 'react';
 import CircularLoader from './CircularLoader';
 
-const MessageWithTimer = ({ messages }) => {
-  const [timeElapsed, setTimeElapsed] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeElapsed(prevTime => prevTime + 1);
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+const MessageWithTimer = ({ messages, timeElapsed }) => {
   return (
     <div style={styles.overlay}>
       <div style={styles.centeredContent}>
         <CircularLoader />
         <div style={styles.messageBox}>
-          {messages.map((message, index) => (
-            <div key={index} style={styles.message}>
-              {message}
-            </div>
-          ))}
+          <div style={styles.scrollableContent}>
+            {messages.map((message, index) => (
+              <div key={index} style={styles.message}>
+                {message}
+              </div>
+            ))}
+          </div>
+          <div style={{color:'blue'}} >Time Elapsed: {timeElapsed} seconds</div>
         </div>
-        <div style={styles.timer}>Time elapsed: {timeElapsed} seconds</div>
       </div>
     </div>
   );
 };
 
 export default MessageWithTimer;
-
 
 const styles = {
   overlay: {
@@ -47,7 +36,7 @@ const styles = {
     justifyContent: 'center',
   },
   centeredContent: {
-    backgroundColor: 'white',
+    backgroundColor: 'grey',
     padding: 20,
     borderRadius: 8,
     textAlign: 'center',
@@ -57,17 +46,19 @@ const styles = {
     maxWidth: 1000, // Increased box size
     margin: '0 auto',
   },
+  scrollableContent: {
+    maxHeight: '300px', // Set a maximum height for the scrollable content
+    overflow: 'auto', // Enable scrolling when content exceeds the height
+  },
   message: {
-    fontSize: 18,
+    fontSize: 14,
     padding: '5px 0',
     borderBottom: '1px solid #ccc',
     wordWrap: 'break-word', // Wrap long text
     textAlign: 'left', // Align text to the left
   },
   timer: {
-    fontSize: 14,
+    fontSize: 18,
     marginTop: 10,
   },
 };
-
-

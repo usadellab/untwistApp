@@ -1,3 +1,4 @@
+'use client'
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
@@ -43,7 +44,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
 
-export function FAQs() {
+export default function FAQs() {
   const [expanded, setExpanded] = React.useState("panel1");
 
   const handleChange = (panel) => (event, newExpanded) => {
@@ -108,40 +109,7 @@ export function FAQs() {
         </AccordionDetails>
       </Accordion>
 
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>What is IBG4 ?</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            <p>
-              The institute Bioinformatics (IBG-4) is locate at the
-              Forschungszentrum Juelich, Germany and develops methods and
-              algorithms, aiming for a fundamental understanding of
-              high-dimensional data and processes in life sciences and
-              bioeconomy and for an understanding and a prediction of the
-              biological function of moelcules/enzymes on the basis of their
-              stucture for optimizsation for industrial and pharmaceutical
-              utilisation. Bioinformatics at Forschungszentrum Jülich play a
-              leading role on national and international level in the area of{" "}
-              <b>omics-/data-based bioinformati</b>
-              <strong>cs </strong>focussing on plant data management, novel
-              methods for genome analysis and the field of integration,
-              interpretation and visualisation of high-dimensional omics data in
-              bioeconomy and in the area of{" "}
-              <strong>structure-based bioinformatics</strong> with a focus on
-              the elucidation, modelling and simulation of the dynamics and
-              interactions of bio-molecules. IBG-4 focusses on knowledge
-              management, data integration, classical bioinformatics and machine
-              learning, especially for the prediction of phenotypes and
-              structures and dynamics of enzymes.
-            </p>
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
+
 
       <Accordion
         expanded={expanded === "panel8"}

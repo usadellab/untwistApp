@@ -1,81 +1,73 @@
-import { Typography } from "@mui/material";
-import "./carousel.css"; 
-import React from "react";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Footer from "./Footer";
+import React, { useEffect, useState } from 'react';
+import { Container, Typography, useMediaQuery, useTheme } from '@mui/material';
+import Footer from './Footer'; // Import your Footer component here
+import { useUntwistThemeContext } from "../../contexts/ThemeContext"
+import { UntwistThemeProvider } from "../../contexts/ThemeContext";
 
-function WelcomePage() {
+
+const WelcomePage = () => {
+  const theme = useTheme();
+  const { isDarkMode, toggleTheme } = useUntwistThemeContext();
+
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMediumScreen = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isLargeScreen = useMediaQuery(theme.breakpoints.between('sm', 'md','ld'));
+  const containerWidth = isSmallScreen ? '90%' : isMediumScreen ? '80%' : '100%';
+  const imageHeight = isSmallScreen ? '15vh' : isMediumScreen ? '30vh' : '55vh';
+  const containerSize = isSmallScreen ? 'sm' : isMediumScreen ? 'md' : 'ld';
+  
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '80vh',
+      margin: 0,
+      color: 'blue',
+      width: containerWidth, // '100%',
+      // backgroundColor: 'lightyellow',
+
+    },
+    image: {
+      width: '100%',
+      height: imageHeight, //'100%',
+      borderRadius: '10px',
+    },
+    content: {
+      // backgroundColor: 'lightyellow',
+      textAlign: 'center',
+      // borderRadius: '10px',
+      padding : 0,
+      margin: 0, 
+      width: '100%',
+
+    }
+
+  };
+
   return (
-    <>
+    <UntwistThemeProvider values={{isDarkMode, toggleTheme}}>
+
+    <Container sx={{mt:2, ml:0}} maxWidth={containerSize} >
       <div style={styles.container}>
-        <div style={styles.backgroundImage}></div>
-        <div style={styles.content}></div>
+        <img src={'/untField.png'} alt="untwist field" style={styles.image} />
+        <div style={styles.content}>
+          <Typography sx={{mt:-35}} variant="h4" >
+            <a style={{color : '#332288'}} href="https://www.fz-juelich.de/en/ibg/ibg-4/about-us" target="_blank" rel="noreferrer">
+              Institute of Bio and Geosciences (IBG-4)
+            </a>
+          </Typography>
+          <Typography sx={{mb: 23}} variant="h6">
+            Wilhelm-Johnen-Straße 52428 Jülich, Germany
+          </Typography>
+          <Footer isDark={isDarkMode} />
+        </div>
       </div>
+    </Container>
+    </UntwistThemeProvider>
 
-      <div style={{ padding: 10 }}>
-        <Typography sx={{ mt: 4 }} align="center" variant="h4">
-        <a href="https://www.fz-juelich.de/en/ibg/ibg-4/about-us" target="blank">
-        Institute of Bio and Geosciences (IBG-4)
-
-        </a>
-
-        </Typography>
-        <Typography align="center" variant="h5">
-          Wilhelm-Johnen-Straße 52428 Jülich, Germany
-        </Typography>
-
-      </div>
-
-      <div>
-        <Footer />
-      </div>
-    </>
   );
-}
-
-const styles = {
-  container: {
-    position: "relative",
-    height: "50vh",
-  },
-  backgroundImage: {
-    position: "absolute",
-    top: 5,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundImage: "url(./untField.png)",
-    backgroundSize: 'cover',
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: 'center',
-    // opacity: 0.5,
-  },
-  content: {
-    position: "absolute",
-    top: "200px",
-    left: "100px",
-  },
-  heading: {
-    fontSize: "50px",
-    margin: 0,
-  },
-  paragraph: {
-    fontSize: "24px",
-    margin: "10px 0",
-    padding: "2px 16px",
-  },
-  button: {
-    padding: "8px 16px",
-    backgroundColor: "#f0f0f0",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  slider: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
 };
 
 export default WelcomePage;

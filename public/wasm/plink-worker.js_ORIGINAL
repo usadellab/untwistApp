@@ -1,0 +1,304 @@
+importScripts("/plink.js");
+var apiEndpoint = "/api";
+
+function parseQassoc(fileContent, delimiter) {
+  const rows = fileContent.split("\n");
+  const header = rows
+    .shift()
+    .split(delimiter)
+    .filter((value) => value !== "");
+  const resultArray = [];
+
+  rows.forEach((row) => {
+    const columns = row.split(delimiter).filter((value) => value !== "");
+    const obj = {};
+
+    columns.forEach((column, index) => {
+      const key = header[index];
+      const value = column;
+      obj[key] = value;
+    });
+
+    resultArray.push(obj);
+  });
+
+  return resultArray;
+}
+
+function isSubsetOf(subset, array) {
+  return subset.every((element) => array.includes(element));
+}
+
+onmessage = async (e) => {
+    if (e.data.cmd === "runGWAS") {
+        const originalConsoleLog = console.log;
+    
+        console.log = function (...args) {
+          // Capture the console output
+          const message = args.map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg)).join(" ");
+    
+          // Post each captured message to the main thread
+          postMessage({ cmd: "message", res: message });
+    
+          // Call the original console.log
+          originalConsoleLog.apply(console, args);
+        };
+    
+        const token = e.data.token;
+        const fam = e.data.fam;
+        const spp = e.data.spp;
+        const correction = e.data.correction;
+    
+        postMessage({ cmd: 'message', res: `Running Plink` });
+        postMessage({ cmd: 'message', res: `Target dataset:   ${spp}` });
+        postMessage({ cmd: 'message', res: `Target phenotype: ${fam}` });
+    
+        var fileNames = {
+          "plink.bed": "Plink/plink.bed",
+          "plink.fam": "Plink/" + fam + ".fam",
+          "plink.bim": "Plink/plink.bim",
+          "plink.cov": "Plink/plink.cov",
+        };
+    
+        // Track the number of files successfully fetched
+        let fetchedFileCount = 0;
+        const totalFiles = Object.keys(fileNames).length;
+    
+        Plink().then((Module) => {
+          postMessage({ cmd: 'message', res: 'Fetching input data' });
+    
+          Object.keys(fileNames).map((fileName) => {
+            let dbName = fileNames[fileName];
+            let url = `${apiEndpoint}/getBucketObjectData/?bucket_name=${spp}&object_name=${dbName}&token=${token}`;    
+            fetch(url, {
+              method: "POST",
+              responseType: "text",
+            })
+              .then((response) => {
+                if (response.headers.get("content-type").startsWith("text")) {
+                  return response.text(); // It's text data
+                } else {
+                  return response.arrayBuffer(); // It's binary data
+                }
+              })
+              .then((data) => {
+                if (typeof data === "string") {
+                  Module.FS.createDataFile("/", fileName, data, true, true);
+                } else {
+                  const blob = new Blob([data], {
+                    type: "application/octet-stream",
+                  });
+                  const reader = new FileReader();
+                  reader.onload = () => {
+                    const fileContents = reader.result;
+                    Module.FS.createDataFile(
+                      "/",
+                      fileName,
+                      fileContents,
+                      true,
+                      true
+                    );
+                  };
+                  reader.readAsBinaryString(blob);
+                }
+    
+                // Increment the fetchedFileCount
+                fetchedFileCount++;
+    
+                if (fetchedFileCount === totalFiles) {
+                  postMessage({ cmd: 'message', res: 'Fetching input data is complete' });
+    
+                  // Check for other conditions and execute Plink command here
+                  if (
+                    isSubsetOf(
+                      ["plink.bim", "plink.fam", "plink.bed", "plink.cov"],
+                      Module.FS.readdir(".")
+                    )
+                  ) {
+                    postMessage({ cmd: 'message', res: 'Fetching input data is complete' });
+                    if (correction == "without") {
+                      postMessage({ cmd: 'message', res: "Running GWAS without correction for population structure" });
+    
+                      Module.callMain([
+                        "--bfile",
+                        "plink",
+                        "--assoc",
+                        "--allow-no-sex",
+                      ]);
+                      postMessage({ cmd: 'message', res: `Parsing output` });
+    
+                    } else {
+                      postMessage({ cmd: 'message', res: "Running GWAS with correction for population structure" });
+    
+                      Module.callMain([
+                        "--bfile",
+                        "plink",
+                        "--linear",
+                        "--covar",
+                        "plink.cov",
+                        "--covar-name",
+                        "COV1,COV2",
+                        "--allow-no-sex",
+                        "--standard-beta",
+                        "--hide-covar",
+                      ]);
+                      postMessage({ cmd: 'message', res: `Parsing output` });
+    
+                    }
+    
+                    if (isSubsetOf(["plink.assoc"], Module.FS.readdir("."))) {
+                      var string = new TextDecoder().decode(
+                        Module.FS.readFile("/plink.assoc")
+                      );
+                    } else if (isSubsetOf(["plink.qassoc"], Module.FS.readdir("."))) {
+                      var string = new TextDecoder().decode(
+                        Module.FS.readFile("/plink.qassoc")
+                      );
+                    } else if (
+                      isSubsetOf(["plink.assoc.linear"], Module.FS.readdir("."))
+                    ) {
+                      var string = new TextDecoder().decode(
+                        Module.FS.readFile("/plink.assoc.linear")
+                      );
+                    }
+                    if (string != "") {
+                      const multiArray = parseQassoc(string, " ");
+                      var keysToKeep = ["SNP", "P"];
+                      var filteredArray = multiArray
+                        .filter((obj) => obj["P"] !== "NA")
+                        .map((obj) => {
+                          const newObj = {};
+                          for (const key of keysToKeep) {
+                            if (obj.hasOwnProperty(key)) {
+                              newObj[key] = obj[key];
+                            }
+                          }
+                          return newObj;
+                        });
+                      postMessage({ cmd: "processed", res: filteredArray });
+                    } else {
+                      postMessage({
+                        cmd: "processed",
+                        res: "No significant results found",
+                      });
+                    }
+                  }
+                }
+              });
+          });
+        });
+    console.log = originalConsoleLog;
+
+  }
+
+
+
+
+
+  if (e.data.cmd === "runMDS") {
+
+    const originalConsoleLog = console.log;
+
+    console.log = function (...args) {
+      // Capture the console output
+      const message = args.map((arg) => (typeof arg === "object" ? JSON.stringify(arg) : arg)).join(" ");
+      
+      // Post each captured message to the main thread
+      postMessage({ cmd: "message", res: message });
+
+      // Call the original console.log
+      originalConsoleLog.apply(console, args);
+    };
+
+
+
+    const token = e.data.token;
+    const fam = "Straw_yield(g_per_plants)_INRAE";
+    const spp = e.data.spp;
+
+    postMessage({cmd : 'message', res : `Running MDS with Plink`})
+    postMessage({cmd : 'message', res : `Target dataset:   ${spp}`})
+
+
+    var fileNames = {
+      "plink.bed": "Plink/plink.bed",  // this is the largest file, put at the first place to avoid fetching problems 
+      "plink.fam": "Plink/" + fam + ".fam",
+      "plink.bim": "Plink/plink.bim",
+      "plink.genome": "Plink/plink.genome",
+    };
+
+    Plink().then((Module) => {
+      postMessage({cmd : 'message', res : 'Fetching input data'})
+
+      Object.keys(fileNames).map((fileName) => {
+        let dbName = fileNames[fileName];
+        let url = `${apiEndpoint}/getBucketObjectData/?bucket_name=${spp}&object_name=${dbName}&token=${token}`;
+
+        fetch(url, {
+          method: "POST",
+          responseType: "text",
+        })
+          .then((response) => {
+            if (response.headers.get("content-type").startsWith("text")) {
+              return response.text(); // It's text data
+            } else {
+              return response.arrayBuffer(); // It's binary data
+            }
+          })
+          .then((data) => {
+            if (typeof data === "string") {
+              Module.FS.createDataFile("/", fileName, data, true, true);
+            } else {
+              const blob = new Blob([data], {
+                type: "application/octet-stream",
+              });
+              const reader = new FileReader();
+              reader.onload = () => {
+                const fileContents = reader.result;
+                Module.FS.createDataFile(
+                  "/",
+                  fileName,
+                  fileContents,
+                  true,
+                  true
+                );
+              };
+              reader.readAsBinaryString(blob);
+            }
+            if (
+              isSubsetOf(
+                ["plink.bim", "plink.fam", "plink.bed", "plink.genome" ],
+                Module.FS.readdir(".")
+              )
+            ) {
+              postMessage({cmd : 'message', res : 'Fetching input data is complete'})
+                postMessage({cmd : 'message', res : "Running MDS"})
+
+                Module.callMain([
+                  "--bfile",
+                  "plink",
+                  "--read-genome",
+                  "plink.genome",
+                  "--cluster",
+                  "--ppc",
+                  "0.0001",
+                  "--mds-plot",
+                  "2",
+                ]);
+
+                postMessage({cmd : 'message', res : `Parsing output`})
+
+                var string = new TextDecoder().decode(
+                  Module.FS.readFile("/plink.mds")
+                );
+                const multiArray = parseQassoc(string, " ");
+                postMessage({cmd : 'processed', res : multiArray});
+            }
+          });
+      });
+    });
+    console.log = originalConsoleLog;
+
+  }
+
+};

@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
-// import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from 'mdbreact-ui-kit';
 import { MDBFooter, MDBContainer, MDBRow, MDBCol, MDBIcon } from "mdbreact";
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-import "mdb-react-ui-kit/dist/css/mdb.min.css";
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import { width } from "@mui/system";
 
-const Footer = () => {
+const Footer = (props) => {
+
+  var textColor = props.isDark ? "text-white" : "text-black"
   useEffect(() => {
     // Import necessary MDBReact stylesheets dynamically
     import("mdb-react-ui-kit/dist/css/mdb.min.css");
@@ -22,8 +19,8 @@ const Footer = () => {
 
   return (
     <MDBFooter
-      bgColor="light"
-      className="text-center text-lg-start text-muted"
+      bgColor="dark"
+      className={`text-center text-lg-start ${textColor}`}
       style={{ padding: "20px", width: "100%", margin: "0" }}
     >
       <section className="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
@@ -39,7 +36,7 @@ const Footer = () => {
               target="_blank"
               className="me-4 text-reset"
             >
-              <MDBIcon color="secondary" fab icon={socialIcon.icon} />
+              <MDBIcon fab icon={socialIcon.icon} />
             </a>
           ))}
         </div>
@@ -117,26 +114,21 @@ const Footer = () => {
                 <MDBIcon color="secondary" icon="envelope" className="me-3" />
                 a.haleem [at] fz-juelich.de
               </p>
-              {/* <p>
-                <MDBIcon color='secondary' icon='phone' className='me-3' /> + 49 234 567 88
-              </p>
-              <p>
-                <MDBIcon color='secondary' icon='print' className='me-3' /> + 49 234 567 89
-              </p> */}
             </MDBCol>
 
           </MDBRow>
         </MDBContainer>
       </section>
 
+
       <div
         className="text-center p-4"
         style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
       >
         <a
-          className="me4 text-reset fw-bold"
+          className="me-4 text-reset fw-bold"
           href="https://www.biological-data-science.hhu.de/"
-          target="blank"
+          target="_blank"
         >
           © 2014-2023 Usadel lab | IBG-4, Forschungszentrum Jülich | Heinrich
           Heine University Düsseldorf
@@ -146,11 +138,4 @@ const Footer = () => {
   );
 };
 
-const styles = {
-  bgDark: {
-    width: "100%",
-    padding: "20px" /* Adjust padding as needed */,
-    margin: "0",
-  },
-};
 export default Footer;

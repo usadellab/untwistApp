@@ -2,9 +2,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useApiContext } from "../contexts/ApiEndPoint";
+
 const TokenContext = createContext();
 
 export const useTokenContext = () => useContext(TokenContext);
+
 export const TokenProvider = ({ children }) => {
   const [apiToken, setApiToken] = useState(null);
   const apiEndpoint = useApiContext().apiEndpoint;
@@ -27,7 +29,7 @@ export const TokenProvider = ({ children }) => {
       });
   }, []);
 
-  const contextValue = { apiToken };
+  const contextValue = { apiToken, setApiToken };
 
   return (
     <TokenContext.Provider value={contextValue}>

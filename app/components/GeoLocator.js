@@ -1,172 +1,153 @@
-import React, { useState, useEffect } from 'react';
-import { Typography } from "@mui/material";
+'use client'
 
-import dynamic from 'next/dynamic'
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
+import React, { useState, useEffect, useRef } from 'react';
+import { Grid } from '@mui/material';
+import * as d3 from 'd3';
+import cropData from "/public/cropLocations.json";
+
 
 const GeoLocator = (props) => {
-    const data = props.data;
-    const latitudes = [];
-    const longitudes = [];
-    const text = [];
-    const markerData = [];
-    data.forEach((item) => {
-        if (item.origin && item.latitude !== 0 && item.longitude !== 0) {
-            latitudes.push(item.latitude);
-            longitudes.push(item.longitude);
-            text.push(item.metadata.text || '');
+  const svgRef = useRef(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
-            const markerInfo = {
-                Cultivar: item.cultivar,
-                Country : item.origin,
-                Name1: item.metadata.Name1,
-                Name2: item.metadata.Name2,
-                Name3: item.metadata.Name3,
-                Origin: item.metadata.Origin,
-                Provider: item.metadata.Provider,
-            };
+  const data = cropData // props.data;
+  const markerData = [];
 
-            markerData.push(markerInfo);
-        }
+  data.forEach((item) => {
+    if (item.origin && item.latitude !== 0 && item.longitude !== 0) {
+      const markerInfo = {
+        Cultivar: item.cultivar,
+        Country: item.origin,
+        Name1: item.metadata.Name1,
+        Name2: item.metadata.Name2,
+        Name3: item.metadata.Name3,
+        Origin: item.metadata.Origin,
+        Provider: item.metadata.Provider,
+        latitude: item.latitude,
+        longitude: item.longitude,
+      };
+      markerData.push(markerInfo);
+    }
+  });
+
+
+  useEffect(() => {
+    const width = 1000;
+    const height = 700;
+    const viewBoxWidth = 2000;
+    const viewBoxHeight = 2000;
+
+    function updateAttributes(event) {
+      const currentZoom = event.transform.k;
+
+      svg
+        .selectAll('circle')
+        .attr('r', 5 / currentZoom);
+
+      svg
+        .selectAll('text')
+        .style('font-size', `${10 / currentZoom}px`);
+    }
+
+    const zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on('zoom', (event) => {
+        svg.attr('transform', event.transform);
+        updateAttributes(event);
+      });
+
+    const svg = d3.select(svgRef.current)
+      .attr('width', width)
+      .attr('height', height)
+      .style('background-color', 'lightblue');
+
+    svg.append('rect')
+      .attr('fill', 'blue')
+      .attr('opacity', 0.5);
+
+    svg.call(zoom);
+
+    const projection = d3.geoMercator()
+      .scale(200)
+      .translate([width / 2, height / 2]);
+
+    const path = d3.geoPath().projection(projection);
+
+    d3.json('./worldgeo.json').then((world) => {
+      svg
+        .selectAll('path')
+        .data(world.features)
+        .enter()
+        .append('path')
+        .attr('d', path)
+        .style('fill', 'lightgray')
+        .style('stroke', 'white');
+
+      svg
+        .selectAll('circle')
+        .data(markerData)
+        .enter()
+        .append('circle')
+        .attr('cx', (d) => projection([d.longitude, d.latitude])[0])
+        .attr('cy', (d) => projection([d.longitude, d.latitude])[1])
+        .attr('r', 5)
+        .attr('fill', 'green')
+        .attr('stroke', 'red')
+        .on('click', (event, d) => {
+          setSelectedMarker(d);
+        });
+
+      svg
+        .selectAll('text')
+        .data(world.features)
+        .enter()
+        .append('text')
+        .attr('x', (d) => path.centroid(d)[0])
+        .attr('y', (d) => path.centroid(d)[1])
+        .text((d) => d.properties.name)
+        .style('text-anchor', 'middle')
+        .style('alignment-baseline', 'middle')
+        .style('font-size', '10px')
+        .style('fill', 'black');
+
+      svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(1));
+
+      if (selectedMarker) {
+        svg.select('.popup-container').remove();
+
+        const popup = svg
+          .append('foreignObject')
+          .attr('class', 'popup-container')
+          .attr('x', 1)
+          .attr('y', 1)
+          .attr('width', 300)
+          .attr('height', 500);
+
+        popup
+          .append('xhtml:body')
+          .html(
+            `<div style="position: absolute; top: 20px; left: 30px; border: 2px solid #000; padding: 10px; background-color: white;" >
+              <h6>Germplasm Info</h6>
+              <table>
+                <tr><td>Cultivar:</td><td>${selectedMarker.Cultivar}</td></tr>
+                <tr><td>Country:</td><td>${selectedMarker.Country}</td></tr>
+                <tr><td>Name1:</td><td>${selectedMarker.Name1}</td></tr>
+                <tr><td>Name2:</td><td>${selectedMarker.Name2}</td></tr>
+                <tr><td>Name3:</td><td>${selectedMarker.Name3}</td></tr>
+                <tr><td>Origin:</td><td>${selectedMarker.Origin}</td></tr>
+                <tr><td>Provider:</td><td>${selectedMarker.Provider}</td></tr>
+              </table>
+            </div>`
+          );
+      }
     });
+  }, [selectedMarker, markerData]);
 
-    const [selectedMarker, setSelectedMarker] = useState(null);
-
-    const handleMarkerClick = (event) => {
-        setSelectedMarker(markerData[event.points[0].pointIndex]);
-    };
-
-    const closePopup = () => {
-        setSelectedMarker(null);
-    };
-
-    useEffect(() => {
-        const handleBackgroundClick = (event) => {
-            if (
-                event.target.classList.contains('popup-background') ||
-                event.target.classList.contains('popup-content')
-            ) {
-                closePopup();
-            }
-        };
-
-        window.addEventListener('mousedown', handleBackgroundClick);
-
-        return () => {
-            window.removeEventListener('mousedown', handleBackgroundClick);
-        };
-    }, []);
-
-    const trace = {
-        type: 'scattergeo',
-        locationmode: 'country names',
-        lon: longitudes,
-        lat: latitudes,
-        text,
-        mode: 'markers',
-        marker: {
-            size: 10,
-            opacity: 0.7,
-            color: 'red', 
-            line: {
-                color: 'rgb(0, 0, 0)',
-                width: 1,
-            },
-        },
-        // hovertemplate:
-        // '<b>%{text}</b><br>' +
-        // '<table>' +
-        // '<tr><td>Cultivar:</td><td>%{customdata.Cultivar}</td></tr>' +
-        // '<tr><td>Origin:</td><td>%{customdata.origin}</td></tr>' +
-        // // '<tr><td>Reseq:</td><td>%{customdata.reseq}</td></tr>' +
-        // // '<tr><td>Versus CAM:</td><td>%{customdata.versusCam}</td></tr>' +
-        // '<tr><td>Name1:</td><td>%{customdata.Name1}</td></tr>' +
-        // '<tr><td>Name2:</td><td>%{customdata.Name2}</td></tr>' +
-        // '<tr><td>Name3:</td><td>%{customdata.Name3}</td></tr>' +
-        // '<tr><td>Provider:</td><td>%{customdata.Provider}</td></tr>' +
-        // '</table>',
-        // hoverinfo: 'none',
-        hovertemplate : "Click",
-        
-        customdata: markerData,
-    };
-
-    const layout = {
-        title: {
-            text: 'Geo Location of Plant Material',
-            font: {
-                size: 36,
-                color: 'black',
-                family: 'Courier New, monospace',
-                weight: 'bold',
-            },
-            x: 2, 
-        },
-        geo: {
-            projection: {
-                type: 'mercator',
-            },
-            showland: true,
-        },
-        height: 1100,
-        width: 1100,
-        margin: {
-            l: 0, 
-            r: 0, 
-            t: 50, 
-            b: 0,
-        },
-        paper_bgcolor: 'rgba(0,0,0,0)', 
-        clickmode: 'event+select',
-    };
-
-    return (
-        <div>
-            <Plot
-                data={[trace]}
-                layout={layout}
-                onSelected={handleMarkerClick}
-                config={{ displayModeBar: false }}
-            />
-            {selectedMarker && (
-                <div className="popup-background">
-                    <div className="popup-content">
-                        <Typography variant='h6' fontWeight={'bold'}>Germplasm Info</Typography>
-                        <table>
-                            <tbody>
-                                {Object.entries(selectedMarker).map(([key, value]) => (
-                                    <tr key={key}>
-                                        <td>{key}</td>
-                                        <td>{value}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            )}
-            <style jsx>{`
-                .popup-background {
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100vw;
-                    height: 100vh;
-                    background-color: rgba(0, 0, 0, 0.5);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 1000;
-                }
-                .popup-content {
-                    background-color: white;
-                    padding: 20px;
-                    border-radius: 5px;
-                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-                }
-            `}</style>
-        </div>
-    );
+  return (
+    <Grid sx={{ml:-60, mt:-40}}>
+      <svg ref={svgRef}></svg>
+    </Grid>
+  );
 };
 
 export default GeoLocator;

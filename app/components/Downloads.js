@@ -5,7 +5,7 @@ import Autocomplete from "@mui/material/Autocomplete";
 import Paper from "@mui/material/Paper";
 import { TextField } from "@mui/material";
 import axios from "axios";
-import { useTokenContext } from "../../contexts/TokenContext";
+import { useTokenContext } from "@/contexts/TokenContext";
 import { saveAs } from "file-saver";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -15,10 +15,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Button from "@mui/material/Button";
 
-const apiEndpoint = "http://134.94.65.182:5000";
+const apiEndpoint = "/api";
 
 export default function Downloads() {
-  const token = useTokenContext();
   const [selectedDtype, setSelectedDtype] = useState(null);
   const [selectedSpp, setSelectedSpp] = useState(null);
   const [itemList, setItemList] = useState(null);
@@ -27,9 +26,12 @@ export default function Downloads() {
   const [objList, setObjList] = useState(null);
   const [spps, setSpps] = useState(null);
 
+  const {apiToken, setApiToken} = useTokenContext();
+
+
   useEffect(() => {
     axios
-      .post(`${apiEndpoint}/getBucketObjectList/?token=${token.apiToken}`)
+      .post(`${apiEndpoint}/getBucketObjectList/?token=${apiToken}`)
       .then((response) => {
         let data = response.data;
         setObjList(data);
@@ -46,23 +48,22 @@ export default function Downloads() {
   };
 
   const handleSecondDropdownClick = (v) => {
-    setShowPageComponent(true);
+
     setSelectedDtype(dTypeOptions[v]);
 
     var newItemList = [];
-    console.log();
-
     objList[selectedSpp][dTypeOptions[v]].map((item) => {
       if (item != "") {
         newItemList.push({
           name: item,
           // size: '10 MB',
-          downloadLink: `${apiEndpoint}/getBucketObjectData/?bucket_name=${selectedSpp}&object_name=${v}/${item}&token=${token.apiToken}`,
+          downloadLink: `${apiEndpoint}/getBucketObjectData/?bucket_name=${selectedSpp}&object_name=${dTypeOptions[v]}/${item}&token=${apiToken}`,
         });
       }
     });
-
     setItemList(newItemList);
+    setShowPageComponent(true);
+
   };
 
   const handleDownloadClick = (item) => {
@@ -88,7 +89,7 @@ export default function Downloads() {
     padding: "10px",
     textAlign: "left",
     borderBottom: "1px solid #ddd",
-    backgroundColor: "#f2f2f2",
+    // backgroundColor: "#f2f2f2",
   };
 
   const tdStyle = {
@@ -154,8 +155,8 @@ export default function Downloads() {
             <TextField {...params} label="Select a Project" />
           )}
         />
-
-        <Autocomplete
+  {!selectedSpp || 
+          <Autocomplete
           size="small"
           sx={{ width: 350 }}
           options={Object.keys(dTypeOptions)}
@@ -166,42 +167,61 @@ export default function Downloads() {
             <TextField {...params} label="Select a data type" />
           )}
         />
+  }
       </Grid>
-      {showPageComponent && (
-        <Paper style={{ marginTop: "20px", padding: "10px" }}>
-          <Typography variant="h6">{dTypeLabels[selectedDtype]}</Typography>
 
-          <div>
-            <TableContainer>
-              <Table style={tableStyle}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell style={thStyle}>File Name</TableCell>
-                    <TableCell style={thStyle}>Download Link</TableCell>
+      <Grid>
+  {!showPageComponent || 
+  <div>
+     {!(itemList.length >= 1) ?  (<h5 style={{ marginTop: "20px", padding: "10px" }} >No data is yet available for the selected category</h5>) : (
+
+      <div>
+        <Paper style={{ marginTop: "20px", padding: "10px" }}>
+        <Typography variant="h6">{dTypeLabels[selectedDtype]}</Typography>
+
+        <div>
+          <TableContainer>
+            <Table style={tableStyle}>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={thStyle}>File Name</TableCell>
+                  <TableCell style={thStyle}>Download Link</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {itemList.map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={tdStyle}>{item.name}</TableCell>
+                    <TableCell style={tdStyle}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        // style={buttonStyle}
+                        onClick={() => handleDownloadClick(item)}
+                      >
+                        Download
+                      </Button>
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-                <TableBody>
-                  {itemList.map((item, index) => (
-                    <TableRow key={index}>
-                      <TableCell style={tdStyle}>{item.name}</TableCell>
-                      <TableCell style={tdStyle}>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          // style={buttonStyle}
-                          onClick={() => handleDownloadClick(item)}
-                        >
-                          Download
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </div>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+
         </Paper>
-      )}
-    </div>
+      </div>)
+
+    }
+        </div>
+
+        }
+
+  </Grid>
+
+        
+        </div>
+
+
   );
 }

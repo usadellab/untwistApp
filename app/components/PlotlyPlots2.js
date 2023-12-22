@@ -1,42 +1,34 @@
 import React, { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { linReg, createHeatmapTrace } from "./utils";
-import { Typography } from "@mui/material";
-
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
 
 const DEFAULT_PLOTLY_COLORS = [
-"rgb(31, 119, 180)",
-"rgb(255, 127, 14)",
-"rgb(44, 160, 44)",
-"rgb(214, 39, 40)",
-"rgb(148, 103, 189)",
-"rgb(140, 86, 75)",
-"rgb(227, 119, 194)",
-"rgb(127, 127, 127)",
-"rgb(188, 189, 34)",
-"rgb(23, 190, 207)",
-];
-
+    "rgb(31, 119, 180)",
+    "rgb(255, 127, 14)",
+    "rgb(44, 160, 44)",
+    "rgb(214, 39, 40)",
+    "rgb(148, 103, 189)",
+    "rgb(140, 86, 75)",
+    "rgb(227, 119, 194)",
+    "rgb(127, 127, 127)",
+    "rgb(188, 189, 34)",
+    "rgb(23, 190, 207)",
+    "rgb(188, 67, 67)",
+    "rgb(67, 188, 67)",
+    "rgb(67, 67, 188)",
+    "rgb(240, 98, 146)",
+    "rgb(98, 240, 146)",
+    "rgb(146, 98, 240)",
+    "rgb(255, 193, 37)",
+    "rgb(193, 255, 37)",
+    "rgb(37, 255, 193)",
+    "rgb(0, 128, 128)",
+  ];
+  
+  
 const isObjectEmpty = (objectName) => {
 return Object.keys(objectName).length === 0;
-};
-
-var primaryLayout = {
-// showlegend: true,
-width: 1000,
-height: 1000,
-// autosize: true,
-hovermode: "closest",
-// editable: true,
-// xaxis: {
-//     title: {text: 'x Axis'},
-//     zeroline : false
-// },
-// yaxis: {
-//     title: {text: 'x Axis'},
-//     showgrid: true,
-// },
 };
 
 const PlotlyPlots = (props) => {
@@ -46,7 +38,41 @@ var selectedVars = props.plotSchema.variablesToPlot;
 var plotTitle = props.plotSchema.plotTitle || 'add plot title here';
 var xLable = props.plotSchema.xLable;
 var yLable = props.plotSchema.yLable;
+var isDark = props.plotSchema.isDark;
+var textColor = isDark ? '#FFFFFF' : '#000000'
+
+var primaryLayout = {
+    width: 1000,
+    height: 1000,
+    // autosize: true,
+    hovermode: "closest",
+    font: { color: textColor },
+    xaxis: {
+        // zeroline : false,
+        "title" : '', 
+        font: {
+            color: textColor
+          },
+        tickfont: { color: textColor }
+    },
+    yaxis: {
+        showgrid: true,
+        "title" : '', 
+        // zeroline : false,
+    
+        font: {
+            color: textColor
+          },
+        tickfont: { color: textColor }
+    
+    },
+    };
+   
+
+
 primaryLayout["title"] = plotTitle;
+primaryLayout["plot_bgcolor"] = isDark ? '#000000' : '#FFFFFF'
+primaryLayout["paper_bgcolor"] = isDark ? '#000000' : '#FFFFFF'
 
 const [plotData, setPlotData] = useState([]);
 const [plotLayout, setPlotLayout] = useState({});
@@ -79,11 +105,8 @@ inputData.map(obj => {
 if (plotyType == "bar") {
     var plotData = [{ type: "bar", x: xdata, y: ydata }];
     var plotLayout = primaryLayout;
-    plotLayout["xaxis"] = {};
-    plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-"density_overlay"
-    plotLayout.yaxis["title"] = yLable || y;
+    plotLayout.xaxis.title = xLable || x;
+    plotLayout.yaxis.title = yLable || y;
     plotLayout["boxmode"] = "group";
     plotLayout.showlegend = false;
     plotLayout.annotations = {};
@@ -109,10 +132,7 @@ if (plotyType == "bar") {
     }
     var plotData = Object.values(input_Obj);
     var plotLayout = primaryLayout;
-    plotLayout["xaxis"] = {};
-    plotLayout["yaxis"] = {};
     plotLayout.xaxis["title"] = xLable || 'Accessions';
-"density_overlay"
     plotLayout.yaxis["title"] = yLable || 'add label to y axis';
     plotLayout.annotations = {};
     plotLayout.showlegend = true;
@@ -607,21 +627,27 @@ plotLayout.width = 1000
     }
     });
 } else if (plotyType == "pca") {
+    var c = 0
     var traces = [];
     var clusterLegends = new Set(); // To keep track of unique cluster legends
     var maxX = 0;
     var maxY = 0;
     var indicesToHide = [];
     var originCountries = [];
+    var COV1 = selectedVars[0]
+    var COV2 = selectedVars[1]
+
+    // console.log(inputData)
 
     inputData.forEach((obj, index) => {
     if (obj.COV1 && obj.COV2 && obj.FID && obj.IID) {
-        if (obj.COV1 > maxX) {
-        maxX = obj.COV1;
+
+        if (COV1 > maxX) {
+        maxX = COV1;
         }
 
-        if (obj.COV2 > maxY) {
-        maxY = obj.COV2;
+        if (COV2 > maxY) {
+        maxY = COV2;
         }
 
         var trace = {
@@ -630,7 +656,7 @@ plotLayout.width = 1000
         x: [obj.COV1], // Single data point x-coordinate
         y: [obj.COV2], // Single data point y-coordinate
         // text: `Sample: ${obj.IID} <br>Cluster: ${obj.ORIGIN}`,
-        hovertemplate: `Sample: ${obj.IID} <br>Origin: ${obj.ORIGIN}<br>Cluster_ID: ${obj.ORIGIN_ID}`,
+        hovertemplate: `Sample: ${obj.IID} <br>Origin: ${obj.ORIGIN}<extra></extra>`,
         marker: {
             color: DEFAULT_PLOTLY_COLORS[obj.ORIGIN_ID],
             size: 10, // Adjust the marker size as needed
@@ -639,25 +665,24 @@ plotLayout.width = 1000
         sampleID: `${obj.IID}`, // we can add as many attributes as we want to map different variables
         };
 
-        if (trace.x.length > 0 && trace.y.length > 0) {
+        c = c +1
+
         traces.push(trace);
         clusterLegends.add(`${obj.ORIGIN}`);
+
+        if (!originCountries.includes(obj.ORIGIN)) {
+            originCountries.push(obj.ORIGIN);
+        } else {
+            indicesToHide.push(index);
         }
-    }
-    if (!originCountries.includes(obj.ORIGIN)) {
-        originCountries.push(obj.ORIGIN);
-    } else {
-        indicesToHide.push(index);
     }
     });
 
     var plotData = traces;
 
     var plotLayout = primaryLayout;
-    plotLayout["xaxis"] = {};
-    plotLayout["yaxis"] = {};
-    plotLayout.xaxis["title"] = xLable || x;
-    plotLayout.yaxis["title"] = yLable || y;
+    plotLayout.xaxis.title = xLable || x;
+    plotLayout.yaxis.title = yLable || y;
     // plotLayout.xaxis['range'] = [0, maxX + 0.1]; // Adjust the range as needed
     // plotLayout.yaxis['range'] = [0, maxY + 0.1]; // Adjust the range as needed
     // plotLayout.xaxis['range'] = [-maxX, maxX]; // Adjust the range as needed
