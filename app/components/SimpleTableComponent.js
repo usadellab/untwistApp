@@ -1,69 +1,76 @@
 import React from 'react';
 
 const TableComponent = (props) => {
-var data = props.data;
+  const data = props.data;
 
-if (!data || data.length === 0) {
-return <div>No Results Found, try changing the threshold</div>;
-}
+  if (!data || data.length === 0) {
+    return <div>No Results Found, try changing the threshold</div>;
+  }
 
-// Find the unique list of keys from all the objects in the input data array
-const allKeys = Array.from(new Set(data.flatMap((item) => Object.keys(item))));
+  // Define the desired column order
+  const columnOrder = ['Chr', 'Position', 'REF/ALT allele', 'Gene Id', 'Protein Name', 'DESCRIPTION'];
 
-// Move 'Dbxref' to the end of the keys array (if it exists)
-const dbxrefIndex = allKeys.indexOf('Dbxref');
-if (dbxrefIndex !== -1) {
-allKeys.splice(dbxrefIndex, 1);
-allKeys.push('Dbxref');
-}
+  // Columns for which unique values should be maintained
+  const uniqueColumns = ['Chr']; // ['SNP ID', 'Chr', 'Position', 'REF/ALT allele'];
 
-// Create new objects for each item in the data array with all the unique keys
-const newData = data.map((item) => {
-const newItem = {};
-allKeys.forEach((key) => {
-    newItem[key] = item[key] || 'NA';
-});
-return newItem;
-});
+  // Create an object to store previous values for each unique column
+  const prevValuesMap = {};
+  uniqueColumns.forEach((column) => {
+    prevValuesMap[column] = null;
+  });
 
-return (
-<div style={{ overflowX: 'auto' }}>
-    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-    <thead>
-        <tr style={{ background: '#f2f2f2' }}>
-        <th style={{ padding: '8px', border: '1px solid #ddd', whiteSpace: 'nowrap' }}>
-            Serial No
-        </th>
-        {allKeys.map((column) => (
-            <th
-            key={column}
-            style={{ padding: '8px', border: '1px solid #ddd', whiteSpace: 'nowrap' }}
-            >
-            {column}
-            </th>
-        ))}
-        </tr>
-    </thead>
-    <tbody>
-        {newData.map((item, index) => (
-        <tr key={index}>
-            <td style={{ padding: '8px', border: '1px solid #ddd', whiteSpace: 'nowrap' }}>
-            {index + 1}
-            </td>
-            {allKeys.map((column) => (
-            <td
+  // Find the unique list of keys from all the objects in the input data array
+  const allKeys = Array.from(new Set(data.flatMap((item) => Object.keys(item))));
+
+  return (
+    <div style={{ overflowX: 'auto' }}>
+      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+        <thead>
+          <tr>
+            {columnOrder.map((column) => (
+              <th
                 key={column}
-                style={{ padding: '8px', border: '1px solid #ddd', wordWrap: 'break-word' }}
-            >
-                {item[column]}
-            </td>
+                style={{ padding: '8px', border: '1px solid #ddd', whiteSpace: 'nowrap' }}
+              >
+                {column}
+              </th>
             ))}
-        </tr>
-        ))}
-    </tbody>
-    </table>
-</div>
-);
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item, index) => {
+            const newItem = {};
+            columnOrder.forEach((key) => {
+              if (uniqueColumns.includes(key)) {
+                if (key === 'SNP ID') {
+                  // Reset previous values to empty strings when 'SNP ID' changes
+                  prevValuesMap[key] = item[key] !== prevValuesMap[key] ? item[key] : '';
+                } else {
+                  newItem[key] = item[key] !== prevValuesMap[key] ? item[key] : '';
+                  prevValuesMap[key] = item[key];
+                }
+              } else {
+                newItem[key] = item[key] || 'NA';
+              }
+            });
+
+            return (
+              <tr key={index}>
+                {columnOrder.map((column) => (
+                  <td
+                    key={column}
+                    style={{ padding: '8px', border: '1px solid #ddd', wordWrap: 'break-word' }}
+                  >
+                    {newItem[column]}
+                  </td>
+                ))}
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
 };
 
 export default TableComponent;

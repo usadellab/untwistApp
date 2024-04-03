@@ -1,0 +1,16 @@
+node_modules
+# Keep environment variables out of version control
+.env
+.next
+resources
+app.py
+minio.env
+next.config.js
+package-lock.json
+sql_alchemy.py
+test_minio_sql.py
+gunicorn_config.py
+flaskVENV
+miniodb
+public/genomeBrowser
+BRAPI_SCHEMAS

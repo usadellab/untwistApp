@@ -336,3 +336,39 @@ root@untwist-dev:/var/lib/docker# sudo du -h --max-depth=1 . | sort -rh
 ### Please see above that the docker's OverlayFS (Overlay File System) storage driver occupies 22G and containers occupy 19G, the total space available on the root is 49G. So I have no space to install or run any additional packages, I will go ahead and remove docker from this system along with dependencies.
 
 I have created a backup of the folder that Asis asked, as can be seen above
+
+
+
+
+
+```
+  docker stop $(docker ps -a -q)
+  sudo rm -rf /etc/docker /var/lib/docker
+  apt --fix-broken install
+  sudo apt purge docker-ce docker-ce-cli containerd.io
+
+```
+
+
+## Setup UntwistApp
+
+```
+<!-- sudo nano /etc/apache2/sites-available/untwistApp.conf
+sudo a2ensite untwistApp
+sudo cp /etc/apache2/sites-available/default-ssl.conf /etc/apache2/sites-available/untwsitApp-ssl.conf
+sudo systemctl restart apache2 -->
+mkdir /mnt/minioUntwistDb
+
+## install latest but stable node version
+sudo apt install npm
+sudo npm install -g n
+sudo n stable
+
+
+```
+
+
+
+
+
+# Finally, A new VM 20G root dir  + 1.4T  /mnt/local

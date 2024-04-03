@@ -1,55 +1,45 @@
-## Description
-untwsitApp is a web tool for the analysis and visualization of GWAS datasets collected as part of untwist project
+## Camelina Knowledge Hub
 
-### Genotypic Data
-[Click here for details](./ProjectDocs/CamelinaData.md)
-### Phenotypic Data
-
-### Tools
-### VisPheno 
-
-### GWAS 
-#### Without correction for population structure
-
-#### With correction for population structure
-
-### MDS 
-
-### PCA 
-
-## Annotations
-
-Camelina reference genome is downloaded from here
-
-[https://www.ncbi.nlm.nih.gov/datasets/taxonomy/90675/](https://www.ncbi.nlm.nih.gov/datasets/taxonomy/90675/)
-
-Annotations of genomic features are taken from here 
-
-[https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/90675/101/GCF_000633955.1_Cs/GCF_000633955.1_Cs_genomic.gff.gz](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/90675/101/GCF_000633955.1_Cs/GCF_000633955.1_Cs_genomic.gff.gz)
+[use here](https://www.camelina-hub.org)
 
 
-Camelina protein sequence file
 
-[https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/90675/101/GCF_000633955.1_Cs/GCF_000633955.1_Cs_protein.faa.gz](https://ftp.ncbi.nlm.nih.gov/genomes/all/annotation_releases/90675/101/GCF_000633955.1_Cs/GCF_000633955.1_Cs_protein.faa.gz)
+### Integration of RNAseq Data
 
+##### Total samples : 135
 
-Mercator-4 annotations 
-
-saved as part of the db
-
-The database schema look like this
-camelina : camelina structural annotations
-camelinam4 : mercartorV4.5 annotations
-
-
-![DocImages/annotationsDb_ERD.png](./DocImages/annotationsDb_ERD.png)
-
-## IMAGES of Analysis output
-
-[Analysis Images (Click)](ProjectDocs/images.md)
+|Cultivars       |     Number   |
+|----------------|--------------|
+|Celine       |       1      |
+|CO-46        |       6      |
+|DH55         |       55     |
+|Joelle       |       6      |
+|Suneson      |       39     |
+|NA           |       28     |
 
 
-## Benchmarking GWAS results
+
+##### Total Tissues : 12
+
+| Tissue          | Number of Samples |
+|-----------------|-------------------|
+|Bud              |        3          |
+|Cotyledon        |        3          |
+|Embryo           |        3          |
+|Flower           |        4          |
+|Leaf             |        14         |
+|Plant            |        6          |
+|Root             |        24         |
+|Seed             |        50         |
+|Senescingleaf3   |        3          |
+|Shoot            |        8          |
+|Stem             |        4          |
+|Youngleaf        |        3          |
+|NA               |        10         |
 
 
-<a href="ProjectDocs/comparingGWASresults.html" target="_blank">Link to Benchmarking GWAS results</a>
+
+
+
+
+

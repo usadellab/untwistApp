@@ -1,25 +1,28 @@
+'use client'
 import React, { useState } from 'react';
 import { useApiContext } from "../../contexts/ApiEndPoint";
 import axios from 'axios';
-import { Container, Paper, Grid, Typography, TextField, Button } from '@mui/material';
+import { Container, Paper, Grid, Typography, TextField, Button, Alert } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Cookies from 'js-cookie';
+import { useTokenContext } from '@/contexts/TokenContext';
 
-// Inline CSS for the background image
 const backgroundStyle = {
-//   background: 'url("/untField.png")', // Replace with your image path
-//   backgroundSize: 'cover',
-//   backgroundPosition: 'center',
   minHeight: '100vh',
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
 };
 
-const Login = ({ updateAuthenticationStatus }) => {
+const Login = ({updateAuthenticationStatus}) => {
+  const {apiToken, setApiToken} = useTokenContext();
+
+  // console.log('login component')
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+  const [error, setError] = useState(null);
   const apiEndpoint = useApiContext().apiEndpoint;
 
   const handleChange = (e) => {
@@ -33,29 +36,60 @@ const Login = ({ updateAuthenticationStatus }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
     try {
       const response = await axios.post(`${apiEndpoint}/auth`, {
         username: formData.username,
         password: formData.password,
       });
       if (response.status === 200) {
-        // Authentication successful, you can now use the access token from response.data.access_token
         updateAuthenticationStatus(true);
 
         const accessToken = response.data.access_token;
-        console.log('Access Token:', accessToken);
-        return accessToken;
+        setApiToken(accessToken)
+        Cookies.set('token', accessToken);
+        // console.log(accessToken)
+        // return accessToken;
       } else {
-        // Authentication failed
         updateAuthenticationStatus(false);
-
-        console.error('Authentication failed');
+        setError('Invalid credentials');
       }
     } catch (error) {
-      // Handle request error
       console.error('Request error:', error);
+      setError('Invalid credentials');
     }
   };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+
+  // Autofill credentials from the browser if available
+  React.useEffect(() => {
+    const username = document.querySelector('input[name="username"]');
+    const password = document.querySelector('input[name="password"]');
+
+    if (username && password) {
+      const storedUsername = localStorage.getItem('storedUsername');
+      const storedPassword = localStorage.getItem('storedPassword');
+
+      if (storedUsername) {
+        setFormData((prevData) => ({
+          ...prevData,
+          username: storedUsername,
+        }));
+      }
+
+      if (storedPassword) {
+        setFormData((prevData) => ({
+          ...prevData,
+          password: storedPassword,
+        }));
+      }
+    }
+  }, []); // Run once on component mount
 
   return (
     <div style={backgroundStyle}>
@@ -67,6 +101,11 @@ const Login = ({ updateAuthenticationStatus }) => {
                 Untwist Knowledge Hub
               </Typography>
             </Grid>
+            {error && (
+              <Grid item xs={12}>
+                <Alert severity="error">{error}</Alert>
+              </Grid>
+            )}
             <Grid item xs={12}>
               <form>
                 <TextField
@@ -75,6 +114,9 @@ const Login = ({ updateAuthenticationStatus }) => {
                   variant="outlined"
                   name="username"
                   onChange={handleChange}
+                  onKeyPress={handleKeyPress}
+                  autoComplete="username"
+                  value={formData.username}
                 />
               </form>
             </Grid>
@@ -86,6 +128,9 @@ const Login = ({ updateAuthenticationStatus }) => {
                 type="password"
                 name="password"
                 onChange={handleChange}
+                onKeyPress={handleKeyPress}
+                autoComplete="current-password"
+                value={formData.password}
               />
             </Grid>
             <Grid item xs={12}>
@@ -108,3 +153,5 @@ const Login = ({ updateAuthenticationStatus }) => {
 };
 
 export default Login;
+
+

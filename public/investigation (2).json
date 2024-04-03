@@ -1,0 +1,70 @@
+{
+  "@id": 1,
+  "filename": "investigation.json",
+  "identifier": "",
+  "title": "abc",
+  "description": "unwist ",
+  "submissionDate": "2024-03-01",
+  "publicReleaseDate": "2024-03-15",
+  "ontologySourceReferences": [],
+  "publications": [],
+  "people": [
+    "björn",
+    "ata",
+    "marius"
+  ],
+  "studies": [
+    {
+      "@id": "",
+      "filename": "",
+      "identifier": "unt2",
+      "title": "evaluation of camelina phenotypes under field conditions",
+      "description": "",
+      "submissionDate": "2024-03-05",
+      "publicReleaseDate": "2024-03-16",
+      "publications": [
+        "sdf"
+      ],
+      "people": [
+        "björn",
+        "ata",
+        "marius"
+      ],
+      "studyDesignDescriptors": [],
+      "protocols": [
+        "plant height",
+        "lysimeter"
+      ],
+      "materials": [],
+      "processSequence": [],
+      "assays": [
+        "plant height",
+        "lysimeter",
+        {
+          "@id": "",
+          "comments": [],
+          "filename": "",
+          "measurementType": [],
+          "technologyType": [],
+          "technologyPlatform": "",
+          "dataFiles": [],
+          "materials": [],
+          "characteristicCategories": [],
+          "unitCategories": [],
+          "processSequence": []
+        }
+      ],
+      "factors": [
+        "genotypes"
+      ],
+      "characteristicCategories": [],
+      "unitCategories": [],
+      "comments": []
+    }
+  ],
+  "comments": [
+    "sdfd",
+    "sdfds",
+    "sdfsdf"
+  ]
+}
