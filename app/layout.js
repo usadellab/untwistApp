@@ -32,6 +32,7 @@ import Avatar from "@mui/material/Avatar";
 import { Switch } from '@mui/material';
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import PersonIcon from '@mui/icons-material/Person';
 
 import { SelectedSpeciesProvider } from '@/contexts/SelectedSpeciesContext';
 import { AppDataContextProvider, useAppDataContext } from "@/contexts/AppDataContext";
@@ -464,6 +465,18 @@ useEffect(() => {
                 <QuizIcon />
               </ListItemIcon>
               <ListItemText primary="FAQs" />
+            </ListItemButton>
+
+            <ListItemButton
+              onClick={() => {
+                handleAppBarTitle("People");
+                router.push("/router?component=people");
+              }}
+            >
+              <ListItemIcon>
+                <PersonIcon />
+              </ListItemIcon>
+              <ListItemText primary="People" />
             </ListItemButton>
 
 

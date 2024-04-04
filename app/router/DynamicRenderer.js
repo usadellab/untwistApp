@@ -14,6 +14,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import Login from "../components/LoginPage";
 import SummaryStatistics from "../components/SummaryStatistics";
 import PhyloTreeComp from "../components/PhyloTreeComp";
+import PeopleComponent from "../components/PeopleComponent";
 
 
 const DynamicRenderer = () => {
@@ -55,8 +56,10 @@ const DynamicRenderer = () => {
       case "contact":
         return <Contact />;
       
-        case "PhyloTreeComp":
-          return <PhyloTreeComp />;
+      case "PhyloTreeComp":
+        return <PhyloTreeComp />;
+      case "people":
+        return <PeopleComponent />;
 
       default:
         return <div>Component not found</div>;
