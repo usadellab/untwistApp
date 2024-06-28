@@ -1,4 +1,9 @@
 # Genome Wide Association Analysis (GWAS)
+
+import MyApp from 'components/counters'
+
+<MyApp/>
+
 ---- 
 #### How the app performs the GWAS analysis:
 
@@ -28,11 +33,42 @@
     ---
 
 
-#### How to do it in your browser:
+#### How to perform GWAS in your browser:
 
-   - Navigate to [https://www.camelina-hub.org/router?component=gwas](https://www.camelina-hub.org/router?component=gwas)
-   - Select a trait
    - Choose either of the with or without correction option
    - Press run
 
 
+import { Steps } from 'nextra/components'
+ 
+<Steps>
+
+###  Navigate to [GWAS module](https://www.camelina-hub.org/router?component=gwas)
+![Hello](/GWAS_HomeScreem.png)
+
+### Select a trait
+![Hello](/GWAS_2_select_a_trait.png)
+
+### Choose one of the with or without correction option
+![Hello](/GWAS_3_SelectCorrection.png)
+
+### Click run
+![Hello](/GWAS_4_ClickRun.png)
+
+
+### Track the progress 
+![Hello](/GWAS_5_progress.png)
+![Hello](/GWAS_6_progress.png)
+
+
+### Visualizations/Results 
+    After the completion of GWAS analysis, the following plots are created based the selected phenotype.
+
+    - [x] Manhattan Plot
+    - [x] Qunatile quantile plot
+    - [x] Functional gene Annotation
+    - [x] Multiomics data analysis with genome browser
+
+    Click [Results](/modules/GWAS/Results) to read more on GWAS results.
+
+</Steps>

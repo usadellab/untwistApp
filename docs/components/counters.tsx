@@ -13,7 +13,7 @@ function MyButton() {
   return (
     <div>
       <button onClick={handleClick} className={styles.counter}>
-        Clicked {count} times
+        Likes: {count}
       </button>
     </div>
   )
