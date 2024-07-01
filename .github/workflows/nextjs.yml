@@ -41,17 +41,17 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        working-directory: ./docs
         run: npm install
+        working-directory: /home/runner/work/untwistApp/untwistApp/docs
 
       - name: Build with Next.js
-        working-directory: ./docs
         run: npm run build
+        working-directory: /home/runner/work/untwistApp/untwistApp/docs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs/out
+          path: /home/runner/work/untwistApp/untwistApp/docs/out
 
   # Deployment job
   deploy:
