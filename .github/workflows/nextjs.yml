@@ -24,8 +24,9 @@ jobs:
 
       - name: Build and export Next.js app
         working-directory: docs  # Specify the docs folder as working directory
-        run: npm run export
-        run: mv out .out
+        run: |
+          npm run export
+          mv ./out ./.out
 
 
       - name: Deploy to GitHub Pages
