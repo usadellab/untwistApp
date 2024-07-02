@@ -1,0 +1,135 @@
+import { Tabs } from 'nextra/components'
+import PhenotypeData from 'components/phenotypeData'
+
+## Datasets Overview
+
+Welcome to the datasets page. Here you will find detailed information about the various types of data available, including phenotype data, genotype data, RNAseq data, metabolomics data, and sequencing data. 
+The datasets are mainly collected as part of untwist project. The hub also enables exploring publickly available datasets curated from open source publications.
+
+
+<Tabs items={['Phenotype', 'Genotype', 'Sequencing Data', 'Transcriptomics', 'Metabolomics', 'Lipidomics']}>
+
+
+
+
+
+
+  <Tabs.Tab>
+
+### Phenotype Data
+
+| Source    | Environment     | Phenotypes  |   Accessions  |   Locations | Treatments    |  Description |
+| :-------- | :------------   | :---------: | :----------:  | :----------:|:------------: |  :----------: |
+| Untwist   | Field           |    12       |  54           |     --     |     None        |     -- |
+|           | Green house     |    16       | 54            |   --     |     control, Heat & drought     | -- |
+| Public    | Field           |    --       | --            |   --     |     --        |    -- |
+|           | Green house     |    --       |  --           |  --     |     --        |    -- |
+  
+  </Tabs.Tab>
+
+
+
+
+
+
+
+  <Tabs.Tab>
+  
+### Genotype Data
+
+| Source      | Accessions  |   Marker Type | Number of Markers    |  Description |
+| :--------   | :---------: | :----------:|:------------: |  ----------: |
+| Untwist              |    54       |       SNP     |     1.9 m     |     variant calling with GATK on short read sequencing data |
+| Public      |    --     |    -- |     --     |    -- |
+  
+  </Tabs.Tab>
+
+
+
+
+
+
+
+
+  <Tabs.Tab>
+### Sequencing Data 
+
+| Source    | Platform     | Accessions  |   Format | Treatments    |  Description |
+| :-------- | :------------   | :---------: | :----------:|:------------: |  ----------: |
+| Untwist   | Illumina           |    54       |       Fastq     |     --     |     -- |
+|           | Nanopore     |    5      |    Fastq |     --     | -- |
+|           | PacBio     |    --      |    -- |     --     | -- |
+|           | HiC     |    --      |    -- |     --     | -- |
+| Public   | Illumina           |    --       |       --     |     --     |     -- |
+|           | Nanopore     |    --      |    -- |     --     | -- |
+|           | PacBio     |    --      |    -- |     --     | -- |
+|           | HiC     |    --      |    -- |     --     | -- |
+
+</Tabs.Tab>
+
+
+
+
+
+
+
+  <Tabs.Tab>
+  ### Transcriptomics Data
+
+| Source    | Platform          | Accessions  |   Tissue      | Treatments        |  Description |
+| :-------- | :------------     | :---------: | :----------:  |:------------:     |  ----------: |
+| Untwist   | --                |    --       |      --       |     --            |        --    |
+| Public    | --                |    5        |    12         |     salt & drought|        --    |
+
+  </Tabs.Tab>
+
+
+
+
+
+
+
+
+
+
+  <Tabs.Tab>
+  ### Metabolomics Data
+
+| Source    | Category       | Accessions | Metabolites  |   Locations | Treatments    |  Description |
+| :-------- | :------------  | :---------:| :---------: | :----------:|:------------: |  ----------: |
+| Untwist   | targeted       |  4   |    13       |       3     |     --     |     -- |
+|           | untargeted     |  4   |    1284     |    3 |     --     | -- |
+| Public    | Field          |  --  |    --     |    -- |     --     |    -- |
+|           | Green house    |  --  |    --     |    -- |     --     |    -- |
+
+  
+  </Tabs.Tab>
+
+
+
+
+
+
+
+  <Tabs.Tab>
+  
+  ### Lipidomics Data
+
+| Source    | Environment     | Accessions| Phenotypes  |   Locations | Treatments    |  Description |
+| :-------- | :------------   | :---------:| :---------: | :----------:|:------------: |  ----------: |
+| Untwist   | Field           | 54 |    16       |       2     |     --     |     -- |
+|           | Green house     | 54 |    --     |    -- |     --     | -- |
+| Public    | Field           | --|    --     |    -- |     --     |    -- |
+|           | Green house     | --|    --     |    -- |     --     |    -- |
+
+
+  </Tabs.Tab>
+
+
+
+
+
+</Tabs>
+
+
+For specific details on individual dataset or accessing and using these datasets, please refer to the [Downloads](https://www.camelina-hub.org/router?component=downloads) page on camelina-hub or contact our support team at [ib4@fz-juelich.com](a.haleem@fz-juelich.com).

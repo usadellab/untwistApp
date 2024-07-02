@@ -14,3 +14,4 @@ flaskVENV
 miniodb
 public/genomeBrowser
 BRAPI_SCHEMAS
+nextra-docs-template/node_modules
