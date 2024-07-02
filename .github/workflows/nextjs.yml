@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: documentation
+          ref: master
 
       - name: Setup Node
         uses: actions/setup-node@v4
