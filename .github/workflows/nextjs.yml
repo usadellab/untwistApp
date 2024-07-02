@@ -25,12 +25,19 @@ jobs:
       - name: Build and export Next.js app
         working-directory: docs  # Specify the docs folder as working directory
         run: npm run export
-
-      - name: Deploy to GitHub Pages
-        working-directory: docs
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out  # Adjust the directory where Next.js exported files are stored
-          keep_files: true    # Keep existing files in the deployment branch
+          path: ./out
 
+      # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
