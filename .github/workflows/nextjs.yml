@@ -28,7 +28,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: docs/out
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
