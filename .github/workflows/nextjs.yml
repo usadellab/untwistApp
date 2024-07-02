@@ -27,9 +27,10 @@ jobs:
         run: npm run export
 
       - name: Deploy to GitHub Pages
+        working-directory: docs
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: docs/out  # Adjust the directory where Next.js exported files are stored
+          publish_dir: ./out  # Adjust the directory where Next.js exported files are stored
           keep_files: true    # Keep existing files in the deployment branch
 
