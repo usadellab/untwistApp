@@ -1,0 +1,35 @@
+name: Deploy Next.js site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Adjust to your main branch name
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        working-directory: docs  # Specify the docs folder as working directory
+        run: npm install
+
+      - name: Build and export Next.js app
+        working-directory: docs  # Specify the docs folder as working directory
+        run: npm run export
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/out  # Adjust the directory where Next.js exported files are stored
+          keep_files: true    # Keep existing files in the deployment branch
+
