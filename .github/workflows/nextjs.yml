@@ -85,7 +85,9 @@ jobs:
 
       - name: Install dependencies
         working-directory: docs  # Specify the docs folder as working directory
-        run: npm install --force
+        run: |
+          cd docs
+          npm install
 
 
       # - name: Setup Node
