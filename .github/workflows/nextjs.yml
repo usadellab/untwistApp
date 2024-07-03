@@ -24,14 +24,13 @@ jobs:
   # Build job
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: docs
 
     steps:
       - name: Checkout
+        working-directory: docs
         uses: actions/checkout@v4
       - name: Detect package manager
+        working-directory: docs
         id: detect-package-manager
         run: |
           if [ -f "${{ github.workspace }}/yarn.lock" ]; then
@@ -49,11 +48,13 @@ jobs:
             exit 1
           fi
       - name: Setup Node
+        working-directory: docs
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
       - name: Setup Pages
+        working-directory: docs
         uses: actions/configure-pages@v5
         with:
           # Automatically inject basePath in your Next.js configuration file and disable
@@ -62,6 +63,7 @@ jobs:
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
       - name: Restore cache
+        working-directory: docs
         uses: actions/cache@v4
         with:
           path: |
@@ -72,10 +74,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
+        working-directory: docs
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
       - name: Build with Next.js
+        working-directory: docs
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
+        working-directory: docs
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
@@ -93,6 +98,6 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs # Adjust the directory where Next.js exported files are stored
+          publish_dir: ./docs/out # Adjust the directory where Next.js exported files are stored
           keep_files: true    # Keep existing files in the deployment branch
 
