@@ -1,3 +1,41 @@
+# name: Deploy Next.js site to GitHub Pages
+
+# on:
+#   push:
+#     branches:
+#       - master  # Adjust to your main branch name
+#   workflow_dispatch:
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '21.6.0'
+
+#       - name: Install dependencies
+#         working-directory: docs  # Specify the docs folder as working directory
+#         run: npm install
+
+#       - name: Build and export Next.js app
+#         working-directory: docs  # Specify the docs folder as working directory
+#         run: |
+#           npm run export
+#           mv ./out ./.out
+
+
+#       - name: Deploy to GitHub Pages
+#         uses: peaceiris/actions-gh-pages@v4
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./docs # Adjust the directory where Next.js exported files are stored
+#           keep_files: true    # Keep existing files in the deployment branch
+
 name: Deploy Next.js site to Pages
 
 on:
@@ -40,36 +78,42 @@ jobs:
             exit 1
           fi
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: docs/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('docs/package-lock.json', 'docs/yarn.lock') }}-${{ hashFiles('docs/**/*.[jt]s', 'docs/**/*.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('docs/package-lock.json', 'docs/yarn.lock') }}-
+          node-version: '21.6.0'
 
       - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-        working-directory: docs
+        working-directory: docs  # Specify the docs folder as working directory
+        run: npm install
+
+
+      # - name: Setup Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "20"
+      #     cache: ${{ steps.detect-package-manager.outputs.manager }}
+
+      # - name: Setup Pages
+      #   uses: actions/configure-pages@v5
+      #   with:
+      #     static_site_generator: next
+
+      # - name: Restore cache
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: docs/.next/cache
+      #     key: ${{ runner.os }}-nextjs-${{ hashFiles('docs/package-lock.json', 'docs/yarn.lock') }}-${{ hashFiles('docs/**/*.[jt]s', 'docs/**/*.[jt]sx') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nextjs-${{ hashFiles('docs/package-lock.json', 'docs/yarn.lock') }}-
+
+      # - name: Install dependencies
+      #   run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      #   working-directory: docs
 
       - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build
         working-directory: docs
-
-      - name: Export static site
-        run: ${{ steps.detect-package-manager.outputs.runner }} next export
-        working-directory: docs
+        run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -88,5 +132,5 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/out
