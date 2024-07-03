@@ -87,9 +87,8 @@ jobs:
         working-directory: docs  # Specify the docs folder as working directory
         run: |
           cd docs
-          npm install --force
-          npm audit fix --force
-
+          npm install
+          npm install -g next
 
       # - name: Setup Node
       #   uses: actions/setup-node@v4
