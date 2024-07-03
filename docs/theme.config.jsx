@@ -1,6 +1,8 @@
 import React from 'react'
 import { DocsThemeConfig } from 'nextra-theme-docs'
 import { useRouter } from 'next/router'
+// import Image from './components/Image';
+
 
 export default  {
   // logo: <span>Camelina-hub documentation</span>,
@@ -32,6 +34,11 @@ export default  {
   footer: {
     text: 'Camelina-hub documentation',
   },
+
+
+  // mdxComponents: {
+  //   img: Image
+  // }
 }
 
 // export default config

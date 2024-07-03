@@ -1,6 +1,14 @@
 const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
-  themeConfig: './theme.config.jsx',
-})
+  themeConfig: './theme.config.jsx'
+});
 
-module.exports = withNextra()
+module.exports = withNextra({
+  output: 'export',
+  basePath: '/untwistApp',
+  trailingSlash: true,
+  assetPrefix: '/',
+  images: {
+    unoptimized: true,
+  },
+});
