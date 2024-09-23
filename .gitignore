@@ -8,3 +8,5 @@ out
 resources
 next.config.js
 public/genomeBrowser
+GPL-3.0.txt
+add_GPL.py
